@@ -25,8 +25,8 @@ def git_confirm(dict_):
             os.system(f"""
 git add {k}
 git commit -m "{v}"
-git push
 """)
+        os.system("git push")
 
 
 git_confirm(git_ask(""))
