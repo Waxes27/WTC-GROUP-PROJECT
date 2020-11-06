@@ -22,11 +22,8 @@ def git_confirm(dict_):
     confirmation = input("Are you sure you want to 'GIT PUSH' y/n: ")
     if 'y' in confirmation.lower():
         for k,v in dict_.items():
-            os.system(f"""
-git add {k}
-git commit -m "{v}"
-git push
-""")
+            os.system(f"""git add {k};git commit -m '{v}'""")
+        os.system('git push')
 
 
 git_confirm(git_ask(""))
