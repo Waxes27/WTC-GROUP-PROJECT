@@ -16,3 +16,6 @@ Google calendar API
 "client_secret":"ddNoiuHiQWcvp7BDZR0HXDO6"
 
 "redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"
+                 
+                 
+# git_scripts.py in each folder allows multiple files to be (git added, committed and finally pushes all)
