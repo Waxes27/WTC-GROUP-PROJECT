@@ -1,6 +1,9 @@
 # WTC-GROUP-PROJECT
 Google calendar API
 
+# API DOCUMENTATION
+https://developers.google.com/calendar/create-events
+
 # JSON file contents (Google API)
 
 "client_id":"8022652540-4tvdfvvhbqpeua6mmvpbqpmm7639hnr7.apps.googleusercontent.com"
@@ -16,3 +19,5 @@ Google calendar API
 "client_secret":"ddNoiuHiQWcvp7BDZR0HXDO6"
 
 "redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"
+
+
