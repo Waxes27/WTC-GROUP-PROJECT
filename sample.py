@@ -5,6 +5,8 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from datetime import timedelta # added 
+
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
@@ -34,7 +36,9 @@ def main():
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
+    return service
 
+def sample(service):
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting the upcoming 10 events')
@@ -42,22 +46,49 @@ def main():
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
+    
     if not events:
         print('No upcoming events found.')
     for k in events:
+        # print(k)
+        s = k['start'].get('dateTime').split("+")
+        date_s = s[0].split("T")
+        e = k['end'].get('dateTime').split("+")
+        date_e = e[0].split("T") 
         try:
-            print(k['start'][''])
+            if date_s[0] == date_e[0]: 
+                print(f"{k['summary']} by {k['organizer']['email']}_____ {date_s[0]} : {date_s[1]} - {date_e[1]}")
+            else:
+                print(f"{k['summary']} by {k['organizer']['email']}_____ {date_s[0]} : {date_s[1]} - {date_e[0]} : {date_e[1]}")
         except:
             KeyError
-        # start = event['start'].get('dateTime', event['start'].get('date'))
-        # try:
-        #     print(f"{start}_____{event['summary']}")
-        # except:
-        #     KeyError
+
+def create_event(service):
+   # creates one hour event tomorrow 10 AM IST
+#    service = get_calendar_service()
+
+   d = datetime.datetime.now().date()
+   tomorrow = datetime.datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
+   start = tomorrow.isoformat()
+   end = (tomorrow + timedelta(hours=1)).isoformat()
+
+   event_result = service.events().insert(calendarId='primary',
+       body={
+           "summary": 'Automating calendar',
+           "description": 'This is a tutorial example of automating google calendar with python',
+           "start": {"dateTime": start, "timeZone": 'Asia/Kolkata'},
+           "end": {"dateTime": end, "timeZone": 'Asia/Kolkata'},
+       }
+   ).execute()
+
+   print("created event")
+   print("id: ", event_result['id'])
+   print("summary: ", event_result['summary'])
+   print("starts at: ", event_result['start']['dateTime'])
+   print("ends at: ", event_result['end']['dateTime'])
 
 
-
-
-if __name__ == '__main__':
-    main()
+if __name__ == '__main__':  
+    service = main()
+    sample(service)
+    create_event(service)
