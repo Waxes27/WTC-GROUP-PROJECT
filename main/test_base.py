@@ -40,3 +40,4 @@ def run_unittests(test_filename):
 
     runner = unittest.TextTestRunner(stream=sys.stdout)
     return runner.run(suite)
+
