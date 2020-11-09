@@ -1,5 +1,3 @@
-"""Utility class for useful test helper methods"""
-
 import sys
 from contextlib import contextmanager
 from io import StringIO
