@@ -1,43 +1,38 @@
-# THIS MODULE DEALS WITH ALL INPUTS FROM USERS
-import sys
-import os
-import datetime
-import pickle
-#from googleapiclient.discovery import build
-#from google_auth_oauthlib.flow import InstalledAppFlow
-#from google.auth.transport.requests import Request
+
+def get_role():
+    role = input('What do you wish your role to be for the code clinic? ').lower()
+    roles = ['doctor', 'patient']
+    while len(role) == 0 or role not in roles:
+        print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
+        role = input('What do you wish your role to be for the code clinic? ').lower()
+    print('Role stored successfully.')
+    return role
 
 
-def book_topic():
-    booking_topic = input("Please provide a topic you would like to clinic?\n")
-    while len(booking_topic) <= 0:
-        print("Field cannot be blank, please provide a topic.\n")
-        booking_topic = input("Please provide a topic you would like to clinic\n")
-    if booking_topic == "Cancel":
-        print("Cancelling clinic\n")
-        return 0
-    return booking_topic
+def get_username():
+    username = input("Please enter your username: ")
+    if len(username) == 0:
+        username = input("Please enter your username: ")
+    print(f'Welcome {username}!')
+    return
 
 
-def book_doctor():
-    booking_doc = input("Please provide the name of the Coding Clinician.\n")
-    while len(booking_doc) <= 0:
-        print("Field cannot be blank, please provide your valid username.\n")
-        booking_doc = input("Please provide the name of the Coding Clinician\n")
-    return booking_doc + '@student.wethinkcode.co.za'
+def get_date():
+    chosen_date = input('Book a slot in the format dd-mm-yyyy: ')
+    chosen_time = input('Book a time slot in the format hh:mm: ')
+    chosen_date = chosen_date.split('-')
+    chosen_date = [int(i) for i in chosen_date]
+    x = datetime.datetime(chosen_date[2], chosen_date[1], chosen_date[0])
+    picked_date = x.strftime("%A %d %B")
+    print('Timne slot created for:', chosen_time, picked_date)
+    return picked_date
 
 
-def book_patient():
-    booking_pat = input("Please provide the name of the Coding Patient.\n")
-    while len(booking_pat) <= 0:
-        print("Please provide a valid username\n")
-        booking_pat = input("Please provide the name of the Coding Patient\n")
-    return booking_pat + '@student.wethinkcode.co.za'
-
-
-book_topic()
-book_doctor()
-book_patient()
+if __name__ == "__main__":
+    import datetime
+    get_role()
+    get_username()
+    get_date()
 
 
 
