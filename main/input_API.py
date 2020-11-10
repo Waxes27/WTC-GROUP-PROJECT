@@ -11,6 +11,17 @@ doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "Mbjali", "Ndumasi
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
+
+def get_role():
+    role = input('What do you wish your role to be for the code clinic? ').lower()
+    roles = ['doctor', 'patient']
+    while len(role) == 0 or role not in roles:
+        print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
+        role = input('What do you wish your role to be for the code clinic? ').lower()
+    print('Role stored successfully.')
+    return role
+
+
 def book_topic(topic_list):
     print("Coding Clinic Topics:\n")
     print(*topic_list, sep="\n")
@@ -45,7 +56,11 @@ def book_patient(patient_list):
         booking_pat = input("Please provide the name of the Coding Patient\n")
     return booking_pat + '@student.wethinkcode.co.za'
 
+
 if __name__ == "__main__":
+    role = get_role()
     book_topic(topic_list)
-    book_doctor(doctor_list)
-    book_patient(patient_list)
+    if role == 'doctor':
+        book_doctor(doctor_list)
+    if role == 'patient':
+        book_patient(patient_list)
