@@ -1,5 +1,4 @@
 
-
 def get_role():
     role = input('What do you wish your role to be for the code clinic? ').lower()
     roles = ['doctor', 'patient']
@@ -8,6 +7,7 @@ def get_role():
         role = input('What do you wish your role to be for the code clinic? ').lower()
     print('Role stored successfully.')
     return role
+
 
 def get_username():
     username = input("Please enter your username: ")
@@ -28,9 +28,8 @@ def get_date():
     return picked_date
 
 
-
 if __name__ == "__main__":
     import datetime
     get_role()
     get_username()
-    picked_date = get_date()
+    get_date()
