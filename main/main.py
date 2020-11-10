@@ -1,6 +1,7 @@
 #THIS MODULE IMPORTS AND ACTS AS THE MAIN CODEBASE
 
 
+<<<<<<< HEAD
 
 def get_token():
 
@@ -27,3 +28,8 @@ def get_token():
 
     service = build('calendar', 'v3', credentials=creds)
     return service
+=======
+import help_cc
+import input_cc
+
+>>>>>>> refs/remotes/origin/sbaloyi
