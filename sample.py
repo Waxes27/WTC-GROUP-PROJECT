@@ -18,6 +18,7 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
+    ####when user credentials exist
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -29,11 +30,12 @@ def main():
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
+            # creds = flow.run
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
+    serv    ice = build('calendar', 'v3', credentials=creds)
 
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -45,11 +47,14 @@ def main():
 
     if not events:
         print('No upcoming events found.')
-    for k in events:
-        try:
-            print(k['start'][''])
-        except:
-            KeyError
+    else:
+        for i in events:
+            print(i)
+    # for k in events:
+    #     try:
+    #         print(k['start'][''])
+    #     except:
+    #         KeyError
         # start = event['start'].get('dateTime', event['start'].get('date'))
         # try:
         #     print(f"{start}_____{event['summary']}")
