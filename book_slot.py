@@ -6,6 +6,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+from pprint import pprint
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -24,9 +25,11 @@ def get_events():
     if not events:
         print('No upcoming events found.')
     else:
+        print(events[1]["summary"])
         for item in events:
             event1.append(item)
-    return event1
+            #pprint(event1[0])
+    #return event1
 
 def create_patient_event(start, summary, description = None, duration=1):
     string_date_list = list(datefinder.find_dates(start))
@@ -98,7 +101,29 @@ def main():
 
     service = build('calendar', 'v3', credentials=creds)
 
-    print("Valid commands:\nbook slot\nexit")
+    #get_events()
+
+    # now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    # print('Getting the upcoming 10 events')
+    # events_result = service.events().list(calendarId='primary', timeMin=now,
+    #                                     maxResults=10, singleEvents=True,
+    #                                     orderBy='startTime').execute()
+    # events = events_result.get('items', [])
+
+    # event_id = ''
+
+    # events1 = []
+
+    # if not events:
+    #     print('No upcoming events found.')
+    # else:
+    #     for item in events:
+    #         pprint(item)
+    #         event_id = item['id']
+    #         #print(f"{item['summary']}")
+    #     print(event_id)
+
+    # print("Valid commands:\nbook slot\nexit")
 
     input1 = input("What would you like to do: ")
     if input1 == "exit":
