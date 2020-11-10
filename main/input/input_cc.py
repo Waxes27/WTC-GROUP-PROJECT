@@ -1,16 +1,17 @@
+# THIS MODULE DEALS WITH ALL INPUTS FROM USERS
 import sys
 import os
 import datetime
 import pickle
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+#from googleapiclient.discovery import build
+#from google_auth_oauthlib.flow import InstalledAppFlow
+#from google.auth.transport.requests import Request
 
 
 def book_topic():
     booking_topic = input("Please provide a topic you would like to clinic?\n")
     while len(booking_topic) <= 0:
-        print("Field cannot be blank.\n")
+        print("Field cannot be blank, please provide a topic.\n")
         booking_topic = input("Please provide a topic you would like to clinic\n")
     if booking_topic == "Cancel":
         print("Cancelling clinic\n")
@@ -21,7 +22,7 @@ def book_topic():
 def book_doctor():
     booking_doc = input("Please provide the name of the Coding Clinician.\n")
     while len(booking_doc) <= 0:
-        print("Please provide your valid username.\n")
+        print("Field cannot be blank, please provide your valid username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n")
     return booking_doc + '@student.wethinkcode.co.za'
 
@@ -34,18 +35,11 @@ def book_patient():
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-def booking_send():
-    event = {
-    'summary': 'WTC Code Clinic',
-    'location': 'WTC Johannesburg Campus',
-    'description': 'A Clinic for your Code',
-    'start':{
-        'dateTime'
-    }
-
-    }
-
-
 book_topic()
 book_doctor()
 book_patient()
+
+
+
+
+
