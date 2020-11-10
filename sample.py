@@ -177,7 +177,7 @@ def main():
             #print(f"{item['summary']}")
         print(event_id)
 
-    create_event("november 10 09:00am", "Presentation", "A meeting with the mentors/clients, presenting our app.", 0.20)
+    #create_event("november 10 09:00am", "Presentation", "A meeting with the mentors/clients, presenting our app.", 2)
     # delete_event(calendar_id, event_id)
 #     for k in events:
 #         try:
