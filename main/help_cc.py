@@ -12,75 +12,55 @@ from g_setup import main
 
 
 # Defining of Global variables is done here
-
-#SCOPES = ['https://www.googleapis.com/auth/calendar']
-
-#CREDENTIALS_FILE = 'WTC-GROUP-PROJECT/credentials.json'
-CREDENTIALS_FILE = 'path_to_file/credentials.json'
-list_of_commands = ["vcal", "mkslot", "vtslot", "ctslot","logout"]
-details_of_commands = ["View calendar", "Make a time slot", "View a time slot", "Cancel a time time slot", "Logging out"]
-
-#service = get_calender_service()
+#list_of_commands = ["vcal", "mkslot", "vtslot", "ctslot","logout"]
+list_of_commands = ["HELP", "MAKEBOOK" , "VIEWBOOK", "CANCELBOOK","MAKESLOT","VIEWSLOT", "CANCELSLOT", "LOGOUT"]
+details_of_commands = ["Shows information about the commands", "Views and books an available time slot", "Views bookings", "Cancels booking", "Creates a time slot", "Displays all avalible time slots", "Cancels a time slot", "Logs the user out"]
 
 # End of global variables
 
 def run_main():
-    user = ""
+    """ 
+    run_main is is the first function to start when help_cc.py starts
+    """ 
 
-    #user = user_input()
+    user = ""
     while user != "logout":
         user = user_input()
         if user == "help":
             do_help()
-        elif user == "vcal":
-            view_calendar()
 
 def user_input():
+    """
+     user_input asks whether you need assistance and type help 
+     for viewing help assistance stores user input.
+    """ 
 
     user = input("How can I assist?, please type help for assistance:")
 
     return user
     
 def do_help():
+    """ 
+        The do_help prints out the list of commands that can be used in the system
+    """
 
     i = 0
     len_of_commands =len(list_of_commands)
     print("List of available commands")
-    print("--------------------------\n")
+    print("--------------------------")
     while i < len_of_commands:
 
-        print(list_of_commands[i] + "-->" + details_of_commands[i])
+        print('{:10s} {:1s} {:1s}'.format(list_of_commands[i], ":", details_of_commands[i]))
 
+        help_output = '{:10s} {:1s} {:1s}'.format(list_of_commands[i], ":", details_of_commands[i])
         i += 1
-    
+
     print(" ")
-
-
-def view_calendar():
-    service = main()
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('viewing of timeslots')
-    print('--------------------')
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=10, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-
-
-    if not events:
-        print('No upcoming events found.')
-    else:
-        for item in events:
-            print(item['summary'])
-    # for k in events:
-    #     try:
-    #         print(k['start'][''])
-    #     except:
-    #         KeyError
-
+    
+    return help_output
+     
 
 if __name__ == "__main__":
-
     run_main()
 
     

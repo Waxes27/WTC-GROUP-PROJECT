@@ -50,11 +50,7 @@ def main():
             print(k['start'][''])
         except:
             KeyError
-        # start = event['start'].get('dateTime', event['start'].get('date'))
-        # try:
-        #     print(f"{start}_____{event['summary']}")
-        # except:
-        #     KeyError
+        
 
 
 
