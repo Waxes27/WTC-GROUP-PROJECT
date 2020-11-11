@@ -18,6 +18,7 @@ def get_role():
     roles = ['doctor', 'patient']
     if role == "HELP".lower():
         help_cc.run_main()
+        # help_cc.run_main()
     while len(role) == 0 or role not in roles:
         print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
         role = input('What do you wish your role to be for the code clinic? ').lower()
