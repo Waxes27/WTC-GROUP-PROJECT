@@ -13,10 +13,15 @@ from google.auth.transport.requests import Request
 
 # Defining of Global variables is done here
 #list_of_commands = ["vcal", "mkslot", "vtslot", "ctslot","logout"]
-list_of_commands = ["username","HELP", "MAKEBOOK" , "VIEWBOOK", "CANCELBOOK","MAKESLOT","VIEWSLOT", "CANCELSLOT", "LOGOUT"]
-details_of_commands = ["Enter in your username","Shows information about the commands", "Views and books an available time slot", "Views bookings", "Cancels booking", "Creates a time slot", "Displays all avalible time slots", "Cancels a time slot", "Logs the user out"]
+list_of_commands = ["username","HELP", "MAKEBOOK" , "VIEWBOOK", "CANCELBOOK",
+"MAKESLOT","VIEWSLOT", "CANCELSLOT", "LOGOUT"]
+details_of_commands = ["Enter in your username","Shows information about the commands", "Views and books an available time slot", 
+"Views bookings", "Cancels booking", "Creates a time slot",
+ "Displays all avalible time slots", "Cancels a time slot", "Logs the user out"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas"]
-details_of_topics = ["The repeated application of a recursive procedure or definition.","Automated code to test software written by other developers","Creating new lists from other iterables", "an anonymous function is a function that is defined without a name. "]
+details_of_topics = ["The repeated application of a recursive procedure or definition.",
+"Automated code to test software written by other developers",
+"Creating new lists from other iterables","an anonymous function is a function that is defined without a name. "]
 # End of global variables
 
 def run_main():
@@ -41,7 +46,7 @@ def do_help():
     while i < len_of_commands:
 
         print('{:10s} {:1s} {:1s}'.format(list_of_commands[i], ":", details_of_commands[i]))
-        help_output += '{:10s} {:5s} {:1s}'.format(list_of_commands[i], ":", details_of_commands[i])
+        help_output += '{:10s} {:5s} {:1s}'.format(list_of_commands[i],":", details_of_commands[i])
         
         i += 1
 
@@ -53,7 +58,7 @@ def do_help():
     while j < len_of_topic:
 
         print('{:20s} {:1s} {:1s}'.format(topic_list[j], ":", details_of_topics[j]))
-        help_output += '{:20s} {:1s} {:1s}'.format(topic_list[j], ":", details_of_topics[j])
+        help_output += '{:20s} {:1s} {:1s}'.format(topic_list[j], ":",details_of_topics[j])
         j += 1
     
     return help_output
