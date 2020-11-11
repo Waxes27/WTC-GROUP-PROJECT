@@ -8,6 +8,7 @@ from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 
 
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
@@ -49,16 +50,22 @@ def display_events(service):
     
     if not events:
         print('No available slots found.')
-    print("Available slots :\n")
-    for k in events:
-        s = k['start'].get('dateTime').split("+")
-        date_s = s[0].split("T")
-        e = k['end'].get('dateTime').split("+")
-        date_e = e[0].split("T") 
-        try:
-            print(f"> {k['summary']} with {k['organizer']['email']}_____ at {date_s[0]} : {date_s[1][:5]} - {date_e[1][:5]}\n")   
-        except:
-            KeyError
+
+    else:
+        print("Available slots :\n")
+        print('{:<10s} {:>4s} {:>12s}'.format('Topic','Doctor','Date/Time' ))
+        print()
+        for k in events:
+            s = k['start'].get('dateTime').split("+")
+            date_s = s[0].split("T")
+            e = k['end'].get('dateTime').split("+")
+            date_e = e[0].split("T") 
+            try:
+                print ('{:.>80}'.format('.'))
+                print('{:<10s} {:>4s} {:>12s} - {}:{}'.format(k['summary'],k['organizer']['email'],date_s[0], date_s[1][:5],date_e[1][:5] ))
+        
+            except:
+                KeyError
 
 
 # def create_event(service,summ, des, start, h):
@@ -86,5 +93,5 @@ def display_events(service):
 
 if __name__ == '__main__':  
     service = main()
-    # create_event(service, "docstrings", "yesss this is a test", "22:00", 1)
+    # create_event(service, "random", "module tings", "12:00", 3)
     display_events(service)
