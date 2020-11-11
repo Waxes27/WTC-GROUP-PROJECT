@@ -5,6 +5,7 @@ import pickle
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import help_cc
 
 
 doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "Mbjali", "Ndumasi"]
@@ -25,9 +26,9 @@ def get_role():
 def book_topic(topic_list):
     print("Coding Clinic Topics:\n")
     print(*topic_list, sep="\n")
-    booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n")
+    booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n").capitalize()
     while booking_topic not in topic_list and booking_topic != "General":
-        booking_topic = input("Please choose a valid topic from the list above:\n") 
+        booking_topic = input("Please choose a valid topic from the list above:\n")
     if len(booking_topic) <= 0:
         print("You have chosen a General topic\n")
         booking_topic = "General"
@@ -36,13 +37,13 @@ def book_topic(topic_list):
 
 
 def book_doctor(doctor_list):
-    booking_doc = input("Please provide the name of the Coding Clinician.\n")
+    booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
     while len(booking_doc) <= 0:
         print("Please provide your valid username.\n")
-        booking_doc = input("Please provide the name of the Coding Clinician\n")
+        booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
     while booking_doc not in doctor_list:
         print("Username Invalid, please select a valid username.\n")
-        booking_doc = input("Please provide the name of the Coding Clinician\n")
+        booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
     return booking_doc + '@student.wethinkcode.co.za'
 
 
