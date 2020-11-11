@@ -7,7 +7,7 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-from g_setup import main
+# from g_setup import main
 
 
 
@@ -35,12 +35,14 @@ def run_main():
         elif user == "vcal":
             view_calendar()
 
+
 def user_input():
 
     user = input("How can I assist?, please type help for assistance:")
 
     return user
-    
+
+
 def do_help():
 
     i = 0
@@ -82,5 +84,3 @@ def view_calendar():
 if __name__ == "__main__":
 
     run_main()
-
-    
