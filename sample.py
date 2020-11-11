@@ -5,10 +5,11 @@ import os.path
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import Calendar_Commands
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
-
+#auth/calendar is for authorization of the calendarID
 
 def main():
     """Shows basic usage of the Google Calendar API.
@@ -18,6 +19,7 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
+  
     if os.path.exists('token.pickle'):
         with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
@@ -33,7 +35,7 @@ def main():
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
+    service = build('calendar', 'v3', credentials=creds) #`Creates a service object API name and version`
 
     # Call the Calendar API
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -42,6 +44,7 @@ def main():
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+    print(f"{events}\n")
 
     if not events:
         print('No upcoming events found.')
@@ -57,7 +60,17 @@ def main():
         #     KeyError
 
 
+    # Calendar_Commands.add_calendar(service) WORKS
+    #Calendar_Commands.create_calendar(service) WORKS
+    #Calendar_Commands.add_event(service) #WORKS
+    #Calendar_Commands.calendar_data(service) #WORKS For Primary
+    Calendar_Commands.create_calendar(service)
+    #Calendar_Commands.deleting_event(service)
+
+   
+
 
 
 if __name__ == '__main__':
     main()
+    

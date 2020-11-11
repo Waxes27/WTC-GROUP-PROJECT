@@ -1,4 +1,5 @@
 # THIS MODULE DEALS WITH ALL INPUTS FROM USERS
+import input_script
 
 def input_from_user():
     """
