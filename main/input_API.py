@@ -8,6 +8,7 @@ from google.auth.transport.requests import Request
 import help_cc.help_cc as help_cc
 
 
+
 doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
@@ -18,7 +19,6 @@ def get_role():
     roles = ['doctor', 'patient']
     if role == "HELP".lower():
         help_cc.run_main()
-        # help_cc.run_main()
     while len(role) == 0 or role not in roles:
         print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
         role = input('What do you wish your role to be for the code clinic? ').lower()
@@ -45,6 +45,7 @@ def book_doctor(doctor_list):
     booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
     if booking_doc == "HELP".lower():
         help_cc.run_main()
+        book_doctor(doctor_list)
     while len(booking_doc) <= 0:
         print("Please provide your valid username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
@@ -58,6 +59,7 @@ def book_patient(patient_list):
     booking_pat = input("Please provide the name of the Coding Patient.\n")
     if booking_pat == "HELP".lower():
         help_cc.run_main()
+        book_patient(patient_list)
     while booking_pat not in patient_list and booking_pat != "help":
         print("Username Invalid, please select a valid username.")
         booking_pat = input("Please provide the name of the Coding Patient\n")
