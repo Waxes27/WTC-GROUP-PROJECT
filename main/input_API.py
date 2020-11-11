@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 import help_cc
 
 
-doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "Mbjali", "Ndumasi"]
+doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
