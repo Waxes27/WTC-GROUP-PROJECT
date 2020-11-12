@@ -27,41 +27,33 @@ def doctor_username(doctor_list):
     booking_doc = input("Please provide the name of the Coding Clinician. " +
     "\nType HELP for assistance\n").lower()
     
-    if booking_doc == 'help':
-        help_cc.do_help()
-    else:
-        while len(booking_doc) <= 0:
-            print("Please provide your valid username.\n")
-            booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
-        while booking_doc not in doctor_list:
-            print("Username Invalid, please select a valid username.\n")
-            booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
-
-        return booking_doc + '@student.wethinkcode.co.za'
+    while len(booking_doc) <= 0 or booking_doc not in doctor_list:
+        print("Please provide a valid username.\n")
+        booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
+    return booking_doc + '@student.wethinkcode.co.za'
 
 
 def patient_username(patient_list):
     booking_pat = input("Please provide the name of the Coding Patient. " +
     "\nType HELP for assistance\n").lower()
     
-    
-    if booking_pat == 'help':
-        help_cc.do_help()
-    else:
-        while len(booking_pat) <= 0:
-            print("Please provide your valid username.\n")
-            booking_pat = input("Please provide the name of the Coding Patient\n").lower()
-        while booking_pat not in patient_list:
-            print("Username Invalid, please select a valid username.\n")
-            booking_pat = input("Please provide the name of the Coding Patient\n").lower()
+    while len(booking_pat) <= 0 or booking_pat not in patient_list:
+        print("\nPlease provide a valid username.")
+        booking_pat = input("Please provide the name of the Coding Patient\n").lower()
 
-        return booking_pat + '@student.wethinkcode.co.za'
+    return booking_pat + '@student.wethinkcode.co.za'
 
 
 def print_topics(topic_list):
     print("Coding Clinic Topics:\n")
     print(*topic_list, sep="\n")
 
+
+def print_topic_booking(role_username, booking_topic):
+    role_username_topic = {role_username: booking_topic}
+    print('\nTopic booked!\n\nDetails: ')
+    for user,topic in role_username_topic.items():
+        print(f'Username: {user[0]} \nRole: {user[1]} \nTopic: {topic}')
 
 def book_topic(topic_list, username, role):
     print_topics(topic_list)
@@ -75,9 +67,8 @@ def book_topic(topic_list, username, role):
         print("You have chosen a General topic\n")
         booking_topic = "General"    
     role_username = (username, role)
-    role_username_topic = {role_username: booking_topic}
-    print('Topic booked\nDetails: ')
-    print(role_username_topic)
+    print_topic_booking(role_username, booking_topic)
+
     return booking_topic
 
 
