@@ -3,7 +3,7 @@ import tkinter as tk
 from datetime import timedelta
 import datetime
 
-def GUI(slots):
+def GUI():
     window = tk.Tk()
     window.title("The Code Clinic")
     sloot = sloots(slots)
