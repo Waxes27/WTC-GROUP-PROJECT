@@ -28,16 +28,16 @@ class MyTestCase(unittest.TestCase):
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""How can I assist?, please type help for assistance: List of available commands:
+        self.assertEqual("""How can I assist?, please type help for assistance:List of available commands
 --------------------------
-HELP     : Shows information about the commands
-MKBOOK   : Views and books an availble time slot
-VWBOOK   : Views bookings
-CLBOOK   : Cancels booking
-MKSLOT   : Creates a time slot
-VWSLOT   : Displays all avalible time slots
-CLSLOT   : Cancels a time slot
-LOGOUT   : Logs the user out""", output)
+
+vcal    : View calendar
+mkslot  : Make a time slot
+vtslot  : View a time slot
+ctslot  : Cancel a time slot
+logout  : Logging out
+""", output)
+
 
 
 if __name__ == "__main__":
