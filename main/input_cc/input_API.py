@@ -5,7 +5,9 @@ import pickle
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import help_cc.help_cc as help_cc
+import help_cc_.help_cc as help_cc
+# import help_cc
+# from help_cc
 
 
 
@@ -22,12 +24,32 @@ def get_role():
     while len(role) == 0 or role not in roles:
         print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
         role = input('What do you wish your role to be for the code clinic? ').lower()
-    print('Role stored successfully.')
+    print('Role stored successfully.\n')
     return role
 
 
-def book_topic(topic_list):
-    print("Coding Clinic Topics:\n")
+
+# def book_topic(topic_list, username, role):
+#     print("\nCoding Clinic Topics:\n")
+#     print(*topic_list, sep="\n")
+#     booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n").capitalize()
+
+#     while booking_topic not in topic_list and booking_topic != "General":
+#         booking_topic = input("Please choose a valid topic from the list above:\n")
+
+#     if len(booking_topic) <= 0:
+#         print("You have chosen a General topic\n")
+#         booking_topic = "General"    
+#     role_username = (role, username)
+#     role_username_topic = {role_username: booking_topic}
+#     print('Topic booked\nDetails: ')
+#     for user, topic in role_username_topic.items():
+#         print(f'Username: {user[1].capitalize()}\nRole: {user[0]}\nBooked topic: {topic}')
+#     return booking_topic
+
+
+def book_topic(topic_list, username, role):
+    print("\nCoding Clinic Topics:\n")
     print(*topic_list, sep="\n")
     booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n").capitalize()
     if booking_topic == "help".capitalize():
@@ -37,8 +59,23 @@ def book_topic(topic_list):
     if len(booking_topic) <= 0:
         print("You have chosen a General topic\n")
         booking_topic = "General"
-        return booking_topic
+    
+    role_username = (role, username)
+    role_username_topic = {role_username: booking_topic}
+    print('\nTopic booked')
+    print('Details: ')
+    for i in range(0,15):
+        print('-', end='')
+    print()
+    for user, topic in role_username_topic.items():
+        print(f'Email:        {user[1]}\nRole :        {user[0].capitalize()}\nBooked topic: {topic}')
     return booking_topic
+
+
+
+#     key: username,role
+#     value: topic
+#     return booking_topic
 
 
 def book_doctor(doctor_list):
@@ -71,8 +108,8 @@ def book_patient(patient_list):
 
 if __name__ == "__main__":
     role = get_role()
-    book_topic(topic_list)
     if role == 'doctor':
-        book_doctor(doctor_list)
+        username = book_doctor(doctor_list)
     if role == 'patient':
-        book_patient(patient_list)
+        username = book_patient(patient_list)
+    book_topic(topic_list, username, role)
