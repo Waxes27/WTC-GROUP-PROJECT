@@ -1,7 +1,14 @@
+<<<<<<< HEAD
+import help_cc.test_base as test_base
+import help_cc.test_help
+
+test_base.run_unittests('test_main')
+=======
 import subprocess
 import sys
 import os
 import unittest
+import help_cc_
 
 
 class Test_Project(unittest.TestCase):
@@ -13,3 +20,4 @@ class Test_Project(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+>>>>>>> Playground
