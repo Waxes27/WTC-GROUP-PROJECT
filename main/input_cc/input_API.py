@@ -2,11 +2,10 @@ import sys
 import os
 import datetime
 import pickle
+import help_cc as help_cc
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import help_cc_.help_cc as help_cc
-
 
 
 doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
@@ -14,16 +13,21 @@ patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbalo
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 
-def get_role():
-    role = input('What do you wish your role to be for the code clinic? ').lower()
-    roles = ['doctor', 'patient']
-    if role == "HELP".lower():
-        help_cc.run_main()
-    while len(role) == 0 or role not in roles:
-        print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
-        role = input('What do you wish your role to be for the code clinic? ').lower()
-    print('Role stored successfully.')
-    return role
+# def username():
+#     username = input("Enter username: ")
+#     return username
+
+
+# def get_role():
+#     role = input('What do you wish your role to be for the code clinic? ').lower()
+#     roles = ['doctor', 'patient']
+#     if role == "HELP".lower():
+#         help_cc.run_main()
+#     while len(role) == 0 or role not in roles:
+#         print('\nYou can either choose to be a \n(1) Doctor or \n(2) Patient.')
+#         role = input('What do you wish your role to be for the code clinic? ').lower()
+#     print('Role stored successfully.')
+#     return role
 
 
 def book_topic(topic_list):
@@ -70,9 +74,7 @@ def book_patient(patient_list):
 
 
 if __name__ == "__main__":
-    role = get_role()
+    #role = get_role()
     book_topic(topic_list)
-    if role == 'doctor':
-        book_doctor(doctor_list)
-    if role == 'patient':
-        book_patient(patient_list)
+    book_doctor(doctor_list)
+    book_patient(patient_list)
