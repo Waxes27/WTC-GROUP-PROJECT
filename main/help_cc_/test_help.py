@@ -2,7 +2,8 @@ import unittest
 import sys
 # import help_cc_.help_cc
 # from help_cc_.help_cc import run_main
-import help_cc_
+help_cc = __import__('help_cc')
+# import help_cc
 from io import StringIO
 from contextlib import contextmanager
 # from help_cc import do_help
@@ -23,33 +24,35 @@ def captured_io(stdin):
 
 class MyTestCase(unittest.TestCase):
     def test_do_help_command(self):
-
-        with test_base.captured_io(StringIO("help\n")) as (out, err):
-            help_cc.do_help()
-
-        output = out.getvalue().strip()
-
-        self.assertEqual(help_cc.do_help(), """How can I assist?, please type help for assistance: List of available commands:
-
         with captured_io(StringIO("help\nlogout\n")) as (out, err):
             # print(help_cc)
-            help_cc_.help_cc.run_main()
+            help_cc.run_main()
             self.maxDiff=None
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""How can I assist?, please type help for assistance: List of available commands:
+        self.assertEqual("""List of available commands
+--------------------------
+USERNAME    : Enter in your username
+HELP        : Shows information about the available commands
+MAKEBOOK    : Views and books an availble time slot
+VIEWBOOK    : Views bookings
+CANCELBOOK  : Cancels booking
+MAKESLOTS   : Creates a time slot
+VIEWSLOT    : Displays all available time slots
+CANCELSLOTS : cancels a time slot
+LOGOUT      : Logs the user out
+
+Topics list commands available:
+--------------------
+
+Recursion               : The repeated application of a recursive procedure or definition.
+Unittesting             : Automated code to test software written by other developers
+List Comprehensions     : Creating new lists from other iterables
+Lambdas                 : an anonymous function is a function that is defined without a name.
 
 
-
-vcal    : View calendar
-mkslot  : Make a time slot
-vtslot  : View a time slot
-ctslot  : Cancel a time slot
-logout  : Logging out
-How can I assist?, Please type help for assistance:
-
-Logging off...""", output)
+""", output)
 
 
 
