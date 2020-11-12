@@ -2,7 +2,7 @@
     "python.testing.unittestArgs": [
         "-v",
         "-s",
-        "./view_calendar",
+        ".",
         "-p",
         "test_*.py"
     ],
