@@ -10,6 +10,17 @@ from contextlib import contextmanager
 # import test_base
 
 # help_cc.run_main()
+
+
+"""
+extra commands
+MAKEBOOK    : Views and books an available time slot
+VIEWBOOK    : Views bookings
+CANCELBOOK  : Cancels booking
+MAKESLOTS   : Creates a time slot
+VIEWSLOT    : Displays all available time slots
+CANCELSLOTS : cancels a time slot
+"""
 @contextmanager
 def captured_io(stdin):
     """Capture standard input and output, as well as standard error, and make that available for testing"""
@@ -35,12 +46,6 @@ class MyTestCase(unittest.TestCase):
 --------------------------
 USERNAME    : Enter in your username
 HELP        : Shows information about the available commands
-MAKEBOOK    : Views and books an available time slot
-VIEWBOOK    : Views bookings
-CANCELBOOK  : Cancels booking
-MAKESLOTS   : Creates a time slot
-VIEWSLOT    : Displays all available time slots
-CANCELSLOTS : cancels a time slot
 LOGOUT      : Logs the user out
 
 Topics list commands available:
