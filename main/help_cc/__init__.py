@@ -1,1 +1,1 @@
-from test_base import captured_io
+# from test_base import captured_io
