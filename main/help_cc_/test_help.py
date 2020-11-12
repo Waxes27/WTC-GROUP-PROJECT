@@ -35,7 +35,7 @@ class MyTestCase(unittest.TestCase):
 --------------------------
 USERNAME    : Enter in your username
 HELP        : Shows information about the available commands
-MAKEBOOK    : Views and books an availble time slot
+MAKEBOOK    : Views and books an available time slot
 VIEWBOOK    : Views bookings
 CANCELBOOK  : Cancels booking
 MAKESLOTS   : Creates a time slot
