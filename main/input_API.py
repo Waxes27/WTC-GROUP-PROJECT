@@ -53,6 +53,23 @@ def print_topic_booking(role_username, booking_topic):
     for user,topic in role_username_topic.items():
         print(f'Username: {user[0]} \nRole: {user[1].capitalize()} \nTopic: {topic}')
 
+
+def get_date():
+    """
+        Function that returns desired date and time for a Code Clinic
+        Returns:
+            picked_date (str): Stores the user's desired date
+            chosen_time (str): Stores the user's desired time
+    """
+    chosen_date = input('Book a slot in the format dd-mm-yyyy: ')
+    chosen_time = input('Book a time slot in the format hh:mm: ')
+    chosen_date = chosen_date.split('-')
+    chosen_date = [int(i) for i in chosen_date]
+    x = datetime.datetime(chosen_date[2], chosen_date[1], chosen_date[0])
+    picked_date = x.strftime("%A %d %B")
+    print('Timne slot created for:', chosen_time, picked_date, end='\n\n')
+    return picked_date
+
 def book_topic(topic_list, username, role):
     print_topics(topic_list)
 
@@ -74,8 +91,10 @@ def handle_user():
     role = get_role()
     if role == 'doctor':
         username = doctor_username(doctor_list)
+        get_date()
     if role == 'patient':
         username = patient_username(patient_list)
+    
     book_topic(topic_list, username, role)
 
 
