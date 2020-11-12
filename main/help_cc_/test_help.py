@@ -49,13 +49,12 @@ HELP        : Shows information about the available commands
 LOGOUT      : Logs the user out
 
 Topics list commands available:
---------------------
+------------------------------
 
 Recursion               : The repeated application of a recursive procedure or definition.
 Unittesting             : Automated code to test software written by other developers
 List Comprehensions     : Creating new lists from other iterables
-Lambdas                 : an anonymous function is a function that is defined without a name.
-""", output)
+Lambdas                 : an anonymous function is a function that is defined without a name.""", output)
 
 
 
