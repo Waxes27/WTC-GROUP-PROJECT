@@ -5,9 +5,8 @@ import pickle
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import help_cc_.help_cc as help_cc
-# import help_cc
-# from help_cc
+# import help_cc_.help_cc as help_cc
+import help_cc
 
 
 
@@ -28,26 +27,6 @@ def get_role():
     return role
 
 
-
-# def book_topic(topic_list, username, role):
-#     print("\nCoding Clinic Topics:\n")
-#     print(*topic_list, sep="\n")
-#     booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n").capitalize()
-
-#     while booking_topic not in topic_list and booking_topic != "General":
-#         booking_topic = input("Please choose a valid topic from the list above:\n")
-
-#     if len(booking_topic) <= 0:
-#         print("You have chosen a General topic\n")
-#         booking_topic = "General"    
-#     role_username = (role, username)
-#     role_username_topic = {role_username: booking_topic}
-#     print('Topic booked\nDetails: ')
-#     for user, topic in role_username_topic.items():
-#         print(f'Username: {user[1].capitalize()}\nRole: {user[0]}\nBooked topic: {topic}')
-#     return booking_topic
-
-
 def book_topic(topic_list, username, role):
     print("\nCoding Clinic Topics:\n")
     print(*topic_list, sep="\n")
@@ -64,11 +43,11 @@ def book_topic(topic_list, username, role):
     role_username_topic = {role_username: booking_topic}
     print('\nTopic booked')
     print('Details: ')
-    for i in range(0,15):
+    for i in range(0,50):
         print('-', end='')
     print()
     for user, topic in role_username_topic.items():
-        print(f'Email:        {user[1]}\nRole :        {user[0].capitalize()}\nBooked topic: {topic}')
+        print(f'Email        : {user[1]}\nRole         : {user[0].capitalize()}\nBooked topic : {topic}')
     return booking_topic
 
 
