@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from datetime import timedelta # added 
+#from datetime import date
 import GUI #added
 
 
@@ -30,7 +31,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                'sample/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -41,6 +42,8 @@ def main():
 
 
 def display_events(service):
+    used = False
+    current_date = ''
     slots = []
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting available slots...\n')
@@ -48,25 +51,65 @@ def display_events(service):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+
+    #print(events)
     
     if not events:
         print('No available slots found.')
 
     else:
-        print("Available slots :\n")
-        print('{:<10s} {:>4s} {:>12s} {}'.format('Topic','Doctor','Date','Time' ))
-        slots.append('{} {} {} {} {}'.format('Topic','Doctor','Date','Time',"Slots" ))
+        print("Calendar for the next 7 days:")
+        slots += "Calendar for the next 7 days:"
+        print("Available slots :")
+        slots += "Available slots :"
+        #print("Dates from " + date_s[0] + " till the " + week)
+       
+        # print('{:<10s} {:>4s} {:>12s} {}'.format('Topic','Doctor','Date','Time' ))
+        # slots.append('{} {} {} {} {}'.format('Topic','Doctor','Date','Time',"Slots" ))
 
-        for k in events:
+        
+
+        for k in events:           
+            
             s = k['start'].get('dateTime').split("+")
             date_s = s[0].split("T")
             e = k['end'].get('dateTime').split("+")
-            date_e = e[0].split("T") 
+            date_e = e[0].split("T")
+            count = 0
+
             try:
-                print ('{:.>80}'.format('.'))
-                print('{:<10s} {:>4s} {:>12s} - {}:{}'.format(k['summary'],k['organizer']['email'],date_s[0], date_s[1][:5],date_e[1][:5] ))
-           
         
+                day_count = datetime.datetime.now()
+                new_final_time = day_count + timedelta(days = 7) 
+                week = new_final_time.strftime("%F")
+                
+                
+                
+                if date_s[0] > week:
+                    break
+
+            
+                if current_date != date_s[0]:
+                    print('\n')
+                    print("Date: " + date_s[0])
+                    slots += "Date: " + date_s[0]
+                    print('Time'.ljust(10) ,'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10))
+                    slots += 'Time'.ljust(10) ,'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10)
+                    current_date = date_s[0]
+
+                doctor_email = k['organizer']['email']
+                doctor_user = doctor_email.split('@')
+                     
+                if k['attendees'][0]['email'] is not None:
+                    guest_email = k['attendees'][0]['email']
+                    guest_user = guest_email.split('@')
+                else:
+                    guest_user = "Available"
+
+                print ('{:.>80}'.format('.'))
+                print(date_s[1][:5].ljust(12) + k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10))
+                slots += date_s[1][:5].ljust(12) + k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10)
+                
             except:
                 KeyError
     
