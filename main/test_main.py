@@ -2,6 +2,7 @@ import subprocess
 import sys
 import os
 import unittest
+import help_cc_
 
 
 class Test_Project(unittest.TestCase):
