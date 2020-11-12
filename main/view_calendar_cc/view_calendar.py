@@ -7,9 +7,9 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 #from datetime import date
-import GUI #added
+# import GUI #added
 
-
+s = ' '
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
@@ -31,7 +31,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'sample/credentials.json', SCOPES)
+                'credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -42,6 +42,7 @@ def main():
 
 
 def display_events(service):
+    global s
     used = False
     current_date = ''
     slots = []
@@ -52,7 +53,8 @@ def display_events(service):
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
-    #print(events)
+    # print(events)
+    # for k,v in events
     
     if not events:
         print('No available slots found.')
@@ -72,6 +74,7 @@ def display_events(service):
         for k in events:           
             
             s = k['start'].get('dateTime').split("+")
+            # print(s)
             date_s = s[0].split("T")
             e = k['end'].get('dateTime').split("+")
             date_e = e[0].split("T")
@@ -93,6 +96,7 @@ def display_events(service):
                     print('\n')
                     print("Date: " + date_s[0])
                     slots += "Date: " + date_s[0]
+                    
                     print('Time'.ljust(10) ,'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10))
                     slots += 'Time'.ljust(10) ,'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10)
                     current_date = date_s[0]
@@ -137,8 +141,11 @@ def display_events(service):
 # #    print(f"from {date_s[1]} to {date_e[1]}")
 
 
-
-if __name__ == '__main__':  
+def main1():
     service = main()
-    # create_event(service, "random", "module tings", "12:00", 3)
     display_events(service)
+    # print(s[0])
+    
+    
+if __name__ == '__main__':
+    main1()
