@@ -97,7 +97,7 @@ def display_events(service):
                     slots += 'Time'.ljust(10) ,'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10)
                     current_date = date_s[0]
 
-                doctor_email = k['organizer']['email']
+                doctor_email = k['creator']['email']
                 doctor_user = doctor_email.split('@')
                      
                 if k['attendees'][0]['email'] is not None:
@@ -107,7 +107,7 @@ def display_events(service):
                     guest_user = "Available"
 
                 print ('{:.>80}'.format('.'))
-                print(date_s[1][:5].ljust(12) + k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10))
+                print(date_s[1][:5].ljust(10) + k['summary'][:9].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10))
                 slots += date_s[1][:5].ljust(12) + k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10)
                 
             except:
