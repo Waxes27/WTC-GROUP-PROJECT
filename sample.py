@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 import Calendar_Commands
+import pprint as pprint
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
@@ -44,7 +45,7 @@ def main():
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    print(f"{events}\n")
+    # print(f"{events}\n")
 
     if not events:
         print('No upcoming events found.')
@@ -60,12 +61,14 @@ def main():
         #     KeyError
 
 
-    # Calendar_Commands.add_calendar(service) WORKS
+    Calendar_Commands.add_calendar(service) #WORKS
     #Calendar_Commands.create_calendar(service) WORKS
     #Calendar_Commands.add_event(service) #WORKS
     #Calendar_Commands.calendar_data(service) #WORKS For Primary
-    Calendar_Commands.create_calendar(service)
+    #Calendar_Commands.create_calendar(service)
     #Calendar_Commands.deleting_event(service)
+    #Calendar_Commands.events_on_calendar(service)
+    #Calendar_Commands.calendar_lists(service)
 
    
 
