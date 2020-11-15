@@ -5,9 +5,9 @@ name: Python package
 
 on:
   push:
-    branches: [ Playground ]
+    branches: [ ndumasi ]
   pull_request:
-    branches: [ Playground ]
+    branches: [ ndumasi ]
 
 jobs:
   build:
