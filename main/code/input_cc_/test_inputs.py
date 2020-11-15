@@ -1,18 +1,10 @@
 import unittest
-<<<<<<< HEAD:main/input_cc/test_inputs.py
-# from . import input_cc
-import input_cc
-from unittest.mock import patch
-from io import StringIO
-# from .test_base import captured_io
-from test_base import captured_io
-=======
-import input_cc as input_cc
+from . import input_cc
+# import input_cc as input_cc
 from unittest.mock import patch
 from io import StringIO
 # from tests.test_base import captured_io
 from .test_base import captured_io
->>>>>>> main:main/code/input_cc_/test_inputs.py
 
 class testing_inputs(unittest.TestCase):
   

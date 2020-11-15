@@ -35,20 +35,10 @@ def book_patient():
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-<<<<<<< HEAD:main/input_cc/input_cc.py
-# book_topic()
-# book_doctor()
-# book_patient()
-
-
-
-
-=======
 def main():
     book_topic()
     book_doctor()
     book_patient()
->>>>>>> main:main/code/input_cc_/input_cc.py
 
 if __name__ == "__main__":
     pass
