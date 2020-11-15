@@ -10,6 +10,8 @@ import sys
 
 def clear():
     os.system('clear')
+    
+
 
 def main():
     clear()

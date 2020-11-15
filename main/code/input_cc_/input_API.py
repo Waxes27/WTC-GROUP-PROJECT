@@ -52,7 +52,7 @@ def book_doctor(doctor_list):
         help_cc.run_main()
         book_doctor(doctor_list)
     while len(booking_doc) <= 0:
-        print("Please provide your valid username.\n")
+        print("Please provide your username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
     while booking_doc not in doctor_list and booking_doc != "help":
         print("Username Invalid, please select a valid username.\n")
