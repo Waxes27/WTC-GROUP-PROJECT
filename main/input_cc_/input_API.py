@@ -3,7 +3,7 @@ import os
 import datetime
 import pickle
 # import help_cc as help_cc
-from . import help_cc
+import help_cc_.help_cc as help_cc
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -74,8 +74,7 @@ def book_patient(patient_list):
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-if __name__ == "__main__":
-    #role = get_role()
+def main():
     book_topic(topic_list)
     book_doctor(doctor_list)
     book_patient(patient_list)

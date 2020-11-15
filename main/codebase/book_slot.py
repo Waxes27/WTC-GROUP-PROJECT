@@ -7,8 +7,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-import input_API
-
+from input_cc_ import input_API
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -66,9 +65,9 @@ def create_doctor_event(start, summary, pat_email,duration=1):
     result = service.events().insert(calendarId='primary', body=event).execute()
     print("Event created:", result.get("summary"))
 
-username = input_API.book_doctor(doctor_list)
 
 def main():
+    username = input_API.book_doctor(doctor_list)
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -85,7 +84,7 @@ def main():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('main/input_cc/credentials.json'
+            flow = InstalledAppFlow.from_client_secrets_file('codebase/credentials.json'
             , SCOPES)
             creds = flow.run_local_server(port=0)
         with open(username  + ".pickle", "wb") as token:
@@ -102,4 +101,6 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    # main()
+    # print('bookslots imported')
+    pass

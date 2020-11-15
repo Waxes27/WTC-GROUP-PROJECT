@@ -2,7 +2,8 @@ import unittest
 import sys
 # import help_cc_.help_cc
 # from help_cc_.help_cc import run_main
-help_cc = __import__('help_cc')
+# help_cc = __import__('help_cc')
+from . import help_cc
 # import help_cc
 from io import StringIO
 from contextlib import contextmanager

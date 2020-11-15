@@ -35,11 +35,10 @@ def book_patient():
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-book_topic()
-book_doctor()
-book_patient()
+def main():
+    book_topic()
+    book_doctor()
+    book_patient()
 
-
-
-
-
+if __name__ == "__main__":
+    pass
