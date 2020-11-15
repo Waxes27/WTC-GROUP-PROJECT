@@ -1,8 +1,10 @@
 import unittest
-import main.input_cc as input_cc
+# from . import input_cc
+import input_cc
 from unittest.mock import patch
 from io import StringIO
-from tests.test_base import captured_io
+# from .test_base import captured_io
+from test_base import captured_io
 
 class testing_inputs(unittest.TestCase):
   
@@ -67,3 +69,7 @@ class testing_inputs(unittest.TestCase):
         patient_name = input_cc.book_patient()
 
         self.assertEqual(patient_name,"tmoshole@student.wethinkcode.co.za")
+
+
+if __name__ == "__main__":
+    unittest.main()

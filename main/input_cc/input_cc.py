@@ -35,9 +35,9 @@ def book_patient():
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-book_topic()
-book_doctor()
-book_patient()
+# book_topic()
+# book_doctor()
+# book_patient()
 
 
 

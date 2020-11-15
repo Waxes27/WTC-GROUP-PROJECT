@@ -2,7 +2,7 @@ import sys
 import os
 import datetime
 import pickle
-import help_cc as help_cc
+from . import help_cc
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -74,7 +74,8 @@ def book_patient(patient_list):
 
 
 if __name__ == "__main__":
+    pass
     #role = get_role()
-    book_topic(topic_list)
-    book_doctor(doctor_list)
-    book_patient(patient_list)
+    # book_topic(topic_list)
+    # book_doctor(doctor_list)
+    # book_patient(patient_list)

@@ -2,12 +2,13 @@
 #import input_cc
 
 import datetime
-import pickle
+# import pickle
 import os.path
-from googleapiclient.discovery import build
-from google_auth_oauthlib.flow import InstalledAppFlow
-from google.auth.transport.requests import Request
+# from googleapiclient.discovery import build
+# from google_auth_oauthlib.flow import InstalledAppFlow
+# from google.auth.transport.requests import Request
 #from g_setup import main
+# print("help imported")
 
 
 
@@ -59,5 +60,5 @@ def do_help():
     return help_output
      
 
-if __name__ == "__main__":
-    run_main()
+# if __name__ == "__main__":
+    # run_main()
