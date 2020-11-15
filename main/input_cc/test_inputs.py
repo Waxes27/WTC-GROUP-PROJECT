@@ -1,9 +1,22 @@
 import unittest
-import main.input_cc as input_cc
+import input_cc as input_cc
 from unittest.mock import patch
 from io import StringIO
-from tests.test_base import captured_io
+# from tests.test_base import captured_io
+from contextlib import contextmanager
 
+@contextmanager
+def captured_io(stdin):
+    """Capture standard input and output, as well as standard error, and make that available for testing"""
+    new_out, new_err, new_input = StringIO(), StringIO(), stdin
+    old_out, old_err, old_input = sys.stdout, sys.stderr, sys.stdin
+    try:
+        sys.stdout, sys.stderr, sys.stdin = new_out, new_err, new_input
+        yield sys.stdout, sys.stderr
+    finally:
+        sys.stdout, sys.stderr, sys.stdin = old_out, old_err, old_input
+
+    
 class testing_inputs(unittest.TestCase):
   
     @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\n"))
@@ -163,3 +176,6 @@ class testing_inputs(unittest.TestCase):
         output = out.getvalue().strip()
 
         self.assertEqual("""Username Invalid, please enter a valid username.\n""", output)
+
+if __name__ == "__main__":
+    unittest.main()
