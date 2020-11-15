@@ -1,7 +1,8 @@
 #THIS MODULE IMPORTS AND ACTS AS THE MAIN CODEBASE
-import codebase.book_slot as book_slot
+import code
 # import input_cc_.input_API as input_API
-import help_cc_.help_cc as help_cc
+import code.help_cc_.help_cc as help_cc
+import code.codebase.book_slot as book_slot
 import os
 import time
 import sys
@@ -22,8 +23,12 @@ def main():
         elif user_in == 'help':
             help_cc.run_main()
             user_in = input("\nWhat would you like to do now...:  ").lower()
+
         elif 'logout' in user_in:
             break
+
+        else:
+            print(f"Invalid command '{user_in}'")
     clear()
     print("Logging off...")
     time.sleep(3)
