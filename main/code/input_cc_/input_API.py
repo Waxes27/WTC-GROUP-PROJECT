@@ -2,12 +2,8 @@ import sys
 import os
 import datetime
 import pickle
-<<<<<<< HEAD:main/input_cc/input_API.py
-from . import help_cc
-=======
 # import help_cc as help_cc
 import code.help_cc_.help_cc as help_cc
->>>>>>> main:main/code/input_cc_/input_API.py
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -78,16 +74,7 @@ def book_patient(patient_list):
     return booking_pat + '@student.wethinkcode.co.za'
 
 
-<<<<<<< HEAD:main/input_cc/input_API.py
-if __name__ == "__main__":
-    pass
-    #role = get_role()
-    # book_topic(topic_list)
-    # book_doctor(doctor_list)
-    # book_patient(patient_list)
-=======
 def main():
     book_topic(topic_list)
     book_doctor(doctor_list)
     book_patient(patient_list)
->>>>>>> main:main/code/input_cc_/input_API.py
