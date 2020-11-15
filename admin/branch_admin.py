@@ -17,10 +17,6 @@ def number_of_usernames():
 def qwer():
 
     for i in list_:
-        os.system(f"clear")
-        os.system(f"git checkout {i}")
-        os.system(f"git merge Playground")
-        os.system(f'git push')
         print()
 
 def test():
