@@ -2,7 +2,8 @@ import sys
 import os
 import datetime
 import pickle
-import help_cc as help_cc
+# import help_cc as help_cc
+from . import help_cc
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
