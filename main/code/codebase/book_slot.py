@@ -13,7 +13,7 @@ import code.input_cc_.input_API as input_API
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
+doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede"]
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
@@ -52,8 +52,8 @@ def main():
 
     topic = input_API.book_topic(topic_list)
 
-    if os.path.exists(username + '.pickle'):
-        with open(username + '.pickle', 'rb') as token:
+    if os.path.exists(f'.tokens/{username}.pickle'):
+        with open(f'.tokens/{username}.pickle', 'rb') as token:
             creds = pickle.load(token)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -62,12 +62,19 @@ def main():
             flow = InstalledAppFlow.from_client_secrets_file('code/codebase/credentials.json'
             , SCOPES)
             creds = flow.run_local_server(port=0)
-        with open(username  + ".pickle", "wb") as token:
+        # with open(username  + ".pickle", "wb") as token:
+        with open(f'.tokens/{username}.pickle','wb') as token:
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
 
-    slot_time = input("Enter slot date(yyyy-month-day time): ")
+    
+    year = input("slot year: ")
+    month = input("slot month: ")
+    day = input("slot day: ")
+    time = input("slot time: ")
+    slot_time = f'{year} {month} {day} {time}'
+    
     slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(patient_list)
 
