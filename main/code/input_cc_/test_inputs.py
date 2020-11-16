@@ -54,7 +54,7 @@ class testing_inputs(unittest.TestCase):
 
 
     def test_doctor_input_empty_string(self):
-        with captured_io(StringIO('\n')) as (out, err):
+        with captured_io(StringIO('\nlogout\n')) as (out, err):
 
             topic_name = input_cc.book_doctor()
 

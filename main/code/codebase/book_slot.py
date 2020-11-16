@@ -13,33 +13,6 @@ import code.input_cc_.input_API as input_API
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-
-# def create_patient_event(start, summary, doc_email, duration=1):
-#     """
-#     Creates the event on the patients calendar
-#     """
-#     string_date_list = list(datefinder.find_dates(start))
-#     if len(string_date_list) >= 0:
-#         start = string_date_list[0]
-#         end_time = start + datetime.timedelta(hours=duration)
-#     print(start)
-#     event = {
-#         'summary': summary,
-#         'start': {
-#             'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
-#             'timeZone': 'Africa/Johannesburg',
-#         },
-#         'end': {
-#             'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-#             'timeZone': 'Africa/Johannesburg',
-#         },
-#         'attendees': [
-#             {'email': doc_email},
-#         ]
-#     }
-#     result = service.events().insert(calendarId='primary', body=event).execute()
-#     print("Event created:", result.get("summary"))
-
 doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
@@ -103,6 +76,4 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
-    # print('bookslots imported')
     pass
