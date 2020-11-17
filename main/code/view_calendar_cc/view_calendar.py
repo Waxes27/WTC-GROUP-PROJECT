@@ -31,7 +31,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                'code/codebase/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -53,8 +53,13 @@ def display_events(service):
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
-    # print(events)
-    # for k,v in events
+    # for k in events[0]:
+    #     print(k)
+    # print(events[0]['summary'])
+    # print(events[0]['id'])
+    # print(events[0]['creator']['email'])
+    # print(events[0]['start']['dateTime'])
+    
     
     if not events:
         print('No available slots found.')
