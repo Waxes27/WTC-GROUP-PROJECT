@@ -14,9 +14,9 @@ patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbalo
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 
-# def username():
-#     username = input("Enter username: ")
-#     return username
+def username():
+    username = input("Enter username: ")
+    return username
 
 
 # def get_role():
