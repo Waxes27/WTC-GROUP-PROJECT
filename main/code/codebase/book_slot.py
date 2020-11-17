@@ -7,8 +7,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-# from code import input_cc_
 import code.input_cc_.input_API as input_API
+#from . import create_service
+
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -44,6 +45,7 @@ doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi
 patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
+
 def create_doctor_event(start, summary, pat_email,duration=1):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
@@ -67,17 +69,11 @@ def create_doctor_event(start, summary, pat_email,duration=1):
     print("Event created:", result.get("summary"))
 
 
-def main():
-    username = input_API.book_doctor(doctor_list)
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    global service
-
+def validate_token():
     username = input_API.book_doctor(doctor_list)
     creds = None
 
-    topic = input_API.book_topic(topic_list)
+    #topic = input_API.book_topic(topic_list)
 
     if os.path.exists(username + '.pickle'):
         with open(username + '.pickle', 'rb') as token:
@@ -91,9 +87,25 @@ def main():
             creds = flow.run_local_server(port=0)
         with open(username  + ".pickle", "wb") as token:
             pickle.dump(creds, token)
+    return creds
 
+
+def create_service(creds):
     service = build('calendar', 'v3', credentials=creds)
+    return service
 
+
+def main():
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    global service
+
+    creds =None
+    creds = validate_token()
+    service = create_service(creds)
+
+    topic = input_API.book_topic(topic_list)
     slot_time = input("Enter slot date(yyyy-month-day time): ")
     slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(patient_list)
@@ -103,6 +115,6 @@ def main():
 
 
 if __name__ == '__main__':
-    # main()
+    main()
     # print('bookslots imported')
     pass
