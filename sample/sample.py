@@ -30,7 +30,7 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'credentials.json', SCOPES)
+                'main/code/codebase/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -45,7 +45,8 @@ def main():
                                         maxResults=10, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    # print(f"{events}\n")
+    print(f"{events[0]}\n")
+    eventid = events[0]['id']
 
     if not events:
         print('No upcoming events found.')
@@ -61,12 +62,12 @@ def main():
         #     KeyError
 
 
-    Calendar_Commands.add_calendar(service) #WORKS
+    #Calendar_Commands.add_calendar(service) #WORKS
     #Calendar_Commands.create_calendar(service) WORKS
     #Calendar_Commands.add_event(service) #WORKS
     #Calendar_Commands.calendar_data(service) #WORKS For Primary
     #Calendar_Commands.create_calendar(service)
-    #Calendar_Commands.deleting_event(service)
+    Calendar_Commands.deleting_event(service,eventid)
     #Calendar_Commands.events_on_calendar(service)
     #Calendar_Commands.calendar_lists(service)
 
