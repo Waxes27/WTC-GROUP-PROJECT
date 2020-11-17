@@ -13,8 +13,7 @@ import code.input_cc_.input_API as input_API
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede"]
-patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
+list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 def create_doctor_event(start, summary, pat_email,duration=1):
@@ -41,14 +40,14 @@ def create_doctor_event(start, summary, pat_email,duration=1):
 
 
 def main():
-    username = input_API.book_doctor(doctor_list)
+    # username = input_API.book_doctor(list_)
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
     global service
 
-    username = input_API.book_doctor(doctor_list)
     creds = None
+    username = input_API.book_doctor(list_)
 
     topic = input_API.book_topic(topic_list)
 
@@ -76,7 +75,7 @@ def main():
     slot_time = f'{year} {month} {day} {time}'
     
     slot_duration = int(input("Enter slot duration: "))
-    pat_email = input_API.book_patient(patient_list)
+    pat_email = input_API.book_patient(list_)
 
     create_doctor_event(slot_time, topic, pat_email)
 

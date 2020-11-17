@@ -24,7 +24,7 @@ def main():
             except AttributeError:
                 book_slot.main()
             user_in = input("What would you like to do now...:  ").lower()
-            
+
         elif user_in.lower() == 'username':
             clear()
             username = input('What is your username?: ')
@@ -35,6 +35,10 @@ def main():
             
             user_in = input("What would you like to do now...:  ").lower()
 
+        elif user_in.lower() == 'clear':
+            clear()
+            user_in = input("What would you like to do now...:  ").lower()
+            
         elif user_in == 'help':
             help_cc.run_main()
             user_in = input("\nWhat would you like to do now...:  ").lower()
