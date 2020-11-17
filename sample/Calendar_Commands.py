@@ -140,21 +140,31 @@ def add_event(service): #WORKS
 
 #deleting a event     
 def deleting_event(service,eventid):
-    service.events().delete(calendarId='sigamede@student.wethinkcode.co.za',eventId=eventid,sendNotifications=True,sendUpdates='all')
+    del_event =service.events().delete(calendarId='sigamede@student.wethinkcode.co.za',eventId=eventid,sendNotifications=True,sendUpdates='all')
+    return del_event
     # This will delete the event requested via the eventID then send Notifications to the attendees and a update 
 
 #returning events from specified calendar
 def events_on_calendar(service):
-    events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za',summary='Test').execute()
+    events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za',summary='JHH').execute()
     pprint.pprint(events_cal)    
 
 def get_event(service):
-    get_event = service.events().get(calendaeId='primary',eventId='eventid').execute()
+    get_event = service.events().get(calendarId='primary',eventId='16ll0lmrjrru142amadeh317r0').execute()
+    print(get_event['attendees'])
+    for i in get_event:
+        if i == 'attendees':
+            guest=get_event[i][1]
+    # print(guest['email'])
+    return guest 
 
+def patient_cancellation(service,attendee,eventID,data):
+    if data['email'] == attendee:
+        data['email'] = ''
+    print("Hello")
+    updating = service.events().update(calendarId='primary',eventId=eventID,body=data,sendNotifications=True,sendUpdates='all').execute()
+    return update
 
-# def attendees(paitent):
-#     paitent = {'email': 'sigamede@student.we'}
-#     for 
 
 
 

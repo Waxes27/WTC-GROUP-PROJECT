@@ -47,6 +47,7 @@ def main():
     events = events_result.get('items', [])
     print(f"{events[0]}\n")
     eventid = events[0]['id']
+    print(eventid)
 
     if not events:
         print('No upcoming events found.')
@@ -61,16 +62,22 @@ def main():
         # except:
         #     KeyError
 
-
+    eventid = '16ll0lmrjrru142amadeh317r0'
     #Calendar_Commands.add_calendar(service) #WORKS
     #Calendar_Commands.create_calendar(service) WORKS
     #Calendar_Commands.add_event(service) #WORKS
     #Calendar_Commands.calendar_data(service) #WORKS For Primary
     #Calendar_Commands.create_calendar(service)
-    Calendar_Commands.deleting_event(service,eventid)
+    #Calendar_Commands.deleting_event(service,eventid)
     #Calendar_Commands.events_on_calendar(service)
     #Calendar_Commands.calendar_lists(service)
-
+    #Calendar_Commands.get_event(service)
+    #Calendar_Commands.deleting_event(service,eventid)
+    data = Calendar_Commands.get_event(service)
+    print(data)
+    attendee = 'gamingsiya100@gmail.com'
+    eventID = '16ll0lmrjrru142amadeh317r0'
+    Calendar_Commands.patient_cancellation(service,attendee,eventID,data)
    
 
 
