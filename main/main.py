@@ -19,7 +19,20 @@ def main():
     while user_in != 'logout':
         if user_in == 'makebook':
             clear()
-            book_slot.main()
+            try:
+                book_slot.main()
+            except AttributeError:
+                book_slot.main()
+            user_in = input("What would you like to do now...:  ").lower()
+            
+        elif user_in.lower() == 'username':
+            clear()
+            username = input('What is your username?: ')
+            try:
+                token = open(f'{username}@student.wethinkcode.co.za.pickle')
+            except FileNotFoundError:
+                print("User token not found")
+            
             user_in = input("What would you like to do now...:  ").lower()
 
         elif user_in == 'help':
@@ -30,7 +43,11 @@ def main():
             break
 
         else:
-            print(f"Invalid command '{user_in}'")
+            clear()
+            print(f"Invalid command '{user_in}'\n\n")
+            help_cc.run_main()
+            user_in = input("What would you like to do now...:  ").lower()
+
     clear()
     print("Logging off...")
     time.sleep(3)
@@ -38,4 +55,6 @@ def main():
 
 
 if __name__ == "__main__":
+
+    # token = open('ndumas@student.wethinkcode.co.za.pickle','r')
     main()
