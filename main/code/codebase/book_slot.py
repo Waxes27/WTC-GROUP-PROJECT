@@ -16,17 +16,62 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
+
+def check_double_book(date, start, end):
+    #1. Access textfile that stores events info
+    with open('red.txt') as file:
+            read_data = file.readlines()
+
+
+    #2. Access the doctor/patient's email
+    new_text = []
+    for line in text_file:
+        stripped = line.strip()
+        new_text.append(stripped)
+
+    new_email = ''
+    for line in new_text:
+        line = line.split(': ')
+        if 'email' in line:        
+            new_email = line[-1]
+
+
+    #3. Check the attendee's start and end date & time
+    text_file_date = ''
+    for line in new_text:
+        line = line.split(': ')
+        if 'date' in line:
+            text_file_date = line[-1]
+
+    text_file_start = ''
+    for line in new_text:
+        line = line.split(': ')
+        if 'start' in line:
+            text_file_start = line[-1]
+
+    text_file_end = ''
+    for line in new_text:
+        line = line.split(': ')
+        if 'end' in line:
+            text_file_end = line[-1]
+
+    if date == text_file_date and start == text_file_start and end == text_file_end:
+        print('No double bookings allowed chief')
+    else: print('booking successful')
+
+
 def create_doctor_event(start, summary, pat_email,duration=1):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
         end_time = start + datetime.timedelta(hours=duration)
     event = {
-        'summary': summary,
+        'summary': summary, 
+        
         'start': {
             'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',
-        },
+        },        
         'end': {
             'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',

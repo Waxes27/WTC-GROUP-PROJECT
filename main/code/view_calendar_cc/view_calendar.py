@@ -6,6 +6,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from datetime import timedelta # added 
+from pprint import pprint
 #from datetime import date
 # import GUI #added
 
@@ -52,7 +53,7 @@ def display_events(service):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-
+    pprint(events)
     # for k in events[0]:
     #     print(k)
     # print(events[0]['summary'])
@@ -85,18 +86,12 @@ def display_events(service):
             date_e = e[0].split("T")
             count = 0
 
-            try:
-        
+            try:        
                 day_count = datetime.datetime.now()
                 new_final_time = day_count + timedelta(days = 7) 
                 week = new_final_time.strftime("%F")
-                
-                
-                
                 if date_s[0] > week:
-                    break
-
-            
+                    break            
                 if current_date != date_s[0]:
                     print('\n')
                     print("Date: " + date_s[0])
@@ -120,8 +115,7 @@ def display_events(service):
                 slots += date_s[1][:5].ljust(12) + k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user[0].ljust(10)
                 
             except:
-                KeyError
-    
+                KeyError    
     return slots
 
 # def create_event(service,summ, des, start, h):
