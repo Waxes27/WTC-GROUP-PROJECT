@@ -3,6 +3,7 @@ import datetime
 import datefinder
 import pickle
 import os.path
+import os
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -55,10 +56,11 @@ def validate_token():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file('code/codebase/credentials.json'
+            flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
             , SCOPES)
             creds = flow.run_local_server(port=0)
-        with open(f'.tokens/{username}.pickle','wb') as token:
+        # with open(username  + ".pickle", "wb") as token:
+        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
     return creds
 
