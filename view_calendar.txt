@@ -1,3 +1,10 @@
+ID: 0n7a6ict9hra5fm7dk6dh0gm18
+Date: 2020-11-19
+Start Time: 13:00
+End Time: 15:00
+Topic: Cohort 2020 Town Hall (group 1)
+Doctor: c_cpq2fq1tb809thq9dvlp2e3ekg
+Patient: wethinkcode.co.za_3836353535323631323731
 ID: 7mri4n263mvvrsbq5tg2lmd0pt
 Date: 2020-11-19
 Start Time: 13:00
@@ -5,6 +12,20 @@ End Time: 14:00
 Topic: ASP
 Doctor: mbjali
 Patient: vpekane   
+ID: un5lo16hqe8i4tornb9p4rn18s
+Date: 2020-11-19
+Start Time: 15:00
+End Time: 16:00
+Topic: General
+Doctor: mbjali
+Patient: vpekane   
+ID: 1u1op7t81kvgjbv5g5uqcfgn2o
+Date: 2020-11-20
+Start Time: 09:00
+End Time: 10:00
+Topic: General
+Doctor: sbaloyi
+Patient: mbjali    
 ID: 72of5nflfjmi1ln8p75c2smrkq
 Date: 2020-11-20
 Start Time: 09:30
