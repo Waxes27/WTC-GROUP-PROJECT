@@ -18,7 +18,7 @@ if 'not found' in value:
 pip3 install datefinder
 cp -r WTC-GROUP-PROJECT ~/Music
 rm -rf WTC-GROUP-PROJECT
-git clone https://github.com/Waxes27/WTC-GROUP-PROJECT.git WTC-GROUP-PROJECT""")
+""")
     
 if "alias clinic" not in bashrc1.read():
     bashrc.write("\nalias clinic='python3 ~/WTC-GROUP-PROJECT/main/main.py'\n")
