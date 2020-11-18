@@ -42,18 +42,9 @@ def create_doctor_event(start, summary, pat_email,duration=1):
 
 
 def validate_token():
-    pass
-
-
-def main():
-    # username = input_API.book_doctor(list_)
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    global service
+    username = input_API.book_doctor(list_)
 
     creds = None
-    username = input_API.book_doctor(list_)
 
     #topic = input_API.book_topic(topic_list)
 
@@ -67,7 +58,6 @@ def main():
             flow = InstalledAppFlow.from_client_secrets_file('code/codebase/credentials.json'
             , SCOPES)
             creds = flow.run_local_server(port=0)
-        # with open(username  + ".pickle", "wb") as token:
         with open(f'.tokens/{username}.pickle','wb') as token:
             pickle.dump(creds, token)
     return creds
