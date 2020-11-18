@@ -24,10 +24,7 @@ def check_double_book(date, start, end):
 
 
     #2. Access the doctor/patient's email
-    new_text = []
-    for line in text_file:
-        stripped = line.strip()
-        new_text.append(stripped)
+    new_text = [line.strip() for line in text_file]
 
     new_email = ''
     for line in new_text:
