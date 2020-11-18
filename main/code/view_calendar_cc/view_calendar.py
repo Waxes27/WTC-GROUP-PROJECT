@@ -156,6 +156,8 @@ def read_calendar_file_text():
             #event_dict[int(key)] = val
 
     #print(event_dict)
+    return event_dict
+                
 
 
 def main1():
