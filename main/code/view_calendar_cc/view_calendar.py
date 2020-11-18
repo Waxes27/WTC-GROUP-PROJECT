@@ -8,6 +8,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 import json
+import os
 
 #from datetime import date
 # import GUI #added
@@ -36,7 +37,8 @@ def main():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'main/code/codebase/credentials.json', SCOPES)
+                f'{os.environ["HOME"]}/.config/.clinic/credentials.json', SCOPES)
+               # 'main/code/codebase/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -61,7 +63,6 @@ def display_events(service):
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
-    #pprint(events)
 
     
     
