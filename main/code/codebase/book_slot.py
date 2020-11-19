@@ -20,11 +20,11 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-def create_doctor_event(start, summary, pat_email,duration=1):
+def create_doctor_event(start, summary, pat_email):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
-        end_time = start + datetime.timedelta(hours=duration)
+        end_time = start + datetime.timedelta(minutes=30)
     event = {
         'summary': summary,
         'start': {
@@ -88,7 +88,6 @@ def main():
     day = input("slot day: ")
     time = input("slot time: ")
     slot_time = f'{year} {month} {day} {time}'
-    slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(list_)
 
     create_doctor_event(slot_time, topic, pat_email)
