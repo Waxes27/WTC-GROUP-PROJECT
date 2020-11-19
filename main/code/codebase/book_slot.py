@@ -17,8 +17,12 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
+<<<<<<< HEAD
 
 
+=======
+service = ''
+>>>>>>> Playground
 def create_doctor_event(start, summary, pat_email,duration=1):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
@@ -49,8 +53,8 @@ def validate_token():
 
     #topic = input_API.book_topic(topic_list)
 
-    if os.path.exists(f'.tokens/{username}.pickle'):
-        with open(f'.tokens/{username}.pickle', 'rb') as token:
+    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
+        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
             creds = pickle.load(token)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
