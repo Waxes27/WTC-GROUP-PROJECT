@@ -132,10 +132,7 @@ def main():
 
 if __name__ == "__main__":
     main()
-<<<<<<< HEAD
-    #book_slot.main()
-=======
     # book_slot.main()
     # print(book_slot.service)
 
->>>>>>> Playground
+
