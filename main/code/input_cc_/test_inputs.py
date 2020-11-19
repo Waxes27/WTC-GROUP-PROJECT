@@ -8,7 +8,7 @@ from .test_base import captured_io
 
 class testing_inputs(unittest.TestCase):
   
-    @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\n"))
+    @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\nlogout\n"))
     def test_topic_input_string(self):
 
         topic_name = input_cc.book_topic()
@@ -16,7 +16,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual(topic_name,"List Comprehension") 
 
 
-    @patch("sys.stdin", StringIO("LIST COMprehension\nLIST COMprehension\n"))
+    @patch("sys.stdin", StringIO("LIST COMprehension\nLIST COMprehension\nlogout\n"))
     def test_topic_input_string_upper(self):
 
         topic_name = input_cc.book_topic()
@@ -24,7 +24,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual(topic_name,"List Comprehension") 
 
 
-    @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\n"))
+    @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\nlogout\n"))
     def test_topic_input_string_datatype(self):
 
         topic_name = input_cc.book_topic()
@@ -33,7 +33,7 @@ class testing_inputs(unittest.TestCase):
 
 
     def test_topic_input_empty_string(self):
-        with captured_io(StringIO('\n')) as (out, err):
+        with captured_io(StringIO('\nlogout\n')) as (out, err):
 
             topic_name = input_cc.book_topic()
 
@@ -42,7 +42,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual("""Field cannot be blank.\nPlease provide a topic you would like to clinic.\n""", output)
 
 
-    @patch("sys.stdin", StringIO("fmokoena\nfmokoena\n"))
+    @patch("sys.stdin", StringIO("fmokoena\nfmokoena\nlogout\n"))
     def test_doctor_input(self):
 
         doctor_name = input_cc.book_doctor() 
@@ -50,7 +50,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual(doctor_name,"fmokoena@student.wethinkcode.co.za")
 
 
-    @patch("sys.stdin", StringIO("fMokoena\nFMokoena\n"))
+    @patch("sys.stdin", StringIO("fMokoena\nFMokoena\nlogout\n"))
     def test_doctor_input_upper_string(self):
 
         doctor_name = input_cc.book_doctor() 
@@ -78,7 +78,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual("""Username Invalid, please enter a valid username.\n""", output)
 
 
-    @patch("sys.stdin", StringIO("tmoshole\ntmoshole\n"))
+    @patch("sys.stdin", StringIO("tmoshole\ntmoshole\nlogout\n"))
     def test_patient_input(self):
 
         patient_name = input_cc.book_patient()
@@ -86,8 +86,7 @@ class testing_inputs(unittest.TestCase):
         self.assertEqual(patient_name,"tmoshole@student.wethinkcode.co.za")
 
 
-<<<<<<< HEAD:main/input_cc/test_inputs.py
-    @patch("sys.stdin", StringIO("Tmoshole\nTMoshole\n"))
+    @patch("sys.stdin", StringIO("Tmoshole\nTMoshole\nlogout\n                                                                                                                               "))
     def test_patient_input_upper_string (self):
 
         patient_name = input_cc.book_patient()
@@ -113,7 +112,7 @@ class testing_inputs(unittest.TestCase):
         output = out.getvalue().strip()
 
         self.assertEqual("""Username Invalid, please enter a valid username.\n""", output)
-=======
+
+
 if __name__ == "__main__":
     unittest.main()
->>>>>>> Playground:main/code/input_cc_/test_inputs.py
