@@ -17,12 +17,9 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
-<<<<<<< HEAD
 
-
-=======
 service = ''
->>>>>>> Playground
+
 def create_doctor_event(start, summary, pat_email,duration=1):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
