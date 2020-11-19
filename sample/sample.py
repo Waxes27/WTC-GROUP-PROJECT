@@ -76,18 +76,18 @@ def main():
     #Calendar_Commands.deleting_event(service,eventid)
     # data = Calendar_Commands.get_event(service)
     # print(data)
-    test = service.events().get(calendarId='primary',eventId=eventid).execute()
-    print(test['id'])
-    print(test['status'])
-    id_event = test['id']
-    status = test['status']
-    with open('test.csv', 'w',newline='') as csvfile:
-        fieldnames = ['id','status']
-        writer = csv.DictWriter(csvfile,fieldnames=fieldnames)
+    # test = service.events().get(calendarId='primary',eventId=eventid).execute()
+    # print(test['id'])
+    # print(test['status'])
+    # id_event = test['id']
+    # status = test['status']
+    # with open('test.csv', 'w',newline='') as csvfile:
+    #     fieldnames = ['id','status']
+    #     writer = csv.DictWriter(csvfile,fieldnames=fieldnames)
 
-        writer.writeheader()
-        writer.writerow({'id':id_event,'status':status})
-    # attendee = 'gamingsiya100@gmail.com'
+    #     writer.writeheader()
+    #     writer.writerow({'id':id_event,'status':status})
+    # # attendee = 'gamingsiya100@gmail.com'
     # eventID = '16ll0lmrjrru142amadeh317r0'
     # Calendar_Commands.patient_cancellation(service,attendee,eventID,data)
    
