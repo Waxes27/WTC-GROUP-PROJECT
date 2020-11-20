@@ -8,20 +8,23 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-# from code import input_cc_
 import code.input_cc_.input_API as input_API
+#from . import create_service
+
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
+
 service = ''
-def create_doctor_event(start, summary, pat_email,duration=1):
+
+def create_doctor_event(start, summary, pat_email):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
-        end_time = start + datetime.timedelta(hours=duration)
+        end_time = start + datetime.timedelta(minutes=30)
     event = {
         'summary': summary,
         'start': {
@@ -40,17 +43,12 @@ def create_doctor_event(start, summary, pat_email,duration=1):
     print("Event created:", result.get("summary"))
 
 
-def main():
-    # username = input_API.book_doctor(list_)
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    global service
-
-    creds = None
+def validate_token():
     username = input_API.book_doctor(list_)
 
-    topic = input_API.book_topic(topic_list)
+    creds = None
+
+    #topic = input_API.book_topic(topic_list)
 
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
@@ -73,17 +71,31 @@ def main():
         # with open(username  + ".pickle", "wb") as token:
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
+    return creds
 
+
+def create_service(creds):
     service = build('calendar', 'v3', credentials=creds)
+    return service
 
+
+def main():
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    global service
+
+    creds =None
+    creds = validate_token()
+    service = create_service(creds)
+
+    topic = input_API.book_topic(topic_list)
     
     year = input("slot year: ")
     month = input("slot month: ")
     day = input("slot day: ")
     time = input("slot time: ")
     slot_time = f'{year} {month} {day} {time}'
-    
-    slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(list_)
 
     create_doctor_event(slot_time, topic, pat_email)
@@ -91,4 +103,6 @@ def main():
 
 
 if __name__ == '__main__':
+    main()
+    # print('bookslots imported')
     pass
