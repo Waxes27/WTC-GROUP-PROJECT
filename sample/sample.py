@@ -48,7 +48,7 @@ def main():
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
     print(f"{events[0]}\n")
-    eventid = events[0]['attendees'][1]['email']
+    eventid = events[0]['attendees']
     
     print(eventid)
     # print(test)
@@ -69,6 +69,18 @@ def main():
     eventid = '3eprtubqh8ma564sg0llcqtdvv'
     doctor = 'sigamede@student.wethinkcode.co.za'
     patient = 'test2@gmail.com'
+    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
+    if data['organizer']['email'] != doctor:
+        print("You can't delete this event")
+    elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
+        del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
+    else:
+        if len(data['attendees']) == 2:
+            patient = data['attendees'][1]['email']
+            patient_time = data['start']['dateTime']
+            print(f"The following patient {patient} has a meeting with you at {patient_time}")
+
+
     # data =  Calendar_Commands.get_event(service,eventid)
     # data = service.events().get(calendarId='primary',eventId=eventid).execute()
     # if data['attendees'][1]['email'] != patient:

@@ -83,13 +83,16 @@ def deleting_event(service,eventID):
     del_event = service.events().delete(calendarId='primary',eventId= eventID).execute()
 
 def doctor_cancellation(service,eventid,doctor):
-    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
+  data =  service.events().get(calendarId='primary',eventId=eventid).execute()
     if data['organizer']['email'] != doctor:
         print("You can't delete this event")
-    elif data['organizer']['email'] == doctor and data['attendees'][1]['email'] == IndexError:
+    elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
         del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
-    elif data['organizer']['email'] == doctor and data['attendees']['email'] != '':
-        print('You have a appointment with a patient, You may not cancel the event ')
+    else:
+        if len(data['attendees']) == 2:
+            patient = data['attendees'][1]['email']
+            patient_time = data['start']['dateTime']
+            print(f"The following patient {patient} has a meeting with you at {patient_time}")
 
         
 
