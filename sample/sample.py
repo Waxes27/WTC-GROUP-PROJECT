@@ -8,6 +8,7 @@ from google.auth.transport.requests import Request
 import Calendar_Commands
 import pprint as pprint
 import csv
+import cancel_booking
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
@@ -47,8 +48,10 @@ def main():
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
     print(f"{events[0]}\n")
-    eventid = events[0]['id']
+    eventid = events[0]['attendees'][1]['email']
+    
     print(eventid)
+    # print(test)
 
     if not events:
         print('No upcoming events found.')
@@ -64,13 +67,46 @@ def main():
         #     KeyError
 
     eventid = '3eprtubqh8ma564sg0llcqtdvv'
- 
-    if not events:
-        print('No upcoming events found.')
-    for event in events:
-        start = event['start'].get('dateTime', event['start'].get('date'))
-        print(start, event['summary'])
-        service.events().delete(calendarId='primary', eventId=eventid).execute
+    doctor = 'sigamede@student.wethinkcode.co.za'
+    patient = 'test2@gmail.com'
+    # data =  Calendar_Commands.get_event(service,eventid)
+    # data = service.events().get(calendarId='primary',eventId=eventid).execute()
+    # if data['attendees'][1]['email'] != patient:
+    #     print("You cannot cancel a meeting you are not attending")
+    # elif data['attendees'][1]['email'] == '':
+    #     print("You cannot cancel a meeting")
+    # elif data['attendees'][1]['email'] == patient:
+    #     print("Hello")
+    #     del data['attendees'][1]
+    #     print(old)
+    #     print("LL")
+    #     print(data['attendees'][1])
+
+    #     event = service.events().get(calendarId='primary', eventId=eventid).execute()
+
+    #     event['attendees'][1] = None
+
+    #     updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+
+
+    # cancel_booking.update_calendar_pat(service,eventid,old)
+    # update = service.events().update(calendarId='primary',eventId=eventid,body=new,sendNotifications=True,sendUpdates='all').execute()
+    
+
+
+
+
+    
+    #cancel_booking.doctor_cancellation(service,eventid,doctor)
+    #new=cancel_booking.patient_cancellation(service,patient,eventid)
+    #update = service.events().update(calendarId='primary',eventId=eventid,body=new).execute()
+   
+    # if not events:
+    #     print('No upcoming events found.')
+    # for event in events:
+    #     start = event['start'].get('dateTime', event['start'].get('date'))
+    #     print(start, event['attendees'])
+      
 
 
     #Calendar_Commands.add_calendar(service) #WORKS
@@ -78,7 +114,7 @@ def main():
     #Calendar_Commands.add_event(service) #WORKS
     #Calendar_Commands.calendar_data(service) #WORKS For Primary
     #Calendar_Commands.create_calendar(service)
-    Calendar_Commands.deleting_event(service,eventid)
+    #Calendar_Commands.deleting_event(service,eventid)
     #Calendar_Commands.events_on_calendar(service)
     #Calendar_Commands.calendar_lists(service)
     #Calendar_Commands.get_event(service)

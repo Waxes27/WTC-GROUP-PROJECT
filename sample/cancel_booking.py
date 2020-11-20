@@ -75,7 +75,7 @@ def service_pat():
 
 def events_on_calendar(service):
     events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za').execute()
-    pprint.pprint(events_cal[0])    
+     
 
 
 
@@ -83,23 +83,45 @@ def deleting_event(service,eventID):
     del_event = service.events().delete(calendarId='primary',eventId= eventID).execute()
 
 def doctor_cancellation(service,eventid,doctor):
-    data =  Calendar_Commands.get_event(service,eventid)
+    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
     if data['organizer']['email'] != doctor:
         print("You can't delete this event")
-    elif data['organizer']['email'] == 'doctor':
-      del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
+    elif data['organizer']['email'] == doctor and data['attendees'][1]['email'] == IndexError:
+        del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
+    elif data['organizer']['email'] == doctor and data['attendees']['email'] != '':
+        print('You have a appointment with a patient, You may not cancel the event ')
 
-def patient_cancellation(service,attendee,eventID):
-    data = Calendar_Commands.get_event(service)
-    if data['email'] != attendee:
-        print("You cannot cancel a meeting you are not attending")
-    elif data['email'] == '':
-        print("You cannot cancel a meeting")
-    elif data['email'] == attendee:
-        data['email'] = ''
-        # del data['email']
-    update = service.events().update(calendarId='primary',eventId=eventID).execute()
-    return update
+        
+
+def patient_cancellation(service,attendee,eventid):
+    data = service.events().get(calendarId='primary',eventId=eventid).execute()
+    try:
+
+        if data['attendees'][1]['email'] != patient:
+            print("You cannot cancel a meeting you are not attending")
+        elif data['attendees'][1]['email'] == '':
+            print("You cannot cancel a meeting")
+        elif data['attendees'][1]['email'] == patient:
+            print("Hello")
+            del data['attendees'][1]
+            print(old)
+            print("LL")
+            print(data['attendees'][1])
+
+            event = service.events().get(calendarId='primary', eventId=eventid).execute()
+
+            event['attendees'][1] = None
+
+            updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+    except IndexError:
+        print("The are no attendees in the event")
+    
+
+def update_calendar_pat(service,eventid,new):
+    data = service.events().get(calendarId='primary',eventId=eventid).execute()
+    print(new)
+    update = service.events().update(calendarId='primary',eventId=eventid,body=new).execute()
+   
 
 
 # if cancel == 'yes' and input_API.book_doctor in doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]:
