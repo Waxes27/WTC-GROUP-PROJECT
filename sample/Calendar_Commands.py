@@ -149,14 +149,9 @@ def events_on_calendar(service):
     events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za',summary='JHH').execute()
     pprint.pprint(events_cal)    
 
-def get_event(service):
-    get_event = service.events().get(calendarId='primary',eventId='16ll0lmrjrru142amadeh317r0').execute()
-    print(get_event['attendees'])
-    for i in get_event:
-        if i == 'attendees':
-            guest=get_event[i][1]
-    # print(guest['email'])
-    return guest 
+def get_event(service,eventid):
+    get_event = service.events().get(calendarId='primary',eventId=eventid).execute()
+  
 
 def patient_cancellation(service,attendee,eventID,data):
     if data['email'] == attendee:
@@ -180,55 +175,55 @@ def import_event(service):
 
 
 
-print created_rule['id']
-{
-    "role": "A String", # The role assigned to the scope. Possible values are:
-        # - "none" - Provides no access.
-        # - "freeBusyReader" - Provides read access to free/busy information.
-        # - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden.
-        # - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible.
-        # - "owner" - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.
-    "id": "A String", # Identifier of the ACL rule.
-    "scope": { # The scope of the rule.
-      "type": "A String", # The type of the scope. Possible values are:
-          # - "default" - The public scope. This is the default value.
-          # - "user" - Limits the scope to a single user.
-          # - "group" - Limits the scope to a group.
-          # - "domain" - Limits the scope to a domain.  Note: The permissions granted to the "default", or public, scope apply to any user, authenticated or not.
-      "value": "A String", # The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type "default".
-    },
-    "etag": "A String", # ETag of the resource.
-    "kind": "calendar#aclRule", # Type of the resource ("calendar#aclRule").
-  }
+# print created_rule['id']
+# {
+#     "role": "A String", # The role assigned to the scope. Possible values are:
+#         # - "none" - Provides no access.
+#         # - "freeBusyReader" - Provides read access to free/busy information.
+#         # - "reader" - Provides read access to the calendar. Private events will appear to users with reader access, but event details will be hidden.
+#         # - "writer" - Provides read and write access to the calendar. Private events will appear to users with writer access, and event details will be visible.
+#         # - "owner" - Provides ownership of the calendar. This role has all of the permissions of the writer role with the additional ability to see and manipulate ACLs.
+#     "id": "A String", # Identifier of the ACL rule.
+#     "scope": { # The scope of the rule.
+#       "type": "A String", # The type of the scope. Possible values are:
+#           # - "default" - The public scope. This is the default value.
+#           # - "user" - Limits the scope to a single user.
+#           # - "group" - Limits the scope to a group.
+#           # - "domain" - Limits the scope to a domain.  Note: The permissions granted to the "default", or public, scope apply to any user, authenticated or not.
+#       "value": "A String", # The email address of a user or group, or the name of a domain, depending on the scope type. Omitted for type "default".
+#     },
+#     "etag": "A String", # ETag of the resource.
+#     "kind": "calendar#aclRule", # Type of the resource ("calendar#aclRule").
+#   }
 
-  sendNotifications: boolean, Whether to send notifications about the calendar sharing change. Optional. The default is True.
-
-
+#   sendNotifications: boolean, Whether to send notifications about the calendar sharing change. Optional. The default is True.
 
 
-def rule_patient():
-   rule = {
-    'scope': {
-        'type': 'user',
-        'value': 'attendeeemail',
-    },
-    'role': 'reader'
-    }
 
-    created_rule = service.acl().insert(calendarId='primary', body=rule).execute()
-    return created_rule
 
-def rule_doctor():
-       rule = {
-    'scope': {
-        'type': 'user',
-        'value': 'doc_email',
-    },
-    'role': 'owner'
-    }
+# def rule_patient():
+#    rule = {
+#     'scope': {
+#         'type': 'user',
+#         'value': 'attendeeemail',
+#     },
+#     'role': 'reader'
+#     }
 
-    created_rule = service.acl().insert(calendarId='primary', body=rule).execute()
-    return created_rule
+#     created_rule = service.acl().insert(calendarId='primary', body=rule).execute()
+#     return created_rule
+
+# def rule_doctor():
+#        rule = {
+#     'scope': {
+#         'type': 'user',
+#         'value': 'doc_email',
+#     },
+#     'role': 'owner'
+#     }
+
+#     created_rule = service.acl().insert(calendarId='primary', body=rule).execute()
+#     return created_rule
     
 
 

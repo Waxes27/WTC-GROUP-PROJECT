@@ -63,18 +63,28 @@ def main():
         # except:
         #     KeyError
 
-    eventid = '4jrn8456nii6smos7kaon22frc'
+    eventid = '3eprtubqh8ma564sg0llcqtdvv'
+ 
+    if not events:
+        print('No upcoming events found.')
+    for event in events:
+        start = event['start'].get('dateTime', event['start'].get('date'))
+        print(start, event['summary'])
+        service.events().delete(calendarId='primary', eventId=eventid).execute
+
+
     #Calendar_Commands.add_calendar(service) #WORKS
     #Calendar_Commands.create_calendar(service) WORKS
     #Calendar_Commands.add_event(service) #WORKS
     #Calendar_Commands.calendar_data(service) #WORKS For Primary
     #Calendar_Commands.create_calendar(service)
-    #Calendar_Commands.deleting_event(service,eventid)
+    Calendar_Commands.deleting_event(service,eventid)
     #Calendar_Commands.events_on_calendar(service)
     #Calendar_Commands.calendar_lists(service)
     #Calendar_Commands.get_event(service)
     #Calendar_Commands.deleting_event(service,eventid)
     # data = Calendar_Commands.get_event(service)
+
     # print(data)
     # test = service.events().get(calendarId='primary',eventId=eventid).execute()
     # print(test['id'])
