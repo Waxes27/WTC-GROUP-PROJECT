@@ -44,12 +44,22 @@ def create_doctor_event(start, summary, pat_email):
 
 
 def validate_token():
-    username = input_API.book_doctor(list_)
+    # username = input_API.book_doctor(list_)
+    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
+        username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
+        username = username_file.readline()
+        # RUN A LOGIN HERE
+    else:
+        print("User not found...\n")
+        username = input("Username: ")
+        # RUN A LOGIN HERE
+        username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
+        username_file.write(username)
 
     creds = None
 
     #topic = input_API.book_topic(topic_list)
-
+    username = f'{username}@student.wethinkcode.co.za'
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
             creds = pickle.load(token)
@@ -83,10 +93,10 @@ def main():
 
     topic = input_API.book_topic(topic_list)
     
-    year = input("slot year: ")
+    year = 2020
+    time = input("slot time: ")
     month = input("slot month: ")
     day = input("slot day: ")
-    time = input("slot time: ")
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
 
@@ -96,5 +106,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # print('bookslots imported')
-    pass
