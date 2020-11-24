@@ -1,35 +1,56 @@
-ID: 7mri4n263mvvrsbq5tg2lmd0pt
-Date: 2020-11-19
-Start Time: 13:00
-End Time: 14:00
-Topic: ASP
-Doctor: mbjali
-Patient: vpekane   
-ID: 72of5nflfjmi1ln8p75c2smrkq
-Date: 2020-11-20
-Start Time: 09:30
-End Time: 10:30
-Topic: ballot
-Doctor: mbjali
-Patient: vpekane   
-ID: i36ulvfdae7qnuee9u6h3s53e4
-Date: 2020-11-20
-Start Time: 12:00
-End Time: 13:00
-Topic: General
-Doctor: ndumasi
-Patient: mbjali    
-ID: i12ktkc6r9rtakdr269vq4is2c
-Date: 2020-11-21
-Start Time: 12:00
-End Time: 13:00
-Topic: General
-Doctor: mbjali
-Patient: vpekane   
-ID: 5vgotdcqjo1ovtbru5sq3t8rnb
-Date: 2020-11-21
+ID: 7le6u2ar2q2joso9pt1s4ijuum
+Date: 2020-11-24
 Start Time: 14:00
-End Time: 15:00
-Topic: Class
-Doctor: mbjali
-Patient: vpekane   
+End Time: 16:00
+Topic: Cohort 2020 Town Hall - Group 2
+Doctor: c_cpq2fq1tb809thq9dvlp2e3ekg
+Patient: lemohlala 
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201125T064500Z
+Date: 2020-11-25
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201126T064500Z
+Date: 2020-11-26
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201127T064500Z
+Date: 2020-11-27
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z
+Date: 2020-11-27
+Start Time: 14:30
+End Time: 14:45
+Topic: JHB Team 25 && Team 26
+Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
+Patient: mbjali    
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201130T064500Z
+Date: 2020-11-30
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 2r3tednn4nnht01o26cr98bbhp_20201130T071500Z
+Date: 2020-11-30
+Start Time: 09:15
+End Time: 10:00
+Topic: Review projects session
+Doctor: vsithole
+Patient: plnyakan  
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201201T064500Z
+Date: 2020-12-01
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
