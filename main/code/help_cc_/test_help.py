@@ -5,10 +5,11 @@ import sys
 # help_cc = __import__('help_cc')
 from . import help_cc
 # import help_cc
+from . import help_cc
 from io import StringIO
 from contextlib import contextmanager
 # from help_cc import do_help
-# import test_base
+from . import test_base
 
 # help_cc.run_main()
 
@@ -50,13 +51,12 @@ HELP        : Shows information about the available commands
 LOGOUT      : Logs the user out
 
 Topics list commands available:
---------------------
+------------------------------
 
 Recursion               : The repeated application of a recursive procedure or definition.
 Unittesting             : Automated code to test software written by other developers
 List Comprehensions     : Creating new lists from other iterables
-Lambdas                 : an anonymous function is a function that is defined without a name.
-""", output)
+Lambdas                 : an anonymous function is a function that is defined without a name.""", output)
 
 
 
