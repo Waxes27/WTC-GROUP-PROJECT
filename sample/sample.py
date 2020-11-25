@@ -10,6 +10,18 @@ import pprint as pprint
 import csv
 import cancel_booking
 
+SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
+SCOPES_Pat = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly']
+
+print('Hello')
+doc_or_pat = input("Are you a Doctor or a patient ").lower()
+if doc_or_pat == 'doctor':
+    service = cancel_booking.service_Doc()
+elif doc_or_pat == 'patient':
+    service = cancel_booking.service_pat()
+
+
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
 #auth/calendar is for authorization of the calendarID
@@ -69,16 +81,21 @@ def main():
     eventid = '3eprtubqh8ma564sg0llcqtdvv'
     doctor = 'sigamede@student.wethinkcode.co.za'
     patient = 'test2@gmail.com'
-    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
-    if data['organizer']['email'] != doctor:
-        print("You can't delete this event")
-    elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
-        del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
-    else:
-        if len(data['attendees']) == 2:
-            patient = data['attendees'][1]['email']
-            patient_time = data['start']['dateTime']
-            print(f"The following patient {patient} has a meeting with you at {patient_time}")
+
+
+
+
+
+    # data =  service.events().get(calendarId='primary',eventId=eventid).execute()
+    # if data['organizer']['email'] != doctor:
+    #     print("You can't delete this event")
+    # elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
+    #     del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
+    # else:
+    #     if len(data['attendees']) == 2:
+    #         patient = data['attendees'][1]['email']
+    #         patient_time = data['start']['dateTime']
+    #         print(f"The following patient {patient} has a meeting with you at {patient_time}")
 
 
     # data =  Calendar_Commands.get_event(service,eventid)

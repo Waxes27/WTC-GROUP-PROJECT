@@ -92,7 +92,12 @@ def calendar_data(service):
     print(f"ConferenceProperties: {cal_data['conferenceProperties']}")
     # print(cal_data['location'])
     print(f"etag: {cal_data['etag']}")
-    # print(cal_data['description'])
+    with open('test.csv', 'w',newline='') as csvfile:
+        fieldnames = ['id','status']
+        writer = csv.DictWriter(csvfile,fieldnames=fieldnames)
+
+        writer.writeheader()
+        writer.writerow({'id':cal_data['id'],'status':cal_data['summary']})
 
 #Deleting a event on a calendar,note we 
 def deleting_event(service):
@@ -114,15 +119,18 @@ def add_event(service): #WORKS
     event_details_body = {
         'summary': 'Titleofevent',
         'description': 'This is a event',
-        'start':{'dateTime':'2020-11-17T10:00:00-07:00','timeZone':'+02:00',},
-        'end':{'dateTime':'2020-11-17T11:00:00-09:00','timeZone': '+02:00',},
-        'attendees':[{'email':'sigamede@student.wethinkcode.co.za','email':'cdu-pree@student.wethinkcode.co.za','responseStatus':'needsAction'},],
+        'start':{'dateTime':start.strftime("%Y-%m-%dT%H:%M:%S"),'timeZone':'+02:00',},
+        'end':{'dateTime':end_time.strftime("%Y-%m-%dT%H:%M:%S"),'timeZone': '+02:00',},
+        'attendees':[{'email':doc_email},],
         'reminders':{'useDefault': False,'overrides':[{'method': 'email','minutes': 24*60},{'method': 'popup','minutes':10},]},
         'anyCanAddSelf': False,
-        ' organizer':{'id':'sigmede@student.wethinkcode','email': 'sigamede@student.wethinkcode.co.za',
+        ' organizer':{'id':'sigmede@student.wethinkcode',
+                    'email': 'sigamede@student.wethinkcode.co.za',
                     'displayName':'Organiser Name'},
         'guestsCanInviteOthers': False,
-        'creator':{'email': 'sigamede@student.wethinkcode.co.za','id':'sigamede@student.wehinkcode.co.za','displayName':'NameofCreator'},
+        'creator':{'email': 'sigamede@student.wethinkcode.co.za',
+                    'id':'sigamede@student.wehinkcode.co.za',
+                    'displayName':'NameofCreator'},
     #Check 'entryPoints':[{'accessCode': '1234','label': 'video','password':'1234','pin':'1234'}],
         'notes': "Doctor to add notes",
         'guestsCanModify': False,

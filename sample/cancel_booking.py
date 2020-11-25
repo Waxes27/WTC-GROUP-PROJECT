@@ -14,7 +14,6 @@ SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis
 SCOPES_Pat = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly']
 
 
-
 def service_Doc():
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
@@ -73,17 +72,10 @@ def service_pat():
 # cancel =  input("Cancel event?(yes/no)")
 # cancel.lower()
 
-def events_on_calendar(service):
-    events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za').execute()
-     
 
-
-
-def deleting_event(service,eventID):
-    del_event = service.events().delete(calendarId='primary',eventId= eventID).execute()
-
+#Must pass in the doctor email
 def doctor_cancellation(service,eventid,doctor):
-  data =  service.events().get(calendarId='primary',eventId=eventid).execute()
+    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
     if data['organizer']['email'] != doctor:
         print("You can't delete this event")
     elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
@@ -93,10 +85,10 @@ def doctor_cancellation(service,eventid,doctor):
             patient = data['attendees'][1]['email']
             patient_time = data['start']['dateTime']
             print(f"The following patient {patient} has a meeting with you at {patient_time}")
-
+    
         
-
-def patient_cancellation(service,attendee,eventid):
+#Must pass the patient email
+def patient_cancellation(service,patient,eventid):
     data = service.events().get(calendarId='primary',eventId=eventid).execute()
     try:
 
@@ -120,10 +112,10 @@ def patient_cancellation(service,attendee,eventid):
         print("The are no attendees in the event")
     
 
-def update_calendar_pat(service,eventid,new):
-    data = service.events().get(calendarId='primary',eventId=eventid).execute()
-    print(new)
-    update = service.events().update(calendarId='primary',eventId=eventid,body=new).execute()
+# def update_calendar_pat(service,eventid,new):
+#     data = service.events().get(calendarId='primary',eventId=eventid).execute()
+#     print(new)
+#     update = service.events().update(calendarId='primary',eventId=eventid,body=new).execute()
    
 
 
@@ -133,8 +125,7 @@ def update_calendar_pat(service,eventid,new):
 # elif cancel == "yes" and input_API.book_patient in patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]:
 #     update_metadata_calendar(service)
 
-if __name__ == "__main__":
-    service = service_pat()
-    events_on_calendar(service)
+
+ 
     
    
