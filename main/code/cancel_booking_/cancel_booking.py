@@ -85,6 +85,7 @@ def doctor_cancellation(service,eventid,doctor):
             patient = data['attendees'][1]['email']
             patient_time = data['start']['dateTime']
             print(f"The following patient {patient} has a meeting with you at {patient_time}")
+#Add the remove from text file
     
         
 #Must pass the patient email
@@ -110,7 +111,7 @@ def patient_cancellation(service,patient,eventid):
             updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
     except IndexError:
         print("The are no attendees in the event")
-    
+ #Add remove from text file    
 
 # def update_calendar_pat(service,eventid,new):
 #     data = service.events().get(calendarId='primary',eventId=eventid).execute()

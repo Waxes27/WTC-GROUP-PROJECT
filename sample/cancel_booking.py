@@ -97,16 +97,9 @@ def patient_cancellation(service,patient,eventid):
         elif data['attendees'][1]['email'] == '':
             print("You cannot cancel a meeting")
         elif data['attendees'][1]['email'] == patient:
-            print("Hello")
             del data['attendees'][1]
-            print(old)
-            print("LL")
-            print(data['attendees'][1])
-
             event = service.events().get(calendarId='primary', eventId=eventid).execute()
-
             event['attendees'][1] = None
-
             updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
     except IndexError:
         print("The are no attendees in the event")

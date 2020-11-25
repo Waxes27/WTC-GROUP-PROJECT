@@ -105,7 +105,7 @@ def deleting_event(service):
 
 #Adding a insert to calendar
 
-def add_event(service): #WORKS
+def add_event_doc(service): #WORKS
     reponse = ['accepted','tenative','declined','needsAction']
     status = ['confirmed','cancelled']
 
@@ -161,12 +161,49 @@ def get_event(service,eventid):
     get_event = service.events().get(calendarId='primary',eventId=eventid).execute()
   
 
-def patient_cancellation(service,attendee,eventID,data):
-    if data['email'] == attendee:
-        data['email'] = ''
-    print("Hello")
-    updating = service.events().update(calendarId='primary',eventId=eventID,body=data,sendNotifications=True,sendUpdates='all').execute()
-    return update
+def doctor_cancellation(service,eventid,doctor):
+    data =  service.events().get(calendarId='primary',eventId=eventid).execute()
+    if data['organizer']['email'] != doctor:
+        print("You can't delete this event")
+    elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
+        del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
+    else:
+        if len(data['attendees']) == 2:
+            patient = data['attendees'][1]['email']
+            patient_time = data['start']['dateTime']
+            print(f"The following patient {patient} has a meeting with you at {patient_time}")
+    
+        
+#Must pass the patient email
+def patient_cancellation(service,patient,eventid):
+    data = service.events().get(calendarId='primary',eventId=eventid).execute()
+    try:
+
+        if data['attendees'][1]['email'] != patient:
+            print("You cannot cancel a meeting you are not attending")
+        elif data['attendees'][1]['email'] == '':
+            print("You cannot cancel a meeting")
+        elif data['attendees'][1]['email'] == patient:
+            print("Hello")
+            del data['attendees'][1]
+            print(old)
+            print("LL")
+            print(data['attendees'][1])
+
+            event = service.events().get(calendarId='primary', eventId=eventid).execute()
+
+            event['attendees'][1] = None
+
+            updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+    except IndexError:
+        print("The are no attendees in the event")
+    
+
+    def add_event_pat(service)
+
+
+
+
 
 
 
