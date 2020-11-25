@@ -1,4 +1,5 @@
 import turtle
+from tkinter import ttk
 import tkinter as tk
 from datetime import timedelta
 import datetime
@@ -20,17 +21,27 @@ def view_calendar(slots):
 
 
 def slot_select(slots):
-    global variable
+    global variable,tings
+    tings = slots
     # print(slots)
-    window = tk.Tk()
-    window.title("The Code Clinic")
-    frame = tk.Frame(master=window,relief=tk.RIDGE,borderwidth=1, bg= "honeydew")
+    wind = tk.Tk()
+    wind.title("The Code Clinic")
+    wind.resizable(False,True)
+    wind.minsize(1215,350)
+
+
+    main_frame = tk.Frame(master=wind, borderwidth=0,bg='honeydew')
+    
+    container = tk.Canvas(master=main_frame,bg='honeydew')
+    frame = tk.Frame(master=container,relief=tk.RIDGE,borderwidth=1, bg= "honeydew")
+    scroll = ttk.Scrollbar(master=main_frame,orient= 'vertical', command=container.yview)
+    container.configure(yscrollcommand= scroll.set)
+
+
     sloot = sloots(slots)
     print(sloot)
     for i in range(len(slots)):
         slot = slots[i].split("\n")
-        print(slot)
-
         for j in range(8):
             frame1 = tk.Frame(master=frame,relief=tk.RIDGE,borderwidth=1, bg= "beige")
             frame1.grid(row=0, column=j,padx=2, pady=2)
@@ -57,23 +68,31 @@ def slot_select(slots):
                 w.pack()
 
                 lab1.pack()
-    frame.pack()
-    button = tk.Button(master=window ,text='next',justify='center',command=callback)
-    button.pack()
-    # button.bind('<Button-1>',callback(variable))
-    
-    # valu = str((lb.get(tk.ACTIVE)))
-    # print(valu) 
-    # print(variable.get())
-    window.mainloop()
 
+    scroll.pack(side='right', fill='y') 
+    frame.pack(fill='both')
+    container.pack(fill='both')
+    container.create_window((0,0) , window=frame)
+    frame.bind('<Configure>',lambda e: container.configure(scrollregion = container.bbox("all")))
+    main_frame.pack(fill="both")
+
+    button = tk.Button(master=wind ,text='next',justify='center',command=callback)
+    button.pack()
+
+    wind.configure(bg='honeydew')
+    wind.mainloop()
 
 def callback():
-    global event_sl
-    print("ello")
-    for variable in event_sl:
-        print(variable.get())
-    # return variable
+    global event_sl,tings
+    
+    for v in range(len(event_sl)):
+        if event_sl[v].get() != "pick a slot":
+            print(event_sl[v].get())
+            s = tings[v].split("\n")
+            print(s)
+            print(v)
+
+    # return s,v
 
 def sloots(slots):
     sloots = []
@@ -90,9 +109,9 @@ def sloots(slots):
 
             slo = []
         
-            while str(tim)[11:][:5] != sl2 :
-                # print(f"this is s_l2{sl2}")
-                # print(str(tim)[11:][:5] )
+            while str(tim)[11:][:5] != sl2 and str(tim)[11:][:5] <= sl2 :
+                print(f"this is s_l2{sl2}")
+                print(str(tim)[11:][:5] )
                 slo.append(f"{str(tim)[11:][:5]} : {str(tim + timedelta(hours=0.5))[11:][:5]}")
                 tim = (tim + timedelta(hours=0.5))
             slo.append('pick a slot')
