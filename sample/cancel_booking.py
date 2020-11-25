@@ -86,6 +86,7 @@ def doctor_cancellation(service,eventid,doctor):
             patient_time = data['start']['dateTime']
             print(f"The following patient {patient} has a meeting with you at {patient_time}")
     
+    
         
 #Must pass the patient email
 def patient_cancellation(service,patient,eventid):

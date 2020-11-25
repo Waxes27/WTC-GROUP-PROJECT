@@ -1,11 +1,11 @@
-# from __future__ import print_function
-# import datetime
-# import os.path 
-# import pickle
-# from googleapiclient.discovery import build
-# from google_auth_oauthlib.flow import InstalledAppFlow
-# from google.auth.transport.requests import Request
-# from datetime import timedelta
+from __future__ import print_function
+import datetime
+import os.path 
+import pickle
+from googleapiclient.discovery import build
+from google_auth_oauthlib.flow import InstalledAppFlow
+from google.auth.transport.requests import Request
+from datetime import timedelta
 import pprint
 #Creating The Methods for caldenar
 
@@ -75,6 +75,7 @@ def calendar_lists(service):
             page_token = calendar_list.get('nextPageToken')
         if not page_token:
                 break
+    print(calendar_list)
 
 
 #Clearing users all events
@@ -84,6 +85,7 @@ def clear_all_events():
 #Gets all the metadata for calendar e.g 
 def calendar_data(service):
     cal_data = service.calendars().get(calendarId='primary').execute()
+    
 
     print(f"Summary: {cal_data['summary']}")
     print(f"CaldenarId: {cal_data['id']}")
@@ -105,9 +107,10 @@ def deleting_event(service):
 
 #Adding a insert to calendar
 
-def add_event_doc(service): #WORKS
+def add_event_doc(service,summary,description,startTime,EndTime,doc_email,Guestsmodify,calendar,guestsCanInviteOthers,notes): #WORKS
     reponse = ['accepted','tenative','declined','needsAction']
     status = ['confirmed','cancelled']
+    Name = doc_email.split("@")
 
     # if user == "Doc": 
     #     role = "writer"
@@ -117,23 +120,23 @@ def add_event_doc(service): #WORKS
     #htmlLink-read-only can be used to show the events.....Therefore we pull the link from waht is created for doc then use that to show what is avaiable for the patients
     #'iconUri': 'https://media.giphy.com/media/3oKIPsx2VAYAgEHC12/giphy.gif'
     event_details_body = {
-        'summary': 'Titleofevent',
-        'description': 'This is a event',
+        'summary': summary,
+        'description': description,
         'start':{'dateTime':start.strftime("%Y-%m-%dT%H:%M:%S"),'timeZone':'+02:00',},
         'end':{'dateTime':end_time.strftime("%Y-%m-%dT%H:%M:%S"),'timeZone': '+02:00',},
         'attendees':[{'email':doc_email},],
         'reminders':{'useDefault': False,'overrides':[{'method': 'email','minutes': 24*60},{'method': 'popup','minutes':10},]},
         'anyCanAddSelf': False,
-        ' organizer':{'id':'sigmede@student.wethinkcode',
-                    'email': 'sigamede@student.wethinkcode.co.za',
-                    'displayName':'Organiser Name'},
-        'guestsCanInviteOthers': False,
-        'creator':{'email': 'sigamede@student.wethinkcode.co.za',
-                    'id':'sigamede@student.wehinkcode.co.za',
-                    'displayName':'NameofCreator'},
+        ' organizer':{'id':doc_email,
+                    'email':doc_email,
+                    'displayName':Name[0]},
+        'guestsCanInviteOthers': guestsCanInviteOthers,
+        'creator':{'email': doc_email,
+                    'id': doc_email,
+                    'displayName':Name[0]},
     #Check 'entryPoints':[{'accessCode': '1234','label': 'video','password':'1234','pin':'1234'}],
-        'notes': "Doctor to add notes",
-        'guestsCanModify': False,
+        'notes': notes,
+        'guestsCanModify': Guestsmodify,
         'guestsCanSeeOtherGuest': True
         }
     
@@ -144,7 +147,7 @@ def add_event_doc(service): #WORKS
         #When creating a 
 
     
-    event = service.events().insert(calendarId='primary',body= event_details_body,maxAttendees=2,sendNotifications = True,sendUpdates = 'all').execute()
+    event = service.events().insert(calendarId=calendar,body= event_details_body,maxAttendees=2,sendNotifications = True,sendUpdates = 'all').execute()
 
 #deleting a event     
 def deleting_event(service,eventid):
@@ -154,7 +157,7 @@ def deleting_event(service,eventid):
 
 #returning events from specified calendar
 def events_on_calendar(service):
-    events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za',summary='JHH').execute()
+    events_cal = service.events().list(calendarId='sigamede@student.wethinkcode.co.za',).execute()
     pprint.pprint(events_cal)    
 
 def get_event(service,eventid):
@@ -199,9 +202,61 @@ def patient_cancellation(service,patient,eventid):
         print("The are no attendees in the event")
     
 
-    def add_event_pat(service)
+def add_event_pat(service,eventid):
+        data = service.events().get(calendarId='primary',eventId=eventid).execute()
+        data
 
 
+def service_doc():
+        """Shows basic usage of the Google Calendar API. for Doctor"""
+        creds = None
+        # The file token.pickle stores the user's access and refresh tokens, and is
+        # created automatically when the authorization flow completes for the first
+        # time.
+    
+        if os.path.exists('token.pickle'):
+            with open('token.pickle', 'rb') as token:
+                creds = pickle.load(token)
+        # If there are no (valid) credentials available, let the user log in.
+        if not creds or not creds.valid:
+            if creds and creds.expired and creds.refresh_token:
+                creds.refresh(Request())
+            else:
+                flow = InstalledAppFlow.from_client_secrets_file(
+                    'main/code/codebase/credentials.json', SCOPES_Doc)
+                creds = flow.run_local_server(port=0)
+            # Save the credentials for the next run
+            with open('token.pickle', 'wb') as token:
+                pickle.dump(creds, token)
+
+        service = build('calendar', 'v3', credentials=creds) 
+        return service
+
+def service_pat():
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    creds = None
+    # The file token.pickle stores the user's access and refresh tokens, and is
+    # created automatically when the authorization flow completes for the first
+    # time.
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
+            creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
+    if not creds or not creds.valid:
+        if creds and creds.expired and creds.refresh_token:
+            creds.refresh(Request())
+        else:
+            flow = InstalledAppFlow.from_client_secrets_file(
+            'main/code/codebase/credentials.json', SCOPES_Pat)
+            creds = flow.run_local_server(port=0)
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
+            pickle.dump(creds, token)
+
+    service = build('calendar', 'v3', credentials=creds) 
+    return service
 
 
 

@@ -13,12 +13,12 @@ import cancel_booking
 SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
 SCOPES_Pat = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly']
 
-print('Hello')
-doc_or_pat = input("Are you a Doctor or a patient ").lower()
-if doc_or_pat == 'doctor':
-    service = cancel_booking.service_Doc()
-elif doc_or_pat == 'patient':
-    service = cancel_booking.service_pat()
+# print('Hello')
+# doc_or_pat = input("Are you a Doctor or a patient ").lower()
+# if doc_or_pat == 'doctor':
+#     service = cancel_booking.service_Doc()
+# elif doc_or_pat == 'patient':
+#     service = cancel_booking.service_pat()
 
 
 
@@ -165,9 +165,8 @@ def main():
     # # attendee = 'gamingsiya100@gmail.com'
     # eventID = '16ll0lmrjrru142amadeh317r0'
     # Calendar_Commands.patient_cancellation(service,attendee,eventID,data)
-   
-
-
+    # Calendar_Commands.events_on_calendar(service)
+    Calendar_Commands.calendar_data
 
 if __name__ == '__main__':
     main()
