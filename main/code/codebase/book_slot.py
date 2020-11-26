@@ -9,7 +9,7 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
 # from code import input_cc_
-import code.input_cc_.input_API as input_API
+# import code.input_cc_.input_API as input_API
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -18,44 +18,34 @@ list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "si
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 
-def check_double_book(date, start, end):
-    #1. Access textfile that stores events info
-    with open('red.txt') as file:
-            read_data = file.readlines()
+def is_slot_avalaible(service, year, month, day, time):
 
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=100, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    
+    
+    if not events:
+        return True
 
-    #2. Access the doctor/patient's email
-    new_text = [line.strip() for line in text_file]
+    for i in events:           
+        full_start_date = i['start'].get('dateTime').split("+")
+        start_date_time = full_start_date[0].split("T")
+        
+        start_year = start_date_time[0].split('-')[0]
+        start_month = start_date_time[0].split('-')[1]
+        start_day = start_date_time[0].split('-')[2]
+        start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
+        start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
+        start_time = start_hour + ':' + start_minute
 
-    new_email = ''
-    for line in new_text:
-        line = line.split(': ')
-        if 'email' in line:        
-            new_email = line[-1]
+        if start_year == year and start_month == month and start_day == day and \
+            start_time == time:
+            return False
+    return True       
 
-
-    #3. Check the attendee's start and end date & time
-    text_file_date = ''
-    for line in new_text:
-        line = line.split(': ')
-        if 'date' in line:
-            text_file_date = line[-1]
-
-    text_file_start = ''
-    for line in new_text:
-        line = line.split(': ')
-        if 'start' in line:
-            text_file_start = line[-1]
-
-    text_file_end = ''
-    for line in new_text:
-        line = line.split(': ')
-        if 'end' in line:
-            text_file_end = line[-1]
-
-    if date == text_file_date and start == text_file_start and end == text_file_end:
-        print('No double bookings allowed chief')
-    else: print('booking successful')
 
 
 def create_doctor_event(start, summary, pat_email,duration=1):
@@ -80,6 +70,7 @@ def create_doctor_event(start, summary, pat_email,duration=1):
     }
     result = service.events().insert(calendarId='primary', body=event).execute()
     print("Event created:", result.get("summary"))
+    
 
 
 def main():
@@ -108,9 +99,7 @@ def main():
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
-
-    
+    service = build('calendar', 'v3', credentials=creds)    
     year = input("slot year: ")
     month = input("slot month: ")
     day = input("slot day: ")
@@ -120,9 +109,13 @@ def main():
     slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(list_)
 
-    create_doctor_event(slot_time, topic, pat_email)
+
+
+
+    if is_slot_avalaible(service, year, month, day, time) == True:
+        print('Double booking')
+    else: create_doctor_event(slot_time, topic, pat_email)
 
 
 
 if __name__ == '__main__':
-    pass
