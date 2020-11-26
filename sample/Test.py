@@ -87,10 +87,23 @@ if create_event == "yes" and doc_or_pat == 'patient':
     for i in doc_list:
         data = service.events().list(calendarId=i,timeMin=now).execute()
         test1 = data.get('items', [])
-        print(len(test1))
-       
-    for i2 in len(test1):
-        print(test1[i2]
+        #print((test1))
+        length = len(test1)
+
+    for i2 in range(length):
+        if test1[i2]['summary'] == event:
+            print(test1[i2]['summary'])
+            print(test1[i2]['start'])
+            print(test1[i2]['organizer'])
+        try:
+            print(test1[i2]['attendees'])
+        except KeyError:
+            i2 +=1
+
+            #Make rule to check for the attendees 
+            #Make rule to display the avaiable for booking 
+            #Make rule to show them in view caldenar way 
+            #make rule to add them in the event then update the doctor and send notfications
       
         # if test == event:
         #     print(test)
