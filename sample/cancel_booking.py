@@ -114,7 +114,7 @@ def patient_cancellation(service,patient,eventid):
             else:
                 print("Please ensure that you have typed the right email")
         elif data['attendees'][2]['email'] == patient:
-          confirm = input(f"Please confirm that this is your email{data['attendees'][1]['email']}?(Yes/No)").lower()
+            confirm = input(f"Please confirm that this is your email{data['attendees'][1]['email']}?(Yes/No)").lower()
             if confirm ==  'yes':
                 del data['attendees'][2]
                 event = service.events().get(calendarId='primary', eventId=eventid).execute()
