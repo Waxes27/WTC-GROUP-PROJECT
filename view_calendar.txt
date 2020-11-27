@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ID: 53mlemk1i98fq6h3qq5dpv5g1f
 Date: 2020-11-25
 Start Time: 15:15
@@ -89,6 +90,36 @@ End Time: 17:00
 Topic: General
 Doctor: tmoshole
 Patient: vsithole  
+=======
+ID: 7le6u2ar2q2joso9pt1s4ijuum
+Date: 2020-11-24
+Start Time: 14:00
+End Time: 16:00
+Topic: Cohort 2020 Town Hall - Group 2
+Doctor: c_cpq2fq1tb809thq9dvlp2e3ekg
+Patient: lemohlala 
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201125T064500Z
+Date: 2020-11-25
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201126T064500Z
+Date: 2020-11-26
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201127T064500Z
+Date: 2020-11-27
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+>>>>>>> Playground
 ID: 4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z
 Date: 2020-11-27
 Start Time: 14:30
@@ -96,3 +127,27 @@ End Time: 14:45
 Topic: JHB Team 25 && Team 26
 Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
 Patient: mbjali    
+<<<<<<< HEAD
+=======
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201130T064500Z
+Date: 2020-11-30
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+ID: 2r3tednn4nnht01o26cr98bbhp_20201130T071500Z
+Date: 2020-11-30
+Start Time: 09:15
+End Time: 10:00
+Topic: Review projects session
+Doctor: vsithole
+Patient: plnyakan  
+ID: 51lpeqlb98e3ihaesm7fep1rbb_20201201T064500Z
+Date: 2020-12-01
+Start Time: 08:45
+End Time: 09:15
+Topic: Daily Standup
+Doctor: samkhize
+Patient: frans     
+>>>>>>> Playground
