@@ -1,56 +1,98 @@
-ID: 0n7a6ict9hra5fm7dk6dh0gm18
-Date: 2020-11-19
-Start Time: 13:00
-End Time: 15:00
-Topic: Cohort 2020 Town Hall (group 1)
-Doctor: c_cpq2fq1tb809thq9dvlp2e3ekg
-Patient: wethinkcode.co.za_3836353535323631323731
-ID: 7mri4n263mvvrsbq5tg2lmd0pt
-Date: 2020-11-19
-Start Time: 13:00
-End Time: 14:00
-Topic: ASP
-Doctor: mbjali
-Patient: vpekane   
-ID: un5lo16hqe8i4tornb9p4rn18s
-Date: 2020-11-19
-Start Time: 15:00
-End Time: 16:00
+ID: 53mlemk1i98fq6h3qq5dpv5g1f
+Date: 2020-11-25
+Start Time: 15:15
+End Time: 16:15
+Topic: review_mmokoena
+Doctor: tmoshole
+Patient: Available 
+ID: 3fqvs2mf6o97s95r22celc0oc0
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
 Topic: General
-Doctor: mbjali
-Patient: vpekane   
-ID: 1u1op7t81kvgjbv5g5uqcfgn2o
-Date: 2020-11-20
-Start Time: 09:00
-End Time: 10:00
+Doctor: tmoshole
+Patient: vsithole  
+ID: 49ur5uupmupdva19qo1hvd3ens
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
 Topic: General
-Doctor: sbaloyi
+Doctor: tmoshole
+Patient: vsithole  
+ID: 5m6gv5tcp43962lftvjt4rr00o
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: bh35v3l5m4beprd8oktjdma5rc
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 16:30
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: cam301fl1ctl774qb2jba55ocs
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: g5fvif9f6cb3v4kkkdblef8omk
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 16:30
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: mssrbcsfkls3ei1mfodnfcqg34
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 16:30
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: nneliqmvk5votjpqktvtqa2j4k
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: p0rm2gb66fsg5mcqd5bq4tvrug
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: pspn2q69hh8kclqlpevd482bf8
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: svpal8cikdmkth8hqt7s2khj54
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 16:30
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: uu6lcg548th3hkj8j83p1om9ds
+Date: 2020-11-25
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: tmoshole
+Patient: vsithole  
+ID: 4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z
+Date: 2020-11-27
+Start Time: 14:30
+End Time: 14:45
+Topic: JHB Team 25 && Team 26
+Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
 Patient: mbjali    
-ID: 72of5nflfjmi1ln8p75c2smrkq
-Date: 2020-11-20
-Start Time: 09:30
-End Time: 10:30
-Topic: ballot
-Doctor: mbjali
-Patient: vpekane   
-ID: i36ulvfdae7qnuee9u6h3s53e4
-Date: 2020-11-20
-Start Time: 12:00
-End Time: 13:00
-Topic: General
-Doctor: ndumasi
-Patient: mbjali    
-ID: i12ktkc6r9rtakdr269vq4is2c
-Date: 2020-11-21
-Start Time: 12:00
-End Time: 13:00
-Topic: General
-Doctor: mbjali
-Patient: vpekane   
-ID: 5vgotdcqjo1ovtbru5sq3t8rnb
-Date: 2020-11-21
-Start Time: 14:00
-End Time: 15:00
-Topic: Class
-Doctor: mbjali
-Patient: vpekane   
