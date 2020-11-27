@@ -10,14 +10,14 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
-list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
-list_ = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
+doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
+patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 
-def username():
-    username = input("Enter username: ")
-    return username
+# def username():
+#     username = input("Enter username: ")
+#     return username
 
 
 # def get_role():
@@ -47,26 +47,26 @@ def book_topic(topic_list):
     return booking_topic
 
 
-def book_doctor(list_):
+def book_doctor(doctor_list):
     booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
     if booking_doc == "HELP".lower():
         help_cc.run_main()
-        book_doctor(list_)
+        book_doctor(doctor_list)
     while len(booking_doc) <= 0:
         print("Please provide your username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
-    while booking_doc not in list_ and booking_doc != "help":
+    while booking_doc not in doctor_list and booking_doc != "help":
         print("Username Invalid, please select a valid username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
     return booking_doc + '@student.wethinkcode.co.za'
 
 
-def book_patient(list_):
+def book_patient(patient_list):
     booking_pat = input("Please provide the name of the Coding Patient.\n")
     if booking_pat == "HELP".lower():
         help_cc.run_main()
-        book_patient(list_)
-    while booking_pat not in list_ and booking_pat != "help":
+        book_patient(patient_list)
+    while booking_pat not in patient_list and booking_pat != "help":
         print("Username Invalid, please select a valid username.")
         booking_pat = input("Please provide the name of the Coding Patient\n")
     while len(booking_pat) <= 0:
@@ -77,5 +77,5 @@ def book_patient(list_):
 
 def main():
     book_topic(topic_list)
-    book_doctor(list_)
-    book_patient(list_)
+    book_doctor(doctor_list)
+    book_patient(patient_list)
