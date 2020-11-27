@@ -4,6 +4,7 @@ import code
 import code.help_cc_.help_cc as help_cc
 import code.codebase.book_slot as book_slot
 import code.view_calendar_cc.view_calendar as view_calendar
+import code.cancel_booking_.cancel_booking as cancel_booking
 import os
 import time
 import sys
@@ -193,6 +194,10 @@ def main():
         x = view_calendar.main1(f'{username}@student.wethinkcode.co.za')
 
 
+    elif 'cancel' in sys.argv[-1].lower():
+        cancel_booking.patient_cancellation()
+        
+        
     elif sys.argv[-1].lower() == 'username':
         print(f"The current user is... {username}")
         verify = input("Is this you..?\n\n If it is press ENTER else enter a new username: ")
