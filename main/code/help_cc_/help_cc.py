@@ -6,8 +6,8 @@
 
 # Defining of Global variables is done here
 #list_of_commands = ["vcal", "mkslot", "vtslot", "ctslot","logout"]
-list_of_commands = ["USERNAME","HELP","MAKEBOOK","VIEWCAL","LOGOUT","INTERFACE","CLEAR"]
-details_of_commands = ["Enter your username","Shows information about the available commands", "Makes a booking for a code clinic session","Views calendar and events","Logs the user out","Access the Interface","Clears the terminal screen"]
+list_of_commands = ["USERNAME","HELP","MAKEBOOK","VIEWCAL","LOGOUT","INTERFACE","CLEAR","CANCELBOOK"]
+details_of_commands = ["Enter your username","Shows information about the available commands", "Makes a booking for a code clinic session","Views calendar and events","Logs the user out","Access the Interface","Clears the terminal screen", "Cancels the booking"]
 topic_list = ["Recursion", "Unittesting ", "List Comprehensions", "Lambdas"]
 details_of_topics = ["The repeated application of a recursive procedure or definition.","Automated code to test software written by other developers","Creating new lists from other iterables", "an anonymous function is a function that is defined without a name."]
 
