@@ -20,7 +20,7 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-def create_doctor_event(start, summary, pat_email):
+def create_doctor_event(start, summary, pat_email,service):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
@@ -81,15 +81,15 @@ def create_service(creds):
     return service
 
 
-def main():
+def main(service):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
-    global service
+    # global service
 
     creds =None
     creds = validate_token()
-    service = create_service(creds)
+    # service = create_service(creds)
 
     topic = input_API.book_topic(topic_list)
     
@@ -100,7 +100,7 @@ def main():
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
 
-    create_doctor_event(slot_time, topic, pat_email)
+    create_doctor_event(slot_time, topic, pat_email,service)
 
 
 

@@ -5,6 +5,8 @@ import code.help_cc_.help_cc as help_cc
 import code.codebase.book_slot as book_slot
 import code.view_calendar_cc.view_calendar as view_calendar
 import code.cancel_booking_.cancel_booking as cancel_booking
+import code.api_handler.api_handler as api_handler
+import datetime
 import os
 import time
 import sys
@@ -155,7 +157,20 @@ def interface():
     time.sleep(3)
 
 
+
+def eventid_find(service):
+    clear()
+    slots ,x = view_calendar.display_events(service)
+    clear()
+    for i in slots:
+        print(i)
+        print(i.splitlines()[0])
+        print()
+    
+    
+    
 def main():
+    service = api_handler.main()
     clear()
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
         username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
@@ -182,20 +197,24 @@ def main():
         help_cc.run_main()
 
 
-    elif sys.argv[-1].lower() == 'makebook':
-        try:
-            book_slot.main()
-            service = book_slot.service
-        except AttributeError:
-            book_slot.main()
+    elif 'make' in sys.argv[-1].lower():
+        # try:
+        book_slot.main(service)
+            # service = book_slot.service
+        # except AttributeError:
+        #     clear()
+        #     book_slot.main(service)
 
 
-    elif 'viewcal' in sys.argv[-1].lower():
+    elif 'view' in sys.argv[-1].lower():
         x = view_calendar.main1(f'{username}@student.wethinkcode.co.za')
 
 
     elif 'cancel' in sys.argv[-1].lower():
-        cancel_booking.patient_cancellation()
+        eventid = eventid_find(service)
+        cancel_booking.doctor_cancellation(service,'3sq0bnc8mdgqohoddjv5v5qo0c','ndumasi@student.wethinkcode.co.za')
+        # cancel_booking.patient_cancellation(service,'opgvfad0q02d35gm76tt8grcpo','mbjali@student.wethinkcode.co.za')
+        
         
         
     elif sys.argv[-1].lower() == 'username':
@@ -224,7 +243,9 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    # main()
+    service = api_handler.main()
+    eventid_find(service)
     # book_slot.main()
     # print(book_slot.service)
 

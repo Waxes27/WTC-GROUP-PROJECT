@@ -3,10 +3,11 @@ from __future__ import print_function
 import datetime
 import pickle
 import os.path
+import googleapiclient
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
-import Calendar_Commands
+# import Calendar_Commands
 import pprint as pprint
 # import input_cc_.input_API as input_API
 
@@ -32,7 +33,7 @@ def service_Doc():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'main/code/codebase/credentials.json', SCOPES_Doc)
+                f"{os.environ['HOME']}/.config/.clinic/credentials.json", SCOPES_Doc)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -60,7 +61,7 @@ def service_pat():
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                'main/code/codebase/credentials.json', SCOPES_Pat)
+                f"{os.environ['HOME']}/.config/.clinic/credentials.json", SCOPES_Pat)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -72,45 +73,60 @@ def service_pat():
 
 def doctor_cancellation(service,eventid,doctor):
     data =  service.events().get(calendarId='primary',eventId=eventid).execute()
-    if data['organizer']['email'] != doctor:
-        print("You can't delete this event")
-    elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
-        del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
-    else:
-        if len(data['attendees']) == 3:
-            patient1 = data['attendees'][1]['email']
-            patient_time1 = data['start']['dateTime']
-            patient2 = data['attendees'][2]['email']
-            patient_time2 = data['start']['dateTime']
-            print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
-            print(f"The following patient {patient2} has a meeting with you at {patient_time2}")
-        elif len(data['attendees']) == 2:
-            patient1 = data['attendees'][1]['email']
-            patient_time1 = data['start']['dateTime']
-            print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
+    if data['organizer']['email'] == doctor :
+        #Checks if there no attendees
+        try:
+            if len(data['attendees']) == 1:
+                patient1 = data['attendees'][0]['email']
+                patient_time1 = data['start']['dateTime']
+                print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
+        except KeyError:
+            try:
+                del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()
+            except googleapiclient.errors.HttpError:
+                print("No event to delete")
+                return
+            print("Booking Removed")
+    return
+    # else:
+        # if len(data['attendees']) == 3:
+        #     patient1 = data['attendees'][1]['email']
+        #     patient_time1 = data['start']['dateTime']
+        #     patient2 = data['attendees'][2]['email']
+        #     patient_time2 = data['start']['dateTime']
+        #     print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
+        #     print(f"The following patient {patient2} has a meeting with you at {patient_time2}")
+        # elif len(data['attendees']) == 2:
+        #     patient1 = data['attendees'][1]['email']
+        #     patient_time1 = data['start']['dateTime']
+        #     print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
     
-def patient_cancellation(service,patient,eventid):
+def patient_cancellation(service,eventid,patient):
     data = service.events().get(calendarId='primary',eventId=eventid).execute()
     try:
 
-        if data['attendees'][1]['email'] != patient and data['attendees'][2]['email'] != patient:
+        if data['attendees'][0]['email'] != patient and data['attendees'][2]['email'] != patient:
             print("You cannot cancel a meeting you are not attending")
-        elif data['attendees'][1]['email'] == '':
+        elif data['attendees'][0]['email'] == '':
             print("You cannot cancel a meeting")
+        elif data['attendees'][0]['email'] == patient:
+            del data['attendees'][0]
+            event = service.events().get(calendarId='primary', eventId=eventid).execute()
+            event['attendees'][0] = None
+            updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
         elif data['attendees'][1]['email'] == patient:
             del data['attendees'][1]
             event = service.events().get(calendarId='primary', eventId=eventid).execute()
             event['attendees'][1] = None
             updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
-        elif data['attendees'][2]['email'] == patient:
-            del data['attendees'][2]
-            event = service.events().get(calendarId='primary', eventId=eventid).execute()
-            event['attendees'][2] = None
-            updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
     except IndexError:
         print("The are no attendees in the event")
 
 
+
+# def main():
+    
+#     doctor_cancellation(service_pat(),'4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z','ndumasi@student.wethinkcode.co.za')
 # cancel =  input("Cancel event?(yes/no)")
 # cancel.lower()
 
@@ -122,7 +138,7 @@ def patient_cancellation(service,patient,eventid):
 #     data = service.events().get(calendarId='primary',eventId=eventid).execute()
 #     print(new)
 #     update = service.events().update(calendarId='primary',eventId=eventid,body=new).execute()
-   
+
 
 
 # if cancel == 'yes' and input_API.book_doctor in doctor_list = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]:
@@ -131,7 +147,4 @@ def patient_cancellation(service,patient,eventid):
 # elif cancel == "yes" and input_API.book_patient in patient_list = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]:
 #     update_metadata_calendar(service)
 
-
- 
-    
-   
+# main()

@@ -46,6 +46,7 @@ def main(username):
     return service
 
 
+
 def display_events(service):
     global s
     used = False
@@ -138,29 +139,30 @@ def write_calendar_file_text(slots):
     # calendar_write = open("view_calendar.txt", "wb")
     with open("view_calendar.txt", "w") as opened_file:
         for calendar_list in slots: 
-            opened_file.write(calendar_list + '\n')
+            opened_file.write(calendar_list + '\n\n')
 
-    opened_file.close()  
+    opened_file.close()
 
 
 def read_calendar_file_text():
-    
-    #filename = 
+    pass
+    # #filename = 
 
-    with open("view_calendar.txt", "r") as opened_file:
-        for calendar_dict in opened_file: 
-            event_desc, content = calendar_dict.strip().split(':', 1)
-            event_dict[event_desc] = content.strip()
+    # with open("view_calendar.txt", "r") as opened_file:
+    #     for calendar_dict in opened_file: 
+    #         event_desc, content = calendar_dict.strip().split(':', 1)
+    #         event_dict[event_desc] = content.strip()
             #event_dict = calendar_dict.split(',')
             #event_dict[int(key)] = val
 
     #print(event_dict)
-    return event_dict
+    # return event_dict
 
 
 def main1(username):
     service = main(username)
     slots ,x = display_events(service)
+    
     return x
 
 
