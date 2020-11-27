@@ -4,7 +4,7 @@ Start Time: 13:00
 End Time: 14:00
 Topic: ASP
 Doctor: mbjali
-Patient: vpekane   
+Patient: vpekane    
 ID: 72of5nflfjmi1ln8p75c2smrkq
 Date: 2020-11-20
 Start Time: 09:30
