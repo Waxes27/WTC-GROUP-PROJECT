@@ -81,13 +81,13 @@ def doctor_cancellation(service,eventid,doctor):
     elif data['organizer']['email'] == doctor and len(data['attendees']) == 1:
         del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()  
     else:
-        # if len(data['attendees']) == 3:
-        #     patient1 = data['attendees'][1]['email']
-        #     patient_time1 = data['start']['dateTime']
-        #     patient2 = data['attendees'][2]['email']
-        #     patient_time2 = data['start']['dateTime']
-        #     print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
-        #     print(f"The following patient {patient2} has a meeting with you at {patient_time2}")
+        if len(data['attendees']) == 3:
+            patient1 = data['attendees'][1]['email']
+            patient_time1 = data['start']['dateTime']
+            patient2 = data['attendees'][2]['email']
+            patient_time2 = data['start']['dateTime']
+            print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
+            print(f"The following patient {patient2} has a meeting with you at {patient_time2}")
         if len(data['attendees']) == 2:
             patient1 = data['attendees'][1]['email']
             patient_time1 = data['start']['dateTime']
@@ -105,15 +105,24 @@ def patient_cancellation(service,patient,eventid):
         elif data['attendees'][1]['email'] == '':
             print("You cannot cancel a meeting")
         elif data['attendees'][1]['email'] == patient:
-            del data['attendees'][1]
-            event = service.events().get(calendarId='primary', eventId=eventid).execute()
-            event['attendees'][1] = None
-            updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
-        # elif data['attendees'][2]['email'] == patient:
-        #     del data['attendees'][2]
-        #     event = service.events().get(calendarId='primary', eventId=eventid).execute()
-        #     event['attendees'][2] = None
-        #     updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+            confirm = input(f"Please confirm that this is your email{data['attendees'][1]['email']}?(Yes/No)").lower()
+            if confirm ==  'yes':
+                del data['attendees'][1]
+                event = service.events().get(calendarId='primary', eventId=eventid).execute()
+                event['attendees'][1] = None
+                updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+            else:
+                print("Please ensure that you have typed the right email")
+        elif data['attendees'][2]['email'] == patient:
+          confirm = input(f"Please confirm that this is your email{data['attendees'][1]['email']}?(Yes/No)").lower()
+            if confirm ==  'yes':
+                del data['attendees'][2]
+                event = service.events().get(calendarId='primary', eventId=eventid).execute()
+                event['attendees'][2] = None
+                updated_event = service.events().update(calendarId='primary', eventId=eventid, body=event).execute()
+            else:
+                print("Please ensure taht you gave typed the right email")
+
     except IndexError:
         print("The are no attendees in the event")
     
