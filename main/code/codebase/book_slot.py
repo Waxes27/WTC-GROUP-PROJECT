@@ -8,8 +8,14 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
+<<<<<<< HEAD
 # from code import input_cc_
 # import code.input_cc_.input_API as input_API
+=======
+import code.input_cc_.input_API as input_API
+#from . import create_service
+
+>>>>>>> Playground
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -17,6 +23,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
+<<<<<<< HEAD
 
 def is_slot_avalaible(service, year, month, day, time):
 
@@ -402,10 +409,15 @@ def is_slot_avalaible(service, year, month, day, time):
 
 
 def create_doctor_event(start, summary, pat_email,duration=1):
+=======
+service = ''
+
+def create_doctor_event(start, summary, pat_email,service):
+>>>>>>> Playground
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
-        end_time = start + datetime.timedelta(hours=duration)
+        end_time = start + datetime.timedelta(minutes=30)
     event = {
         'summary': summary, 
         
@@ -426,20 +438,25 @@ def create_doctor_event(start, summary, pat_email,duration=1):
     
 
 
-def main():
+def validate_token():
     # username = input_API.book_doctor(list_)
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    global service
+    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
+        username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
+        username = username_file.readline()
+        # RUN A LOGIN HERE
+    else:
+        print("User not found...\n")
+        username = input("Username: ")
+        # RUN A LOGIN HERE
+        username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
+        username_file.write(username)
 
     creds = None
-    username = input_API.book_doctor(list_)
 
-    topic = input_API.book_topic(topic_list)
-
-    if os.path.exists(f'.tokens/{username}.pickle'):
-        with open(f'.tokens/{username}.pickle', 'rb') as token:
+    #topic = input_API.book_topic(topic_list)
+    username = f'{username}@student.wethinkcode.co.za'
+    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
+        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
             creds = pickle.load(token)
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
@@ -451,27 +468,56 @@ def main():
         # with open(username  + ".pickle", "wb") as token:
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
+    return creds
 
+<<<<<<< HEAD
     service = build('calendar', 'v3', credentials=creds)    
     year = input("slot year: ")
+=======
+
+def create_service(creds):
+    service = build('calendar', 'v3', credentials=creds)
+    return service
+
+
+def main(service):
+    """Shows basic usage of the Google Calendar API.
+    Prints the start and name of the next 10 events on the user's calendar.
+    """
+    # global service
+
+    creds =None
+    creds = validate_token()
+    # service = create_service(creds)
+
+    topic = input_API.book_topic(topic_list)
+    
+    year = 2020
+    time = input("slot time: ")
+>>>>>>> Playground
     month = input("slot month: ")
     day = input("slot day: ")
-    time = input("slot time: ")
     slot_time = f'{year} {month} {day} {time}'
-    
-    slot_duration = int(input("Enter slot duration: "))
     pat_email = input_API.book_patient(list_)
 
+<<<<<<< HEAD
 
 
 
     if is_slot_avalaible(service, year, month, day, time) == True:
         print('Double booking')
     else: create_doctor_event(slot_time, topic, pat_email)
+=======
+    create_doctor_event(slot_time, topic, pat_email,service)
+>>>>>>> Playground
 
 
 
 if __name__ == '__main__':
+<<<<<<< HEAD
     #2020-11-27T14:30:00+02:00
     x = is_slot_avalaible([], '2020', '11', '27', '14:30')
     print(x)
+=======
+    main()
+>>>>>>> Playground

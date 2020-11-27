@@ -24,7 +24,7 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
 event_dict = {}
 
-def main():
+def main(username):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
@@ -32,24 +32,23 @@ def main():
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
+    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
+        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
             creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                f'{os.environ["HOME"]}/.config/.clinic/credentials.json', SCOPES)
-               # 'main/code/codebase/credentials.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
+            , SCOPES)
             creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
+        # with open(username  + ".pickle", "wb") as token:
+        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
     return service
+
 
 
 def display_events(service):
@@ -58,6 +57,7 @@ def display_events(service):
     current_date = ''
     slots = []
     guest_user = ""
+    x = input("How many days do you want to view? ")
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting available slots...\n')
@@ -84,12 +84,12 @@ def display_events(service):
         print('No available slots found.')
 
     else:
-        print("Calendar for the next 7 days:")
+        print(f"Calendar for today and the next {x} days:")
         #slots.append( "Calendar for the next 7 days:\n")
         print("Available slots :")
         #slots.append("Available slots :\n")
         #print("Dates from " + date_s[0] + " till the " + week)
-       
+
         for k in events:           
             
             s = k['start'].get('dateTime').split("+")
@@ -100,7 +100,7 @@ def display_events(service):
 
             try:        
                 day_count = datetime.datetime.now()
-                new_final_time = day_count + timedelta(days = 7) 
+                new_final_time = day_count + timedelta(days = int(x)) 
                 week = new_final_time.strftime("%F")
 <<<<<<< HEAD
                 if date_s[0] > week:
@@ -151,8 +151,12 @@ def display_events(service):
         # input_API.book_patient(patient_list)
         # display_events(service)
        
+<<<<<<< HEAD
 >>>>>>> Playground
     return slots
+=======
+    return slots, x
+>>>>>>> Playground
 
 
 def write_calendar_file_text(slots):
@@ -161,31 +165,32 @@ def write_calendar_file_text(slots):
     # calendar_write = open("view_calendar.txt", "wb")
     with open("view_calendar.txt", "w") as opened_file:
         for calendar_list in slots: 
-            opened_file.write(calendar_list + '\n')
+            opened_file.write(calendar_list + '\n\n')
 
-    opened_file.close()  
+    opened_file.close()
 
-    
+
 def read_calendar_file_text():
-    
-    #filename = 
+    pass
+    # #filename = 
 
-    with open("view_calendar.txt", "r") as opened_file:
-        for calendar_dict in opened_file: 
-            event_desc, content = calendar_dict.strip().split(':', 1)
-            event_dict[event_desc] = content.strip()
+    # with open("view_calendar.txt", "r") as opened_file:
+    #     for calendar_dict in opened_file: 
+    #         event_desc, content = calendar_dict.strip().split(':', 1)
+    #         event_dict[event_desc] = content.strip()
             #event_dict = calendar_dict.split(',')
             #event_dict[int(key)] = val
 
     #print(event_dict)
-    return event_dict
-                
+    # return event_dict
 
 
-def main1():
-    service = main()
-    display_events(service)
+def main1(username):
+    service = main(username)
+    slots ,x = display_events(service)
     
-       
+    return x
+
+
 if __name__ == '__main__':
     main1()
