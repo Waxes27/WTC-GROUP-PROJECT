@@ -4,6 +4,7 @@ import code
 import code.help_cc_.help_cc as help_cc
 import code.codebase.book_slot as book_slot
 import code.view_calendar_cc.view_calendar as view_calendar
+import code.cancel_booking_.cancel_booking as cancel_booking
 import os
 import time
 import sys
