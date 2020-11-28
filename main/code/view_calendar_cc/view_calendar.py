@@ -83,7 +83,7 @@ def display_events(service):
         print('No available slots found.')
 
     else:
-        print("Calendar for the next 7 days:")
+        print("Calendar for the next "+ x + " days:")
         print("Available slots :")
        
             
