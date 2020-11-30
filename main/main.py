@@ -211,9 +211,12 @@ def main():
 
 
     elif 'cancel' in sys.argv[-1].lower():
-        eventid = eventid_find(service)
-        cancel_booking.doctor_cancellation(service,'3sq0bnc8mdgqohoddjv5v5qo0c','ndumasi@student.wethinkcode.co.za')
-        # cancel_booking.patient_cancellation(service,'opgvfad0q02d35gm76tt8grcpo','mbjali@student.wethinkcode.co.za')
+        eventid = cancel_booking.eventid_find(service,username)
+        doc_pat = input('Doc or Pat?')
+        if doc_pat == Doc:
+            cancel_booking.doctor_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
+        else:
+            cancel_booking.patient_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
         
         
         
