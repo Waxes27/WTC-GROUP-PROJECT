@@ -1,0 +1,64 @@
+ID: 4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z
+Date: 2020-11-27
+Start Time: 14:30
+End Time: 14:45
+Topic: JHB Team 25 && Team 26
+Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
+Patient: mbjali    
+
+ID: 5hgkkfhhsbu39dnhrk0ai7kg98
+Date: 2020-11-27
+Start Time: 16:00
+End Time: 17:00
+Topic: General
+Doctor: mbjali
+Patient: ndumasi   
+
+ID: 2umhuvtjhnjiio5e9jnomohrb6
+Date: 2020-11-28
+Start Time: 14:30
+End Time: 15:30
+Topic: General
+Doctor: mbjali
+Patient: ndumasi   
+
+ID: 4i5ach0692jicdi0mrbepjk2di
+Date: 2020-11-30
+Start Time: 12:00
+End Time: 13:00
+Topic: General
+Doctor: mbjali
+Patient: mbjali    
+
+ID: 4352o2h1bsr3vdn6qqefdvu79h_20201211T123000Z
+Date: 2020-12-11
+Start Time: 14:30
+End Time: 14:45
+Topic: JHB Team 25 && Team 26
+Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
+Patient: mbjali    
+
+ID: 3sq0bnc8mdgqohoddjv5v5qo0c
+Date: 2020-12-12
+Start Time: 12:00
+End Time: 12:30
+Topic: General
+Doctor: ndumasi
+Patient: vpekane   
+
+ID: igp0rpcg4sd1rvnl4i39v3ck64
+Date: 2020-12-12
+Start Time: 12:00
+End Time: 12:30
+Topic: General
+Doctor: ndumasi
+Patient: mbjali    
+
+ID: 659lldcc0lt9jb8tfkhjrluhhs
+Date: 2020-12-25
+Start Time: 12:00
+End Time: 13:00
+Topic: General
+Doctor: ndumasi
+Patient: cdu-pree  
+
