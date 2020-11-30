@@ -9,6 +9,8 @@ from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 import json
 import os
+import sys
+
 
 #from datetime import date
 # import GUI #added
@@ -18,40 +20,53 @@ s = ' '
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
-event_dict = {}
+event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "patient":[]}
+event_list = []
 
-def main(username):
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
+def main():
+    service = get_service()
+    display_events(service)
+
+
+def get_service():   
     """
+    Gets the service from the Google Calendar using the credentials from the User
+    """
+
     creds = None
     # The file token.pickle stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle"):
-        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'rb') as token:
+    if os.path.exists('token.pickle'):
+        with open('token.pickle', 'rb') as token:
             creds = pickle.load(token)
+    # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
-            , SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(
+                f'{os.environ["HOME"]}/.config/.clinic/credentials.json', SCOPES)
+                # 'main/code/codebase/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
-        # with open(username  + ".pickle", "wb") as token:
-        with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
+        # Save the credentials for the next run
+        with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
     service = build('calendar', 'v3', credentials=creds)
+    
     return service
 
 
 def display_events(service):
+    """ 
+    Displays the Google calendar events within a given time period 
+    """
+
     global s
-    used = False
-    current_date = ''
     slots = []
     guest_user = ""
+    dates_week = []
     x = input("How many days do you want to view? ")
 
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -62,107 +77,120 @@ def display_events(service):
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
-
-    
+    #pprint(events)
     
     if not events:
         print('No available slots found.')
 
     else:
-        print(f"Calendar for today and the next {x} days:")
-        #slots.append( "Calendar for the next 7 days:\n")
+        print("Calendar for the next "+ x + " days:")
         print("Available slots :")
-        #slots.append("Available slots :\n")
-        #print("Dates from " + date_s[0] + " till the " + week)
-
-        for k in events:           
-            
-            s = k['start'].get('dateTime').split("+")
-            date_s = s[0].split("T")
-            e = k['end'].get('dateTime').split("+")
-            date_e = e[0].split("T")
-            count = 0
-
-            try:
-        
-                day_count = datetime.datetime.now()
-                new_final_time = day_count + timedelta(days = int(x)) 
-                week = new_final_time.strftime("%F")
-                
-                if date_s[0] > week:
-                    break
-
-                if current_date != date_s[0]:
-                    print('\n')
-                    print("Date: " + date_s[0])
-                    
-                    print('Start Time'.ljust(10) , 'End Time'.ljust(10), 'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10))
-                    #slots.append('Start Time'.ljust(10) + " " +'End Time'.ljust(10) + 'Topic'.ljust(10) + 'Doctor'.ljust(10) + 'Patient'.ljust(10))
-                    current_date = date_s[0]
-
-                doctor_email = k['organizer']['email']
-                doctor_user = doctor_email.split('@')
-                     
-                if k.get("attendees") == None:
-                    guest_user = "Available"
-                else:
-                    guest_email = k['attendees'][0]['email']
-                    user_email = guest_email.split('@')
-                    guest_user = user_email[0]
-
-                print ('{:.>80}'.format('.'))
-                print(date_s[1][:5].ljust(12) + date_e[1][:5].ljust(12) +k['summary'].ljust(8), doctor_user[0].ljust(12) + guest_user.ljust(10))
-                slots.append("ID: " + k['id'] + "\n"+ "Date: " + date_s[0] + "\n" + 'Start Time: '+ date_s[1][:5] + "\n" + 'End Time: '+ date_e[1][:5] + "\n" + 'Topic: ' +k['summary']+ "\n" + 'Doctor: ' + doctor_user[0] + "\n" + 'Patient: ' + guest_user.ljust(10))
-
-                
-
-            except:
-                print(KeyError)
-
-            write_calendar_file_text(slots)
-            read_calendar_file_text()
-
-            print(" ")
-
-        # input_API.book_topic(topic_list)
-        # input_API.book_doctor(doctor_list)
-        # input_API.book_patient(patient_list)
-        # display_events(service)
        
-    return slots, x
+            
+        for google_cal in events:           
+            s = google_cal['start'].get('dateTime').split("+")
+            date_s = s[0].split("T")
+            e = google_cal['end'].get('dateTime').split("+")
+            date_e = e[0].split("T")
+            try:
+                if google_cal['summary'] == "General" or google_cal['summary'] == "Recursion"\
+                   or google_cal['summary'] == "Unittesting" or \
+                    google_cal['summary'] == "List Comprehensions" or google_cal['summary'] == "Lambdas":
+                
+                    doctor_email = google_cal['creator']['email']
+                    doctor_user = doctor_email.split('@')
+                     
+                    if google_cal.get("attendees") == None:
+                        guest_user = "Available"
+                    else:
+                        guest_email = google_cal['attendees'][0]['email']
+                        user_email = guest_email.split('@')
+                        guest_user = user_email[0]
+                
+                    slots.append("id: " +google_cal['id'] + "\n" + "date: " + date_s[0] + "\n" + 'start_time: '+ date_s[1][:5] + "\n" + 'end_time: '+ date_e[1][:5] + "\n" + 'topic: ' +google_cal['summary'] + "\n" + 'doctor: ' + doctor_user[0]  + "\n" + 'patient: ' + guest_user.ljust(10))
+                    
+                    event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],google_cal['summary'], doctor_user[0], guest_user)
+                    write_calendar_file_json(event_dict)
+            except KeyError as e:
+                print(e)
+
+        day_to = datetime.datetime.now()
+        last_day = day_to + timedelta(days = int(x))
+        
+        while day_to != last_day:
+            dates_week.append(day_to.strftime("%F"))
+            day_to = day_to + timedelta(days = 1)
+        
+        for t in dates_week:
+            print('\n')
+            print("Date: " + t)
+            print ('{:.>80}'.format('.'))
+            print('Start Time'.ljust(10) , 'End Time'.ljust(10), 'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10))
+            print ('{:.>80}'.format('.'))
+            used = False
+
+            for p in range(len(slots)):
+                act = slots[p]
+                act = act.split('\n')
+                act.remove(act[0])
+
+                if t == act[0].split(': ',1)[1]:
+                    print(act[1].split(':',1)[1].ljust(12) + act[2].split(':',1)[1].ljust(9) +act[3].split(':')[1].ljust(11), act[4].split(':')[1].ljust(11) + act[5].split(':')[1].ljust(10))
+                    used = True
+
+                elif used == False and p == len(slots) - 1:
+                    print("No bookings made today")
+                    used = True
+  
+    return slots
 
 
 def write_calendar_file_text(slots):
+    """
+    Write the details from the slot events to the text file
+    """
 
-    
-    # calendar_write = open("view_calendar.txt", "wb")
     with open("view_calendar.txt", "w") as opened_file:
         for calendar_list in slots: 
             opened_file.write(calendar_list + '\n')
 
     opened_file.close()  
 
+def write_display_calendar(slots):
+        
+    with open(f'{os.environ["HOME"]}/Documents/display_calendar.txt', "a") as opened_file:
+        
+        opened_file.write("Your calendar for the next 7 days:\n")
+        opened_file.write("Available slots :\n")
+        for calendar_list in slots:
+            opened_file.write(calendar_list + "\n")
+            
+    opened_file.close()
 
-def read_calendar_file_text():
+
+def event_dict_loader(id, date, start_time, end_time, topic,doctor,patient):
     
-    #filename = 
+    event_dict["id"].append(id)
+    event_dict["date"].append(date)
+    event_dict["start_time"].append(start_time)
+    event_dict["end_time"].append(end_time)
+    event_dict["topic"].append(topic)
+    event_dict["doctor"].append(doctor)
+    event_dict["patient"].append(patient)
 
-    with open("view_calendar.txt", "r") as opened_file:
-        for calendar_dict in opened_file: 
-            event_desc, content = calendar_dict.strip().split(':', 1)
-            event_dict[event_desc] = content.strip()
-            #event_dict = calendar_dict.split(',')
-            #event_dict[int(key)] = val
-
-    #print(event_dict)
-    return event_dict
+    return True
 
 
-def main1(username):
-    service = main(username)
-    slots ,x = display_events(service)
-    return x
+def read_calendar_file_text(slots):
+    pass
+
+
+def write_calendar_file_json(event_dict):
+     
+    with open("calendar_dict.json", "w") as outfile:
+        json.dump(event_dict, outfile)
 
 
 if __name__ == '__main__':
-    main1()
+    main()
+    

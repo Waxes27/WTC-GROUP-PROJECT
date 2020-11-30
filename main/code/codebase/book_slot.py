@@ -20,7 +20,37 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-def create_doctor_event(start, summary, pat_email):
+def is_slot_avalaible(service, year, month, day, time):
+
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=100, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    
+
+    if not events:
+        return True
+
+    for i in events:           
+        full_start_date = i['start'].get('dateTime').split("+")
+        start_date_time = full_start_date[0].split("T")
+        
+        start_year = start_date_time[0].split('-')[0]
+        start_month = start_date_time[0].split('-')[1]
+        start_day = start_date_time[0].split('-')[2]
+        start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
+        start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
+        start_time = start_hour + ':' + start_minute
+
+        if start_year == year and start_month == month and start_day == day and \
+            start_time == time:
+            return False
+    return True      
+
+
+
+def create_doctor_event(start, summary, pat_email,service):
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
@@ -81,15 +111,15 @@ def create_service(creds):
     return service
 
 
-def main():
+def main(service):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
     """
-    global service
+    # global service
 
     creds =None
     creds = validate_token()
-    service = create_service(creds)
+    # service = create_service(creds)
 
     topic = input_API.book_topic(topic_list)
     
@@ -99,8 +129,10 @@ def main():
     day = input("slot day: ")
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
-
-    create_doctor_event(slot_time, topic, pat_email)
+    if is_slot_available(service, year, month, day, time):
+        print('Double booking not allowed')
+    else:
+        create_doctor_event(slot_time, topic, pat_email,service)
 
 
 
