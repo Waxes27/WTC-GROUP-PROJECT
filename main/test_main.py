@@ -14,7 +14,7 @@ class Test_Project(unittest.TestCase):
     def test_input(self):
         value = subprocess.getoutput('python3 -m unittest main/code/input_cc_/test_inputs.py')
         self.assertNotIn('FAILED',value,msg='\n\n\n\nTEST_INPUTS FAILED')
-        print(value)
+        # print(value)
     
     def test_view_calendar(self):
         pass
