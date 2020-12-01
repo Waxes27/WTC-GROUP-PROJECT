@@ -12,8 +12,8 @@ import time
 import sys
 
 
-def config(username):
 
+def config(username):
     os.system(f"""echo "---
     editor: code
     repo_path: ~/problems
@@ -35,7 +35,6 @@ def verify_user(username):
             print(f"User not found\n\n --->  Added new user\n\n Welcome {username}\n")
             config(username)
             # username = get_username()
-
 
     return username
 
@@ -157,7 +156,6 @@ def interface():
     time.sleep(3)
 
 
-
 def eventid_find(service):
     clear()
     slots = view_calendar.display_events(service)
@@ -177,6 +175,7 @@ def delete_config():
     os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/username.txt")
     os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/.tokens")
     os.system(f"mkdir {os.environ['HOME']}/.config/.clinic/.tokens")
+
 
 def main():
     service = api_handler.main()
@@ -219,7 +218,7 @@ def main():
 
 
     elif 'view' in sys.argv[-1].lower():
-        x = view_calendar.main1(f'{username}@student.wethinkcode.co.za')
+        x = view_calendar.main()
 
 
     elif 'cancel' in sys.argv[-1].lower():
@@ -258,9 +257,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    service = api_handler.main()
-    eventid_find(service)
+    main()
+    # service = api_handler.main()
+    # eventid_find(service)
     # book_slot.main()
     # print(book_slot.service)
 
