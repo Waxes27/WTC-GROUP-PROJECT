@@ -160,18 +160,30 @@ def interface():
 
 def eventid_find(service):
     clear()
-    slots ,x = view_calendar.display_events(service)
+    slots = view_calendar.display_events(service)
     clear()
-    for i in slots:
-        print(i)
-        print(i.splitlines()[0])
-        print()
+    doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
+    while doctor_verify != 'd' and doctor_verify != 'p':
+        doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
+
+    # for i in slots:
+    #     if 'Date:' in i.splitlines():
+    #         print(i)
+    #         print(i.splitlines()[0])
+    #         print()
     
     
-    
+def delete_config():
+    os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/username.txt")
+    os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/.tokens")
+    os.system(f"mkdir {os.environ['HOME']}/.config/.clinic/.tokens")
+
 def main():
     service = api_handler.main()
     clear()
+    if 'del' in sys.argv:
+        delete_config()
+        return
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
         username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
         username = username_file.readline()
