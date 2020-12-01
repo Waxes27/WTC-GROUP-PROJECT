@@ -84,6 +84,7 @@ def user_input():
 
 
 def interface():
+    service = api_handler.main()
     clear()
     print("Welcome to the Interface...")
     time.sleep(3)
@@ -92,16 +93,17 @@ def interface():
         # book_slot.service
     while user_in != 'logout':
         
-        if user_in == 'makebook':
+        if 'make' in user_in.lower():
             clear()
             
             try:
-                book_slot.main()
+                book_slot.main(service)
             except AttributeError:
-                book_slot.main()
+                book_slot.main(service)
             user_in = user_input()
 
-        elif user_in.lower() == 'username':
+
+        elif 'user' in user_in.lower():
             clear()
             try:
                 username = input('What is your username?: ')
@@ -131,7 +133,7 @@ def interface():
             time.sleep(1.6)
             user_in = user_input()
         
-        elif user_in == 'viewcal':
+        elif 'view' in user_in.lower():
             clear()
             if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
                 username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
@@ -164,13 +166,7 @@ def eventid_find(service):
     while doctor_verify != 'd' and doctor_verify != 'p':
         doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
 
-    # for i in slots:
-    #     if 'Date:' in i.splitlines():
-    #         print(i)
-    #         print(i.splitlines()[0])
-    #         print()
-    
-    
+
 def delete_config():
     os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/username.txt")
     os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/.tokens")
