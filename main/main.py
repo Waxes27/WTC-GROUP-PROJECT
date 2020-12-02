@@ -161,11 +161,11 @@ def interface():
 def eventid_find(service):
     clear()
     slots ,x = view_calendar.display_events(service)
-    clear()
-    for i in slots:
-        print(i)
-        print(i.splitlines()[0])
-        print()
+    # clear()
+    # for i in slots:
+    #     print(i)
+    #     print(i.splitlines()[0])
+    #     print()
     
     
     

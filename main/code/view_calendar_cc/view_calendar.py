@@ -142,7 +142,7 @@ def display_events(service):
                     print("No bookings made today")
                     used = True
   
-    return slots
+    return slots, x
 
 
 def write_calendar_file_text(slots):
