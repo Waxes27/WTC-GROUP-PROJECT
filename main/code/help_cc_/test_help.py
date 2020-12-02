@@ -5,11 +5,12 @@ import sys
 # help_cc = __import__('help_cc')
 from . import help_cc
 # import help_cc
-from . import help_cc
+# from . import help_cc
 from io import StringIO
 from contextlib import contextmanager
 # from help_cc import do_help
-from . import test_base
+# from . import test_base
+# import t
 
 # help_cc.run_main()
 
@@ -46,9 +47,14 @@ class MyTestCase(unittest.TestCase):
 
         self.assertEqual("""List of available commands
 --------------------------
-USERNAME    : Enter in your username
+USERNAME    : Enter your username
 HELP        : Shows information about the available commands
+MAKEBOOK    : Makes a booking for a code clinic session
+VIEWCAL     : Views calendar and events
 LOGOUT      : Logs the user out
+INTERFACE   : Access the Interface
+CLEAR       : Clears the terminal screen
+CANCELBOOK  : Cancels the booking
 
 Topics list commands available:
 ------------------------------
