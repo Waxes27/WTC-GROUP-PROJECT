@@ -12,8 +12,8 @@ import time
 import sys
 
 
-def config(username):
 
+def config(username):
     os.system(f"""echo "---
     editor: code
     repo_path: ~/problems
@@ -35,7 +35,6 @@ def verify_user(username):
             print(f"User not found\n\n --->  Added new user\n\n Welcome {username}\n")
             config(username)
             # username = get_username()
-
 
     return username
 
@@ -85,6 +84,7 @@ def user_input():
 
 
 def interface():
+    service = api_handler.main()
     clear()
     print("Welcome to the Interface...")
     time.sleep(3)
@@ -93,16 +93,17 @@ def interface():
         # book_slot.service
     while user_in != 'logout':
         
-        if user_in == 'makebook':
+        if 'make' in user_in.lower():
             clear()
             
             try:
-                book_slot.main()
+                book_slot.main(service)
             except AttributeError:
-                book_slot.main()
+                book_slot.main(service)
             user_in = user_input()
 
-        elif user_in.lower() == 'username':
+
+        elif 'user' in user_in.lower():
             clear()
             try:
                 username = input('What is your username?: ')
@@ -132,7 +133,7 @@ def interface():
             time.sleep(1.6)
             user_in = user_input()
         
-        elif user_in == 'viewcal':
+        elif 'view' in user_in.lower():
             clear()
             if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
                 username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
@@ -157,9 +158,9 @@ def interface():
     time.sleep(3)
 
 
-
 def eventid_find(service):
     clear()
+<<<<<<< HEAD
     slots ,x = view_calendar.display_events(service)
     # clear()
     # for i in slots:
@@ -169,9 +170,27 @@ def eventid_find(service):
     
     
     
+=======
+    slots = view_calendar.display_events(service)
+    clear()
+    doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
+    while doctor_verify != 'd' and doctor_verify != 'p':
+        doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
+
+
+def delete_config():
+    os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/username.txt")
+    os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/.tokens")
+    os.system(f"mkdir {os.environ['HOME']}/.config/.clinic/.tokens")
+
+
+>>>>>>> 899510a35892dedf19c5b974c0dedb09a6fc7e86
 def main():
     service = api_handler.main()
     clear()
+    if 'del' in sys.argv:
+        delete_config()
+        return
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
         username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
         username = username_file.readline()
@@ -207,13 +226,16 @@ def main():
 
 
     elif 'view' in sys.argv[-1].lower():
-        x = view_calendar.main1(f'{username}@student.wethinkcode.co.za')
+        x = view_calendar.main()
 
 
     elif 'cancel' in sys.argv[-1].lower():
-        eventid = eventid_find(service)
-        cancel_booking.doctor_cancellation(service,'3sq0bnc8mdgqohoddjv5v5qo0c','ndumasi@student.wethinkcode.co.za')
-        # cancel_booking.patient_cancellation(service,'opgvfad0q02d35gm76tt8grcpo','mbjali@student.wethinkcode.co.za')
+        eventid = cancel_booking.eventid_find(service,username)
+        doc_pat = input('Doc or Pat?')
+        if doc_pat == Doc:
+            cancel_booking.doctor_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
+        else:
+            cancel_booking.patient_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
         
         
         
@@ -243,9 +265,9 @@ def main():
 
 
 if __name__ == "__main__":
-    # main()
-    service = api_handler.main()
-    eventid_find(service)
+    main()
+    # service = api_handler.main()
+    # eventid_find(service)
     # book_slot.main()
     # print(book_slot.service)
 

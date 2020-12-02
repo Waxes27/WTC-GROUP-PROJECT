@@ -129,12 +129,10 @@ def main(service):
     day = input("slot day: ")
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
-    if is_slot_available(service, year, month, day, time):
-        print('Double booking not allowed')
-    else:
-        create_doctor_event(slot_time, topic, pat_email,service)
+
+    create_doctor_event(slot_time, topic, pat_email,service)
 
 
 
-if __name__ == '__main__':
-    main()
+# if __name__ == '__main__':
+#     main()

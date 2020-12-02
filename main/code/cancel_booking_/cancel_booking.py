@@ -15,60 +15,61 @@ SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis
 SCOPES_Pat = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly']
 
 
-def service_Doc():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-  
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                f"{os.environ['HOME']}/.config/.clinic/credentials.json", SCOPES_Doc)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
+def get_eventid(service,username):
+    email = username + "@student.wethinkcode.co.za"
+    doc_or_pat= input("Are you a doctor or a patient?").lower()
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    if doc_or_pat == "doctor":
+        subject = input("Please advise the subject?")
+        year = input('Year')
+        time = input("slot time: ")
+        month = input("slot month: ")
+        day = input("slot day: ")
+        data = service.events().list(calendarId=email,timeMin=now).execute()
+        test1 = data.get('items', [])
+        length = len(test1)
+        for i in range(length):
+            test1 = data.get('items', [])
+            if test1[i]['summary'] == subject:
+                date = test1[i]['start']['dateTime']
+                start_date_time = date.split("T")
+                start_year = start_date_time[0].split('-')[0]
+                start_month = start_date_time[0].split('-')[1]
+                start_day = start_date_time[0].split('-')[2]
+                start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
+                start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
+                start_time = start_hour + ':' + start_minute
 
-    service = build('calendar', 'v3', credentials=creds) 
-    return service
+                if start_year == year and start_month == month and start_day == day and start_time == time:
+                    eventid = test1[i]['id']
+                    return eventid
+                 
+    if doc_or_pat == "patient":
+        subject = input("Please advise the subject?")
+        year = input('Year')
+        time = input("slot time: ")
+        month = input("slot month: ")
+        day = input("slot day: ")
+        data = service.events().list(calendarId='primary',timeMin=now).execute()
+        test1 = data.get('items', [])
+        length = len(test1)
+        for i in range(length):
+            test1 = data.get('items', [])
+            if test1[i]['summary'] == subject:
+                date = test1[i]['start']['dateTime']
+                start_date_time = date.split("T")
+                start_year = start_date_time[0].split('-')[0]
+                start_month = start_date_time[0].split('-')[1]
+                start_day = start_date_time[0].split('-')[2]
+                start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
+                start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
+                start_time = start_hour + ':' + start_minute
+                attendee = test1[i]['attendees'][0]['email']
+                print(attendee)
 
-
-def service_pat():
-    """Shows basic usage of the Google Calendar API.
-    Prints the start and name of the next 10 events on the user's calendar.
-    """
-    creds = None
-    # The file token.pickle stores the user's access and refresh tokens, and is
-    # created automatically when the authorization flow completes for the first
-    # time.
-  
-    if os.path.exists('token.pickle'):
-        with open('token.pickle', 'rb') as token:
-            creds = pickle.load(token)
-    # If there are no (valid) credentials available, let the user log in.
-    if not creds or not creds.valid:
-        if creds and creds.expired and creds.refresh_token:
-            creds.refresh(Request())
-        else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                f"{os.environ['HOME']}/.config/.clinic/credentials.json", SCOPES_Pat)
-            creds = flow.run_local_server(port=0)
-        # Save the credentials for the next run
-        with open('token.pickle', 'wb') as token:
-            pickle.dump(creds, token)
-
-    service = build('calendar', 'v3', credentials=creds) 
-    return service
+                if start_year == year and start_month == month and start_day == day and start_time == time and email== attendee:
+                    eventid = test1[i]['id']
+                    return eventid
 
 
 def doctor_cancellation(service,eventid,doctor):
