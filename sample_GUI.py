@@ -129,7 +129,7 @@ def display_events(service):
         # input_API.book_doctor(doctor_list)
         # input_API.book_patient(patient_list)
         # display_events(service)
-    GUI.slot_select(slots)
+    GUI.main_gui(slots)
     return slots
 
 
