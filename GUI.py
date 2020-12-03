@@ -6,82 +6,87 @@ import datetime
 
 event_sl = []
 
-def view_calendar(slots):
-    window = tk.Tk()
-    window.title("The Code Clinic")
-    for i in range(len(slots)):
-        slot = slots[i].split(",")
-
-        for j in range(4):
-            frame = tk.Frame(master=window,relief=tk.RIDGE,borderwidth=1, bg= "teal")
-            frame.grid(row=i, column=j,padx=2, pady=5)
-            label = tk.Label(master=frame, text=f"{slot[j]}", bg="honeydew")
-            label.pack()
-    window.mainloop()
-
-
-def slot_select(slots):
-    global variable,tings
-    tings = slots
-    # print(slots)
+def main_gui(slots):
     wind = tk.Tk()
     wind.title("The Code Clinic")
-    wind.resizable(False,True)
-    wind.minsize(1215,350)
+    wind.geometry('800x500')
 
+    sidebar = tk.Frame(master=wind, borderwidth=0,bg='red')
+    sidebar.place(relx=0,rely=0,relwidth=0.25,relheight=1)
 
-    main_frame = tk.Frame(master=wind, borderwidth=0,bg='honeydew')
-    
-    container = tk.Canvas(master=main_frame,bg='honeydew')
-    frame = tk.Frame(master=container,relief=tk.RIDGE,borderwidth=1, bg= "honeydew")
+    main_frame = tk.Frame(master=wind, borderwidth=2,bg='blue')
+    main_frame.place(relx=0.25,rely=0,relwidth=0.75,relheight=1)
+
+    container = tk.Canvas(master=main_frame)
+    frame = tk.Frame(master=container,relief=tk.RIDGE,borderwidth=1, bg= "green")
     scroll = ttk.Scrollbar(master=main_frame,orient= 'vertical', command=container.yview)
     container.configure(yscrollcommand= scroll.set)
 
+    scroll.pack(side='right', fill='y') 
+    frame.pack(fill='both',expand=1)
+    container.pack(fill='both',expand=1)
+    container.create_window((0,0) , window=frame)
+    frame.bind('<Configure>',lambda e: container.configure(scrollregion = container.bbox("all")))
+
+    button1 = tk.Button(master=sidebar ,text='View Calendar',justify='center',command=view_cal)
+    button1.place(relx=0,rely=0.15,relwidth=1,relheight=0.17)
+    button2 = tk.Button(master=sidebar ,text='Make Booking',justify='center',command=book_slot)
+    button2.place(relx=0,rely=0.32,relwidth=1,relheight=0.17)
+    button3 = tk.Button(master=sidebar ,text='Cancel Booking',justify='center',command=cancel_book)
+    button3.place(relx=0,rely=0.49,relwidth=1,relheight=0.17)
+    button4 = tk.Button(master=sidebar ,text='Help',justify='center',command=help_)
+    button4.place(relx=0,rely=0.66,relwidth=1,relheight=0.17)
+    button5 = tk.Button(master=sidebar ,text='LogOut',justify='center',command=log_out)
+    button5.place(relx=0,rely=0.83,relwidth=1,relheight=0.17)
+
+    content(slots,frame,main_frame)
+    wind.mainloop()
+
+
+def content(slots, frame,main_frame):
+    global variable,tings
+    tings = slots
+    button = tk.Button(master=main_frame ,text='next',justify='center',command=callback)
+    button.pack()
 
     sloot = sloots(slots)
     print(sloot)
     for i in range(len(slots)):
         slot = slots[i].split("\n")
-        for j in range(8):
+        if slot[0].split(':',1)[0] == "ID":
+            slot.remove(slot[0])
+            print(slot)
+        for j in range(7):
             frame1 = tk.Frame(master=frame,relief=tk.RIDGE,borderwidth=1, bg= "beige")
             frame1.grid(row=0, column=j,padx=2, pady=2)
             try:
                 lab = tk.Label(master=frame1, text=f"{slot[j].split(':',1)[0]}", bg="beige")
                 lab.pack()
             except IndexError:
-                lab1 = tk.Label(master=frame1, text= "Slots", bg="beige")
+                lab = tk.Label(master=frame1, text= "Slots", bg="beige")
+                lab.pack()
 
             frame1 = tk.Frame(master=frame,relief=tk.RIDGE,borderwidth=1, bg= "beige")
             frame1.grid(row=i+1, column=j,padx=2, pady=2)
 
-            if i==0 and j < 7:
+            if i==0 and j < 6:
                 ab2 = tk.Label(master=frame1, text=f"{slot[j].split(':',1)[1]}", bg="floral white")
                 ab2.pack()
-            if j < 7 and i != 0:
+            if j < 6 and i != 0:
                 label = tk.Label(master=frame1, text=f"{slot[j].split(':',1)[1]}", bg="floral white")
                 label.pack()
-            if j == 7:
+            if j == 6:
                 variable = tk.StringVar(master=frame1)
                 event_sl.append(variable)
                 variable.set("pick a slot")
                 w = tk.OptionMenu(frame1, variable, *sloot[i-1])
                 w.pack()
 
-                lab1.pack()
 
-    scroll.pack(side='right', fill='y') 
-    frame.pack(fill='both')
-    container.pack(fill='both')
-    container.create_window((0,0) , window=frame)
-    frame.bind('<Configure>',lambda e: container.configure(scrollregion = container.bbox("all")))
-    main_frame.pack(fill="both")
+   
 
-    button = tk.Button(master=wind ,text='next',justify='center',command=callback)
-    button.pack()
 
-    wind.configure(bg='honeydew')
-    wind.mainloop()
-
+    
 def callback():
     global event_sl,tings
     
@@ -118,3 +123,17 @@ def sloots(slots):
             sloots.append(slo)
     return(sloots)
 
+def view_cal():
+    pass
+
+def book_slot():
+    pass
+
+def cancel_book():
+    pass
+
+def help_():
+    pass
+
+def log_out():
+    pass
