@@ -30,7 +30,7 @@ def main():
 
 def get_service():   
     """
-    Gets the service from the Google Calendar using the credentials from the User
+        Gets the service from the Google Calendar using the credentials from the User
     """
 
     creds = None
@@ -47,7 +47,7 @@ def get_service():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 f'{os.environ["HOME"]}/.config/.clinic/credentials.json', SCOPES)
-                # 'main/code/codebase/credentials.json', SCOPES)
+                #'main/code/codebase/credentials.json', SCOPES)
             creds = flow.run_local_server(port=0)
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
@@ -57,41 +57,53 @@ def get_service():
     
     return service
 
-
-def display_events(service):
-    """ 
-    Displays the Google calendar events within a given time period 
-    """
-
-    global s
-    slots = []
-    guest_user = ""
-    dates_week = []
-    x = input("How many days do you want to view? ")
-
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    print('Getting available slots...\n')
+def get_events(service, now):
 
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
 
+    return events
+
+def display_events(service):
+    """ 
+        Displays the Google calendar events within a given time period 
+    """
+
+    global s
+    slots = []
+    guest_user = ""
+    dates_week = []
+    x = 0
+
+    x = get_days()
+       
+
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    print('Getting available slots...\n')
+
+    events = get_events(service, now)
     #pprint(events)
-    
+
+
     if not events:
         print('No available slots found.')
 
     else:
         print("Calendar for the next "+ x + " days:")
+        print("------------------------------------")
         print("Available slots :")
+        print("------------------------------------")
        
-            
-        for google_cal in events:           
+        #get_calendar(events)    
+        for google_cal in events:  
+
             s = google_cal['start'].get('dateTime').split("+")
             date_s = s[0].split("T")
             e = google_cal['end'].get('dateTime').split("+")
             date_e = e[0].split("T")
+
             try:
                 if google_cal['summary'] == "General" or google_cal['summary'] == "Recursion"\
                    or google_cal['summary'] == "Unittesting" or \
@@ -111,6 +123,7 @@ def display_events(service):
                     
                     event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],google_cal['summary'], doctor_user[0], guest_user)
                     write_calendar_file_json(event_dict)
+
             except KeyError as e:
                 print(e)
 
@@ -125,7 +138,7 @@ def display_events(service):
             print('\n')
             print("Date: " + t)
             print ('{:.>80}'.format('.'))
-            print('Start Time'.ljust(10) , 'End Time'.ljust(10), 'Topic'.ljust(10) ,'Doctor'.ljust(10) , 'Patient'.ljust(10))
+            print('|', 'Start Time'.ljust(9) , '|',' End Time'.ljust(10), '|',' Topic'.ljust(12) ,'|',' Doctor'.ljust(10) , '|',' Patient'.ljust(12),'|')
             print ('{:.>80}'.format('.'))
             used = False
 
@@ -135,19 +148,26 @@ def display_events(service):
                 act.remove(act[0])
 
                 if t == act[0].split(': ',1)[1]:
-                    print(act[1].split(':',1)[1].ljust(12) + act[2].split(':',1)[1].ljust(9) +act[3].split(':')[1].ljust(11), act[4].split(':')[1].ljust(11) + act[5].split(':')[1].ljust(10))
+                    print("|",act[1].split(':',1)[1]," "*(10-len(act[1].split(':',1)[1])) \
+                    + "|",act[2].split(':',1)[1]," "*(10-len(act[2].split(':',1)[1])) \
+                    + "|",act[3].split(':')[1]," "*(12-len(act[3].split(':',1)[1])) \
+                    + "|",act[4].split(':')[1]," "*(10-len(act[4].split(':',1)[1])) \
+                    + "|",act[5].split(':')[1],""*(10-len(act[5].split(':')[1])),'|')
                     used = True
-
+                    print("....................................................................")
                 elif used == False and p == len(slots) - 1:
-                    print("No bookings made today")
+                    print("| No bookings made today                                           |")
+                    print("....................................................................")
                     used = True
   
-    return slots
+    return slots, x
+
+
 
 
 def write_calendar_file_text(slots):
     """
-    Write the details from the slot events to the text file
+        Write the details from the slot events to the text file
     """
 
     with open("view_calendar.txt", "w") as opened_file:
@@ -166,6 +186,17 @@ def write_display_calendar(slots):
             opened_file.write(calendar_list + "\n")
             
     opened_file.close()
+
+def get_days():
+
+    while True:
+        x = input("How many days do you want to view? ")
+        if not x.isdigit():
+            print("Please enter the number of days you require:")
+            continue
+        break        
+
+    return x
 
 
 def event_dict_loader(id, date, start_time, end_time, topic,doctor,patient):
