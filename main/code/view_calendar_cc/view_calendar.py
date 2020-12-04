@@ -161,11 +161,6 @@ def display_events(service):
                     used = True
   
     return slots, x
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 7b1fec11101f22925c3850e5bb56f4a9f09a27aa
 
 
 def write_calendar_file_text(slots):
