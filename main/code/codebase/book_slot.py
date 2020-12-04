@@ -91,6 +91,7 @@ def is_slot_avalaible(events, year, month, day, time):
         full_start_date = i['start'].get('dateTime').split("+")
         print (full_start_date)
         print ("------------------------------------------------------------------")
+        
         start_date_time = full_start_date[0].split("T")
         start_year = start_date_time[0].split('-')[0]
         start_month = start_date_time[0].split('-')[1]
@@ -164,10 +165,7 @@ def main(service):
     else: 
         create_doctor_event(slot_time, topic, pat_email)
 
-<<<<<<< HEAD
-=======
     create_doctor_event(slot_time, topic, pat_email,service)
->>>>>>> Playground
 
     
 
