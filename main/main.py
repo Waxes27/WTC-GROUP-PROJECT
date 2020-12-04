@@ -160,17 +160,6 @@ def interface():
 
 def eventid_find(service):
     clear()
-<<<<<<< HEAD
-    slots ,x = view_calendar.display_events(service)
-    # clear()
-    # for i in slots:
-    #     print(i)
-    #     print(i.splitlines()[0])
-    #     print()
-    
-    
-    
-=======
     slots = view_calendar.display_events(service)
     clear()
     doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
@@ -184,7 +173,6 @@ def delete_config():
     os.system(f"mkdir {os.environ['HOME']}/.config/.clinic/.tokens")
 
 
->>>>>>> 899510a35892dedf19c5b974c0dedb09a6fc7e86
 def main():
     service = api_handler.main()
     clear()
