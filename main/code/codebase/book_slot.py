@@ -8,14 +8,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-<<<<<<< HEAD
-# from code import input_cc_
-# import code.input_cc_.input_API as input_API
-=======
 import code.input_cc_.input_API as input_API
 #from . import create_service
 
->>>>>>> Playground
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
@@ -23,50 +18,14 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
-<<<<<<< HEAD
-
-def is_slot_avalaible(service, year, month, day, time):
-
-    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId='primary', timeMin=now,
-                                        maxResults=100, singleEvents=True,
-                                        orderBy='startTime').execute()
-    events = events_result.get('items', [])
-    
-
-    if not events:
-        return True
-
-    for i in events:           
-        full_start_date = i['start'].get('dateTime').split("+")
-        start_date_time = full_start_date[0].split("T")
-        
-        start_year = start_date_time[0].split('-')[0]
-        start_month = start_date_time[0].split('-')[1]
-        start_day = start_date_time[0].split('-')[2]
-        start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
-        start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
-        start_time = start_hour + ':' + start_minute
-
-        if start_year == year and start_month == month and start_day == day and \
-            start_time == time:
-            return False
-    return True             
-
-
-
-def create_doctor_event(start, summary, pat_email,duration=1):
-=======
 service = ''
 
 def is_slot_avalaible(service, year, month, day, time):
-
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    
 
     if not events:
         return True
@@ -82,15 +41,29 @@ def is_slot_avalaible(service, year, month, day, time):
         start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
         start_time = start_hour + ':' + start_minute
 
-        if start_year == year and start_month == month and start_day == day and \
-            start_time == time:
-            return False
-    return True      
 
+        full_end_date = i['end'].get('dateTime').split("+")
+        end_date_time = full_end_date[0].split("T")
+        
+        end_year = end_date_time[0].split('-')[0]
+        end_month = end_date_time[0].split('-')[1]
+        end_day = end_date_time[0].split('-')[2]
+        end_hour = ''.join(end_date_time[1].split('-')).split(':')[0]
+        end_minute = ''.join(end_date_time[1].split('-')).split(':')[1]
+        end_time = end_hour + ':' + end_minute
+
+        loop_start = int(''.join(start_time.split(':')))
+        loop_end = int(''.join(end_time.split(':')))
+        user_time = int(''.join(time.split(':')))
+
+        for i in range(loop_start, loop_end + 1):
+            if start_year == year and start_month == month and start_day == day and \
+                i == user_time:
+                return False
+    return True
 
 
 def create_doctor_event(start, summary, pat_email,service):
->>>>>>> Playground
     string_date_list = list(datefinder.find_dates(start))
     if len(string_date_list):
         start = string_date_list[0]
@@ -147,10 +120,6 @@ def validate_token():
             pickle.dump(creds, token)
     return creds
 
-<<<<<<< HEAD
-    service = build('calendar', 'v3', credentials=creds)    
-    year = input("slot year: ")
-=======
 
 def create_service(creds):
     service = build('calendar', 'v3', credentials=creds)
@@ -171,35 +140,17 @@ def main(service):
     
     year = 2020
     time = input("slot time: ")
->>>>>>> Playground
     month = input("slot month: ")
     day = input("slot day: ")
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
 
-<<<<<<< HEAD
 
 
 
     if is_slot_avalaible(service, year, month, day, time) == True:
         print('Double booking')
     else: create_doctor_event(slot_time, topic, pat_email)
-=======
-    create_doctor_event(slot_time, topic, pat_email,service)
->>>>>>> Playground
 
 
-
-<<<<<<< HEAD
 if __name__ == '__main__':
-<<<<<<< HEAD
-    #2020-11-27T14:30:00+02:00
-    x = is_slot_avalaible([], '2020', '11', '27', '14:30')
-    print(x)
-=======
-    main()
->>>>>>> Playground
-=======
-# if __name__ == '__main__':
-#     main()
->>>>>>> Playground
