@@ -2,6 +2,7 @@ import os
 import subprocess
 import time
 
+os.system('clear')
 zsh = open(f"{os.environ['HOME']}/.zshrc", 'a+')
 bashrc = open(f"{os.environ['HOME']}/.bashrc", 'a+')
 bashrc1 = open(f"{os.environ['HOME']}/.bashrc", 'r')
@@ -9,7 +10,11 @@ bashrc1 = open(f"{os.environ['HOME']}/.bashrc", 'r')
 print('Starting... Do not interrupt process')
 value = subprocess.getoutput("""pip install --upgrade google-api-python-client google-auth-httplib2 google-auth-oauthlib
 pip install datefinder
-""")
+cp -r WTC-GROUP-PROJECT ~/Music
+rm -rf ~/.WTC-GROUP-PROJECT
+mkdir ~/.WTC-GROUP-PROJECT
+git clone https://github.com/Waxes27/WTC-GROUP-PROJECT.git ~/.WTC-GROUP-PROJECT""")
+
 
 
 if 'not found' in value:

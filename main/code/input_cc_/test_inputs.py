@@ -3,8 +3,12 @@ from . import input_cc
 # import input_cc as input_cc
 from unittest.mock import patch
 from io import StringIO
+# from contextlib import contextmanager
+# import sys
 # from tests.test_base import captured_io
 from .test_base import captured_io
+from . import test_base
+# from
 
 class testing_inputs(unittest.TestCase):
   
@@ -13,7 +17,7 @@ class testing_inputs(unittest.TestCase):
 
         topic_name = input_cc.book_topic()
         
-        self.assertEqual(topic_name,"List Comprehension") 
+        self.assertEqual(topic_name,"List comprehension") 
 
 
     @patch("sys.stdin", StringIO("LIST COMprehension\nLIST COMprehension\nlogout\n"))
@@ -21,7 +25,7 @@ class testing_inputs(unittest.TestCase):
 
         topic_name = input_cc.book_topic()
         
-        self.assertEqual(topic_name,"List Comprehension") 
+        self.assertEqual(topic_name,"List comprehension") 
 
 
     @patch("sys.stdin", StringIO("List Comprehension\nList Comprehension\nlogout\n"))
@@ -39,7 +43,10 @@ class testing_inputs(unittest.TestCase):
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""Field cannot be blank.\nPlease provide a topic you would like to clinic.\n""", output)
+        self.assertEqual("""Please provide a topic you would like to clinic?
+Field cannot be blank, please provide a topic.
+
+Please provide a topic you would like to clinic""", output)
 
 
     @patch("sys.stdin", StringIO("fmokoena\nfmokoena\nlogout\n"))
@@ -65,7 +72,10 @@ class testing_inputs(unittest.TestCase):
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""Please provide a valid username.\n""", output)
+        self.assertEqual("""Please provide the name of the Coding Clinician.
+Field cannot be blank, please provide your valid username.
+
+Please provide the name of the Coding Clinician""", output)
 
 
     def test_doctor_input_invalid_username(self):
@@ -75,7 +85,7 @@ class testing_inputs(unittest.TestCase):
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""Username Invalid, please enter a valid username.\n""", output)
+        self.assertEqual("""Please provide the name of the Coding Clinician.""", output)
 
 
     @patch("sys.stdin", StringIO("tmoshole\ntmoshole\nlogout\n"))
@@ -95,13 +105,16 @@ class testing_inputs(unittest.TestCase):
 
 
     def test_patient_input_empty_string(self):
-        with captured_io(StringIO('\n')) as (out, err):
+        with captured_io(StringIO('\nlogout\n')) as (out, err):
 
             topic_name = input_cc.book_patient()
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""Please provide a valid username.\n""", output)
+        self.assertEqual("""Please provide the name of the Coding Patient.
+Please provide a valid username
+
+Please provide the name of the Coding Patient""", output)
 
 
     def test_patient_input_invalid_username(self):
@@ -111,7 +124,7 @@ class testing_inputs(unittest.TestCase):
 
         output = out.getvalue().strip()
 
-        self.assertEqual("""Username Invalid, please enter a valid username.\n""", output)
+        self.assertEqual("""Please provide the name of the Coding Patient.""", output)
 
 
 if __name__ == "__main__":
