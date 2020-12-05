@@ -120,7 +120,6 @@ def is_slot_avalaible(service, year, month, day, time):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    
 
     if not events:
         return True
@@ -136,9 +135,25 @@ def is_slot_avalaible(service, year, month, day, time):
         start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
         start_time = start_hour + ':' + start_minute
 
-        if start_year == year and start_month == month and start_day == day and \
-            start_time == time:
-            return False
+
+        full_end_date = i['end'].get('dateTime').split("+")
+        end_date_time = full_end_date[0].split("T")
+        
+        end_year = end_date_time[0].split('-')[0]
+        end_month = end_date_time[0].split('-')[1]
+        end_day = end_date_time[0].split('-')[2]
+        end_hour = ''.join(end_date_time[1].split('-')).split(':')[0]
+        end_minute = ''.join(end_date_time[1].split('-')).split(':')[1]
+        end_time = end_hour + ':' + end_minute
+
+        loop_start = int(''.join(start_time.split(':')))
+        loop_end = int(''.join(end_time.split(':')))
+        user_time = int(''.join(time.split(':')))
+
+        for i in range(loop_start, loop_end + 1):
+            if start_year == year and start_month == month and start_day == day and \
+                i == user_time:
+                return False
     return True      
 
 
