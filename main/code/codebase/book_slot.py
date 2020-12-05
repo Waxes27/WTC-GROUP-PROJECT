@@ -23,9 +23,6 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-<<<<<<< HEAD
-def is_slot_avalaible(service, year, month, day, time):
-=======
 def volunteer(service):
     rooms = {
         '4th floor' : ['open area'],
@@ -112,13 +109,8 @@ def book_vol_slot(service):
 
 
 
-
-
-
-
 def is_slot_avalaible(service, year, month, day, time):
     
->>>>>>> Playground
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=100, singleEvents=True,
