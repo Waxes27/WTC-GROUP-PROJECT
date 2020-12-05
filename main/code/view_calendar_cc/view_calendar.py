@@ -9,6 +9,7 @@ from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 import json
 import os
+import time
 import sys
 
 
@@ -23,8 +24,8 @@ SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "patient":[]}
 event_list = []
 
-def main():
-    service = get_service()
+def main(service):
+    # service = get_service()
     display_events(service)
 
 
@@ -146,6 +147,9 @@ def display_events(service):
                 act = slots[p]
                 act = act.split('\n')
                 act.remove(act[0])
+                # print(slots[p])
+                # time.sleep(4)
+                # os.system('clear')
 
                 if t == act[0].split(': ',1)[1]:
                     print("|",act[1].split(':',1)[1]," "*(10-len(act[1].split(':',1)[1])) \
@@ -159,7 +163,7 @@ def display_events(service):
                     print("| No bookings made today                                           |")
                     print("....................................................................")
                     used = True
-  
+    # print(slots)
     return slots, x
 
 

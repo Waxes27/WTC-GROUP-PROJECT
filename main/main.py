@@ -7,6 +7,7 @@ import code.view_calendar_cc.view_calendar as view_calendar
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.api_handler.api_handler as api_handler
 import datetime
+import json
 import os
 import time
 import sys
@@ -175,6 +176,8 @@ def delete_config():
 
 def main():
     service = api_handler.main()
+    # book_slot.volunteer(service)
+    # return
     clear()
     if 'del' in sys.argv:
         delete_config()
@@ -205,22 +208,27 @@ def main():
 
 
     elif 'make' in sys.argv[-1].lower():
-        # try:
+        # book_slot.volunteer(service)
+        book_slot.book_vol_slot(service)
+        return
         book_slot.main(service)
-            # service = book_slot.service
-        # except AttributeError:
-        #     clear()
-        #     book_slot.main(service)
 
 
     elif 'view' in sys.argv[-1].lower():
-        x = view_calendar.main()
+        x = view_calendar.main(service)
 
 
     elif 'cancel' in sys.argv[-1].lower():
-        eventid = cancel_booking.eventid_find(service,username)
-        doc_pat = input('Doc or Pat?')
-        if doc_pat == Doc:
+        try:
+            eventid, doc_or_pat = cancel_booking.get_eventid(service,username)
+        except TypeError:
+            # clear()
+            print('No bookings to cancel\nIf certain check for spelling mistakes and formatting')
+            return
+
+        # print(eventid)
+        clear()
+        if 'd' in doc_or_pat:
             cancel_booking.doctor_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
         else:
             cancel_booking.patient_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
@@ -254,6 +262,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # book_slot.volunteer()
     # service = api_handler.main()
     # eventid_find(service)
     # book_slot.main()
