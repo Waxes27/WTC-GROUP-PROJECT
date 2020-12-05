@@ -9,18 +9,116 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
 import code.input_cc_.input_API as input_API
+import code.cancel_booking_.cancel_booking as cancel_booking
+import code.codebase.event as update_event
 #from . import create_service
 
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
+# SCOPES = ''
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
+<<<<<<< HEAD
 def is_slot_avalaible(service, year, month, day, time):
+=======
+def volunteer(service):
+    rooms = {
+        '4th floor' : ['open area'],
+        '5th floor' : ['kitchen']
+    }
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=100, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    date = '2020-12-05 09:00'
+    start_time = list(datefinder.find_dates(date))[0]
+    slot_opening = 'Recursion'
+    # print(string_date_list)
+    # avail_time = '12:00'
+    end_time = start_time + datetime.timedelta(hours=1)
+    print(end_time)
+    event = {
+        'summary': 'Available for booking',
+        'start': {
+            'dateTime': start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'timeZone': 'Africa/Johannesburg',
+        },
+        'end': {
+            'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'timeZone': 'Africa/Johannesburg',
+        },
+        'attendees': [
+            # {'email' : 'mbjali@student.wethinkcode.co.za'},
+            # {'email' : 'cdu-pee@student.wethinkcode.co.za'},
+            
+        ],
+        'location' :  '5th floor',
+        'description' : f'Topic : {slot_opening}'
+    }
+    print(events[0]['start'])
+    result = service.events().insert(calendarId='primary', body=event).execute()
+    print("Event created:", result.get("summary"))
+
+
+def book_vol_slot(service):
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId='primary', timeMin=now,
+                                        maxResults=100, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    year = 2020
+    month = 12
+    day = '05'
+    # date = '2020-12-05 09:00'
+    date = f'{year}-{month}-{day} 09:00'
+    start_time = list(datefinder.find_dates(date))[0]
+    end_time = start_time + datetime.timedelta(hours=1)
+    slot_topic = 'recursion'.capitalize()
+    doctor = 'ndumasi'
+    # print(events[0])
+    print()
+    value = cancel_booking.get_eventid_vol(service, 'ndumasi')
+    print(value)
+    # for v in events[0]:
+    #     print(v)
+    # for v in events[0]:
+    #     # print(v)
+    #     if date.split()[0] in events[0]['start']['dateTime']:
+    #         if slot_topic in events[0]['description']:
+    #             if doctor in events[0]['creator']['email']:
+    #                 print("Clinic found\n\nBooking...")
+    #                 return True
+    #             else:
+    #                 print('No Doctor under the provided username')
+    #                 return False
+    #         else:
+    #             print('Topic unavailable for today')
+    #             return False
+    #     else:
+    #         print('No clinic due today')
+    #         return False
+    
+    event = update_event.event(service, 'mbjali',slot_topic,start_time, end_time)
+    try:
+        result = service.events().update(calendarId='primary', eventId=value, body=event).execute()
+    except TypeError:
+        print('Cannot create booking')
+
+
+
+
+
+
+
+def is_slot_avalaible(service, year, month, day, time):
+    
+>>>>>>> Playground
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId='primary', timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -61,7 +159,6 @@ def is_slot_avalaible(service, year, month, day, time):
                 i == user_time:
                 return False
     return True
-
 
 def create_doctor_event(start, summary, pat_email,service):
     string_date_list = list(datefinder.find_dates(start))
@@ -115,7 +212,7 @@ def validate_token():
             flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
             , SCOPES)
             creds = flow.run_local_server(port=0)
-        # with open(username  + ".pickle", "wb") as token:
+
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
     return creds

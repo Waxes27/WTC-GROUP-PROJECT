@@ -17,7 +17,7 @@ import help_cc
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
 list_ = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
-topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
+topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", "",]
 
 
 <<<<<<< HEAD
