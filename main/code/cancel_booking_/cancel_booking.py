@@ -213,13 +213,14 @@ def patient_cancellation(service,eventid,patient):
 
 # main()
 
-def get_eventid_vol(service,username):
+def get_eventid_vol(service,username,calid):
     email = username + "@student.wethinkcode.co.za"
     # doc_or_pat= input("Are you a doctor or a patient?: ").lower()
     now = datetime.datetime.utcnow().isoformat() + 'Z'
+    # if 'Available' in
     subject = 'Available for booking'#input("Please advise the subject?: ").capitalize()
-    year = input('Year: ')
-    time = input("slot time(7 - 16 / 07:00 - 16:00): ")
+    year = '2020'#input('Year: ')
+    time = '9'#input("slot time(7 - 16 / 07:00 - 16:00): ")
     try:
         time = datedict.times[int(time)]
         if len(time) == 4:
@@ -230,7 +231,7 @@ def get_eventid_vol(service,username):
         pass
     print(time)
 
-    month = input("slot month (1 - 12 or 'december'): ").lower()
+    month = 12#input("slot month (1 - 12 or 'december'): ").lower()
     try:
         for k,v in datedict.months.items():
             try:
@@ -241,7 +242,7 @@ def get_eventid_vol(service,username):
                 pass
     except:
         pass
-    day = input("slot day: ")
+    day = '6'#input("slot day: ")
 
     # subject = 'General'
     # year = 2020
@@ -249,13 +250,14 @@ def get_eventid_vol(service,username):
     # month = 'december'
     # day = '6'
 
-    data = service.events().list(calendarId=email,timeMin=now).execute()
+    data = service.events().list(calendarId=calid,timeMin=now).execute()
     test1 = data.get('items', [])
     length = len(test1)
     # print(test1)
     for i in range(length):
         test1 = data.get('items', [])
-        if test1[i]['summary'] == subject:
+        if test1[i]['summary'].split()[0] in subject:
+            
             date = test1[i]['start']['dateTime']
             start_date_time = date.split("T")
             start_year = start_date_time[0].split('-')[0]

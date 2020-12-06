@@ -23,17 +23,17 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-def volunteer(service):
+def volunteer(service, calid):
     rooms = {
         '4th floor' : ['open area'],
         '5th floor' : ['kitchen']
     }
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    date = '2020-12-05 09:00'
+    date = '2020-12-06 09:00'
     start_time = list(datefinder.find_dates(date))[0]
     slot_opening = 'Recursion'
     # print(string_date_list)
@@ -58,20 +58,27 @@ def volunteer(service):
         'location' :  '5th floor',
         'description' : f'Topic : {slot_opening}'
     }
-    print(events[0]['start'])
-    result = service.events().insert(calendarId='primary', body=event).execute()
+    result = service.events().insert(calendarId=calid, body=event).execute()
+    # print(events[0]['start'])
     print("Event created:", result.get("summary"))
 
 
-def book_vol_slot(service):
+def book_vol_slot(service, calid):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+    # for i in range(len(events)):
+    #     if 'Available' in events[i]['summary']:
+    #         try:
+    #             print(events[i]['attendees'][0]['email'])
+    #         except KeyError:
+    #             pass
+    # return
     year = 2020
     month = 12
-    day = '05'
+    day = '06'
     # date = '2020-12-05 09:00'
     date = f'{year}-{month}-{day} 09:00'
     start_time = list(datefinder.find_dates(date))[0]
@@ -80,7 +87,7 @@ def book_vol_slot(service):
     doctor = 'ndumasi'
     # print(events[0])
     print()
-    value = cancel_booking.get_eventid_vol(service, 'ndumasi')
+    value = cancel_booking.get_eventid_vol(service, 'ndumasi',calid)
     print(value)
     # for v in events[0]:
     #     print(v)
@@ -101,22 +108,17 @@ def book_vol_slot(service):
     #         print('No clinic due today')
     #         return False
     
-    event = update_event.event(service, 'mbjali',slot_topic,start_time, end_time)
+    event = update_event.event(service, calid,'mbjali',slot_topic,start_time, end_time)
     try:
-        result = service.events().update(calendarId='primary', eventId=value, body=event).execute()
+        result = service.events().update(calendarId=calid, eventId=value, body=event).execute()
     except TypeError:
         print('Cannot create booking')
-
-
-
-
-
 
 
 def is_slot_avalaible(service, year, month, day, time):
     
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
@@ -176,7 +178,7 @@ def create_doctor_event(start, summary, pat_email,service):
             {'email': pat_email},
         ]
     }
-    result = service.events().insert(calendarId='primary', body=event).execute()
+    result = service.events().insert(calendarId=calid, body=event).execute()
     print("Event created:", result.get("summary"))
 
 

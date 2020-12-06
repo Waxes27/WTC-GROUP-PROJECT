@@ -6,11 +6,13 @@ import code.codebase.book_slot as book_slot
 import code.view_calendar_cc.view_calendar as view_calendar
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.api_handler.api_handler as api_handler
+import code.codebase.preset as preset
 import datetime
 import json
 import os
 import time
 import sys
+
 
 
 
@@ -173,8 +175,11 @@ def delete_config():
     os.system(f"rm -rf {os.environ['HOME']}/.config/.clinic/.tokens")
     os.system(f"mkdir {os.environ['HOME']}/.config/.clinic/.tokens")
 
+        
+
 
 def main():
+    calid = 'c_4pa2luaf52rfdc8f0tn05bf1qo@group.calendar.google.com'
     service = api_handler.main()
     # book_slot.volunteer(service)
     # return
@@ -208,8 +213,25 @@ def main():
 
 
     elif 'make' in sys.argv[-1].lower():
-        # book_slot.volunteer(service)
-        book_slot.book_vol_slot(service)
+        try:
+            preset.load_preset()['operation']
+        except:
+            KeyError
+            TypeError
+            preset.load_preset()['operation']
+            preset_ver = input("Would you like to have a preset (y/n): ").lower()
+
+            if preset_ver == 'y':
+                preset.set_preset()
+                if preset.load_preset()['operation'] == True:
+                    clear()
+                    print("Preset set successfully\n\n")
+
+        vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
+        if 'd' in vol:
+            book_slot.volunteer(service,calid)
+        else:
+            book_slot.book_vol_slot(service,calid)
         return
         book_slot.main(service)
 
@@ -262,6 +284,7 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # set_preset()
     # book_slot.volunteer()
     # service = api_handler.main()
     # eventid_find(service)
