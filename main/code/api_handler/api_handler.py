@@ -7,9 +7,10 @@ import os
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
+import time
 
 
-SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
+SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 creds = None
 
@@ -40,9 +41,10 @@ def validate_token():
             flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
             , SCOPES)
             creds = flow.run_local_server(port=0)
-        # with open(username  + ".pickle", "wb") as token:
+
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
+    # print(creds)
     return creds
 
 
@@ -52,6 +54,7 @@ def create_service(creds):
 
 
 def main():
+    # print(create_service(validate_token()))
     return create_service(validate_token())
 
 main()
