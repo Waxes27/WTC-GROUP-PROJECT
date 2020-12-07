@@ -3,12 +3,19 @@ import os
 import datetime
 import time
 import pickle
+<<<<<<< HEAD
 #import code.help_cc_.help_cc as help_cc
+=======
+# import help_cc as help_cc
+import code.help_cc_.help_cc as help_cc
+# from help_cc_ import help_cc as help_cc
+>>>>>>> Playground
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
+<<<<<<< HEAD
 class API_input():    
     
     
@@ -30,6 +37,11 @@ class API_input():
         '''
         Getter method that returns the lists as they are needed.
         '''
+=======
+list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
+list_ = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
+topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", "",]
+>>>>>>> Playground
 
         print("Does this work?")
         return self.__hislist, self.__cmdlist    
