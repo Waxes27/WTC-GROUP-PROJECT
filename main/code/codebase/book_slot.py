@@ -33,7 +33,7 @@ def volunteer(service, calid):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    date = '2020-12-06 09:00'
+    date = '2020-12-08 09:00'
     start_time = list(datefinder.find_dates(date))[0]
     slot_opening = 'Recursion'
     # print(string_date_list)
@@ -78,7 +78,7 @@ def book_vol_slot(service, calid):
     # return
     year = 2020
     month = 12
-    day = '06'
+    day = '08'
     # date = '2020-12-05 09:00'
     date = f'{year}-{month}-{day} 09:00'
     start_time = list(datefinder.find_dates(date))[0]

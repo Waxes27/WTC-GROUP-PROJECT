@@ -18,6 +18,7 @@ def event(service, calid,username, slot_topic, start_time, end_time):
     username = input('hm: ')
     for i in range(len(events)):
         if 'Available' in events[i]['summary']:
+            print(events[i]['creator'])
             try:
                 if len((events[i]['attendees'])) == 2:
                     print(events[i]['attendees'])
@@ -60,7 +61,7 @@ def event(service, calid,username, slot_topic, start_time, end_time):
                     }
                     return event
             except KeyError:
-                print("No attendees")
+                # print("No attendees")
                 event = {
                         'summary': f'Available for booking(1/2)',
                         #Add description (To include doctor name)

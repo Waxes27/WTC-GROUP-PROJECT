@@ -242,7 +242,7 @@ def get_eventid_vol(service,username,calid):
                 pass
     except:
         pass
-    day = '6'#input("slot day: ")
+    day = '8'#input("slot day: ")
 
     # subject = 'General'
     # year = 2020
