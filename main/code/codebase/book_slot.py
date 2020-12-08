@@ -238,19 +238,26 @@ def user_time_slot_input():
     return slot_time
 
 
-# def verify_time_format(time, month, day):
-#     """
-#         Verifies whether time format provided is desired
+def is_time_format_acceptable(time, month, day):
+    """
+        Verifies whether time format provided is desired
 
-#         Paramaters 
-#             time (str): desired user time slot
-#             month (str): desired user month booking
-#             day (str): desired user day booking
-#     """
+        Paramaters 
+            time (str): desired user time slot
+            month (str): desired user month booking
+            day (str): desired user day booking
+    """
+    if int(month.split()) >= 1 or int(month.split()) <= 12:
+        return False
+    
+    if int(day.split()) >= 1 or int(day.split()) <= 31:
+        return False
+        
+    if int(month.split()) == 2 and int(day.split()) > 28:
+        return False
 
-
-
-#     return True
+    
+    return True
 
 
 def main(service):
