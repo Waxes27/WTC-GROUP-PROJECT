@@ -220,6 +220,46 @@ def create_service(creds):
     return service
 
 
+
+
+def user_time_slot_input():
+    """
+        Prompts the user for a desired booking time slot
+        Returns:
+
+            slot_time (str): The desired year, month, day and time booking
+    """
+
+    year = 2020
+    time = input("slot time e.g [17:00]: ")
+    month = input("slot month e.g [11] for November: ")
+    day = input("slot day e.g [14]: ")
+    slot_time = f'{year} {month} {day} {time}'
+    return slot_time
+
+
+def is_time_format_acceptable(time, month, day):
+    """
+        Verifies whether time format provided is desired
+
+        Paramaters 
+            time (str): desired user time slot
+            month (str): desired user month booking
+            day (str): desired user day booking
+    """
+    if int(month.split()) >= 1 or int(month.split()) <= 12:
+        return False
+    
+    if int(day.split()) >= 1 or int(day.split()) <= 31:
+        return False
+        
+    if int(month.split()) == 2 and int(day.split()) > 28:
+        return False
+
+    
+    return True
+
+
 def main(service):
     """Shows basic usage of the Google Calendar API.
     Prints the start and name of the next 10 events on the user's calendar.
@@ -229,16 +269,9 @@ def main(service):
     creds =None
     creds = validate_token()
     # service = create_service(creds)
-
     topic = input_API.book_topic(topic_list)
-    
-    year = 2020
-    time = input("slot time: ")
-    month = input("slot month: ")
-    day = input("slot day: ")
-    slot_time = f'{year} {month} {day} {time}'
+    slot_time = user_time_slot()
     pat_email = input_API.book_patient(list_)
-
     create_doctor_event(slot_time, topic, pat_email,service)
 
 
