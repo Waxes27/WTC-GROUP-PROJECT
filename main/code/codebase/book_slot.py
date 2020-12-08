@@ -233,12 +233,11 @@ def main(service):
     topic = input_API.book_topic(topic_list)
     
     year = 2020
-    time = input("slot time: ")
-    month = input("slot month: ")
-    day = input("slot day: ")
+    time = input("slot time e.g [17:00]: ")
+    month = input("slot month e.g [11] for November: ")
+    day = input("slot day e.g [14]: ")
     slot_time = f'{year} {month} {day} {time}'
     pat_email = input_API.book_patient(list_)
-
     create_doctor_event(slot_time, topic, pat_email,service)
 
 
