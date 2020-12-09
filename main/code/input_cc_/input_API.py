@@ -3,19 +3,12 @@ import os
 import datetime
 import time
 import pickle
-<<<<<<< HEAD
 #import code.help_cc_.help_cc as help_cc
-=======
-# import help_cc as help_cc
-import code.help_cc_.help_cc as help_cc
-# from help_cc_ import help_cc as help_cc
->>>>>>> Playground
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
 
-<<<<<<< HEAD
 class API_input():    
     
     
@@ -37,11 +30,6 @@ class API_input():
         '''
         Getter method that returns the lists as they are needed.
         '''
-=======
-list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi"]
-list_ = ["nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
-topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", "",]
->>>>>>> Playground
 
         print("Does this work?")
         return self.__hislist, self.__cmdlist    
@@ -86,26 +74,7 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", "",
             return self.__hislist
         else:
             print("Nothing to undo.")
-            return self.__hislist    
-            
-            
-    def redo(self):
-        '''
-        Method that repeats the previously undone instruction from the 
-        program.
-        '''
-
-        if self.__history_command + 1 < len(self.__hislist):
-            self.__history_command += 1
-            self.__cmdlist[
-                self.__hislist[self.__history_command][1]
-            ].exec(self.__hislist[self.__history_command][2])
-            print("Redoing previous commands")
-            return self.__hislist
-        else:
-            print("Nothing to redo")
-            return self.__hislist    
-            
+            return self.__hislist     
 
             
     '''

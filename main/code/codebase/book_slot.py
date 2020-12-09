@@ -8,13 +8,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-<<<<<<< HEAD
-from code.input_cc_ import API_input as input_API
-=======
-import code.input_cc_.input_API as input_API
+from ..input_cc_ import input_API as input_API
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.codebase.event as update_event
->>>>>>> Playground
 #from . import create_service
 
 
@@ -210,18 +206,9 @@ def validate_token():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-<<<<<<< HEAD
-<<<<<<< HEAD:main/input_cc/book_slot.py
-            flow = InstalledAppFlow.from_client_secrets_file('credentials.json'
-=======
-            flow = InstalledAppFlow.from_client_secrets_file('code/codebase/credentials.json'
->>>>>>> Playground:main/code/codebase/book_slot.py
-=======
             flow = InstalledAppFlow.from_client_secrets_file(f"{os.environ['HOME']}/.config/.clinic/credentials.json"
->>>>>>> Playground
             , SCOPES)
             creds = flow.run_local_server(port=0)
-
         with open(f"{os.environ['HOME']}/.config/.clinic/.tokens/{username}.pickle",'wb') as token:
             pickle.dump(creds, token)
     return creds
@@ -242,14 +229,14 @@ def main(service):
     creds = validate_token()
     # service = create_service(creds)
 
-    topic = input_API.book_topic(topic_list)
+    topic = input_API.apiinput.book_topic()
     
     year = 2020
     time = input("slot time: ")
     month = input("slot month: ")
     day = input("slot day: ")
     slot_time = f'{year} {month} {day} {time}'
-    pat_email = input_API.book_patient(list_)
+    pat_email = input_API.apiinput.book_patient()
 
     create_doctor_event(slot_time, topic, pat_email,service)
 
