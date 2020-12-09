@@ -179,7 +179,7 @@ def delete_config():
 
 
 def main():
-    calid = 'c_4pa2luaf52rfdc8f0tn05bf1qo@group.calendar.google.com'
+    calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
     service = api_handler.main()
     # book_slot.volunteer(service)
     # return
