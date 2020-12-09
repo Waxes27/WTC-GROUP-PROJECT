@@ -3,7 +3,7 @@ import os
 import datetime
 import time
 import pickle
-#import code.help_cc_.help_cc as help_cc
+from ..help_cc_ import help_cc as help_cc
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -93,8 +93,8 @@ class API_input():
         print("Coding Clinic Topics:\n")
         print(*self.topic_list, sep="\n")
         booking_topic = input("Please choose a topic you would like to clinic? Or leave blank to choose a 'General' topic\n").capitalize()
-        #if booking_topic == "help".capitalize():
-            #help_cc.run_main()
+        if booking_topic == "help".capitalize():
+            help_cc.run_main()
         if booking_topic == "undo".capitalize():
             self.__execute()
             self.undo()
@@ -113,7 +113,7 @@ class API_input():
     def book_doctor(self):
         booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
         if booking_doc == "HELP".lower():
-            #help_cc.run_main()
+            help_cc.run_main()
             self.book_doctor()
         if booking_doc == "UNDO".lower():
             self.__execute()
@@ -132,7 +132,7 @@ class API_input():
     def book_patient(self):
         booking_pat = input("Please provide the name of the Coding Patient.\n")
         if booking_pat == "HELP".lower():
-            #help_cc.run_main()
+            help_cc.run_main()
             self.book_patient()
         if booking_pat == "UNDO".lower():
             self.undo()
@@ -149,8 +149,6 @@ class API_input():
         
     def main(self):
         self.username()
-        #self.history()
-        #self.register(self.book_topic, self.book_doctor, self.book_patient)
         self.book_topic()
         self.book_doctor()
         self.book_patient()
