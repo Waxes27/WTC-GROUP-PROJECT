@@ -9,6 +9,7 @@ from google.auth.transport.requests import Request
 from datetime import timedelta # added 
 import json
 import os
+import time
 import sys
 
 
@@ -17,14 +18,15 @@ import sys
 #from codebase import book_slot
 
 s = ' '
+calid = 'c_4pa2luaf52rfdc8f0tn05bf1qo@group.calendar.google.com'
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
 event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "patient":[]}
 event_list = []
 
-def main():
-    service = get_service()
+def main(service):
+    # service = get_service()
     display_events(service)
 
 
@@ -59,7 +61,7 @@ def get_service():
 
 def get_events(service, now):
 
-    events_result = service.events().list(calendarId='primary', timeMin=now,
+    events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
@@ -146,6 +148,9 @@ def display_events(service):
                 act = slots[p]
                 act = act.split('\n')
                 act.remove(act[0])
+                # print(slots[p])
+                # time.sleep(4)
+                # os.system('clear')
 
                 if t == act[0].split(': ',1)[1]:
                     print("|",act[1].split(':',1)[1]," "*(10-len(act[1].split(':',1)[1])) \
@@ -159,7 +164,7 @@ def display_events(service):
                     print("| No bookings made today                                           |")
                     print("....................................................................")
                     used = True
-  
+    # print(slots)
     return slots, x
 
 

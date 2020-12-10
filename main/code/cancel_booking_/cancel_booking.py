@@ -4,6 +4,7 @@ import datetime
 import pickle
 import os.path
 import googleapiclient
+from . import datedict
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
@@ -12,44 +13,101 @@ import pprint as pprint
 # import input_cc_.input_API as input_API
 
 SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
-SCOPES_Pat = ['https://www.googleapis.com/auth/calendar.readonly','https://www.googleapis.com/auth/calendar.events.readonly']
+SCOPES_Pat = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
 
+green = lambda text: '\033[92m' + text + '\033[0m'
+red = lambda text: '\033[91m' + text + '\033[0m'
+yellow = lambda text: '\33[33m' + text + '\033[0m'
 
 def get_eventid(service,username):
     email = username + "@student.wethinkcode.co.za"
-    doc_or_pat= input("Are you a doctor or a patient?").lower()
+    doc_or_pat= input("Are you a doctor or a patient?: ").lower()
     now = datetime.datetime.utcnow().isoformat() + 'Z'
-    if doc_or_pat == "doctor":
-        subject = input("Please advise the subject?")
-        year = input('Year')
-        time = input("slot time: ")
-        month = input("slot month: ")
+    if "d" in doc_or_pat:
+        subject = input("Please advise the subject?: ").capitalize()
+        year = input('Year: ')
+        time = input("slot time(7 - 16 / 07:00 - 16:00): ")
+        try:
+            time = datedict.times[int(time)]
+        except:
+            ValueError
+            KeyError
+            pass
+
+        month = input("slot month (1 - 12 or 'december'): ").lower()
+        try:
+            for k,v in datedict.months.items():
+                try:
+                    if int(month):
+                        month = datedict.months[int(month)][1]
+                        print(month)
+                except:
+                    pass
+        except:
+            pass
         day = input("slot day: ")
+
+        # subject = 'General'
+        # year = 2020
+        # time = '12:00'
+        # month = 'december'
+        # day = '6'
+
         data = service.events().list(calendarId=email,timeMin=now).execute()
         test1 = data.get('items', [])
         length = len(test1)
+        # print(test1)
         for i in range(length):
             test1 = data.get('items', [])
             if test1[i]['summary'] == subject:
                 date = test1[i]['start']['dateTime']
                 start_date_time = date.split("T")
                 start_year = start_date_time[0].split('-')[0]
-                start_month = start_date_time[0].split('-')[1]
+                start_month = int(start_date_time[0].split('-')[1])
+                start_month = datedict.months[start_month][1]
+
                 start_day = start_date_time[0].split('-')[2]
+                if len(day) == 1:
+                    day = f'0{day}'
+
                 start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
                 start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
                 start_time = start_hour + ':' + start_minute
 
-                if start_year == year and start_month == month and start_day == day and start_time == time:
+                # print("WELCOME")
+                # print(start_time, time)
+                if int(start_year) == int(year) and start_month == month and start_day == day and start_time == time:
                     eventid = test1[i]['id']
-                    return eventid
+                    return eventid, doc_or_pat
                  
-    if doc_or_pat == "patient":
-        subject = input("Please advise the subject?")
-        year = input('Year')
-        time = input("slot time: ")
-        month = input("slot month: ")
+    if "p" in doc_or_pat:
+        subject = input("Please advise the subject?: ").capitalize()
+        year = input('Year: ')
+        time = input("slot time(7 - 16 / 07:00 - 16:00): ")
+        try:
+            time = datedict.times[int(time)]
+        except:
+            ValueError
+            KeyError
+            pass
+
+        month = input("slot month (1 - 12 or 'december'): ").lower()
+        try:
+            for k,v in datedict.months.items():
+                try:
+                    if int(month):
+                        month = datedict.months[int(month)][1]
+                        print(month)
+                except:
+                    pass
+        except:
+            pass
         day = input("slot day: ")
+        # subject = 'General'
+        # year = 2020
+        # time = '12:00'
+        # month = 'december'
+        # day = '6'
         data = service.events().list(calendarId='primary',timeMin=now).execute()
         test1 = data.get('items', [])
         length = len(test1)
@@ -59,17 +117,23 @@ def get_eventid(service,username):
                 date = test1[i]['start']['dateTime']
                 start_date_time = date.split("T")
                 start_year = start_date_time[0].split('-')[0]
-                start_month = start_date_time[0].split('-')[1]
+                start_month = int(start_date_time[0].split('-')[1])
+                start_month = datedict.months[start_month][1]
+
                 start_day = start_date_time[0].split('-')[2]
+                if len(day) == 1:
+                    day = f'0{day}'
                 start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
                 start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
                 start_time = start_hour + ':' + start_minute
                 attendee = test1[i]['attendees'][0]['email']
                 print(attendee)
 
-                if start_year == year and start_month == month and start_day == day and start_time == time and email== attendee:
+                print(start_day, day)
+                if int(start_year) == int(year) and start_month == month and start_day == day and start_time == time and email == attendee:
                     eventid = test1[i]['id']
-                    return eventid
+                    return eventid, doc_or_pat
+    
 
 
 def doctor_cancellation(service,eventid,doctor):
@@ -80,14 +144,16 @@ def doctor_cancellation(service,eventid,doctor):
             if len(data['attendees']) == 1:
                 patient1 = data['attendees'][0]['email']
                 patient_time1 = data['start']['dateTime']
-                print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
+                print(f"""The following patient {patient1.split('@')[0]} has a meeting with you at 
+{patient_time1.split('T')[-1].split('+')[0]} on the {patient_time1.split('T')[0]}""")
         except KeyError:
             try:
                 del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()
             except googleapiclient.errors.HttpError:
-                print("No event to delete")
+                print(yellow("No event to delete"))
                 return
-            print("Booking Removed")
+            
+            print(green("Booking Removed"))
     return
     # else:
         # if len(data['attendees']) == 3:
@@ -102,6 +168,7 @@ def doctor_cancellation(service,eventid,doctor):
         #     patient_time1 = data['start']['dateTime']
         #     print(f"The following patient {patient1} has a meeting with you at {patient_time1}")
     
+
 def patient_cancellation(service,eventid,patient):
     data = service.events().get(calendarId='primary',eventId=eventid).execute()
     try:
@@ -149,3 +216,68 @@ def patient_cancellation(service,eventid,patient):
 #     update_metadata_calendar(service)
 
 # main()
+
+def get_eventid_vol(service,username,calid):
+    email = username + "@student.wethinkcode.co.za"
+    # doc_or_pat= input("Are you a doctor or a patient?: ").lower()
+    now = datetime.datetime.utcnow().isoformat() + 'Z'
+    # if 'Available' in
+    subject = 'Available for booking'#input("Please advise the subject?: ").capitalize()
+    year = '2020'#input('Year: ')
+    time = '9'#input("slot time(7 - 16 / 07:00 - 16:00): ")
+    try:
+        time = datedict.times[int(time)]
+        if len(time) == 4:
+            time = f'0{time}'
+    except:
+        ValueError
+        KeyError
+        pass
+    print(time)
+
+    month = 12#input("slot month (1 - 12 or 'december'): ").lower()
+    try:
+        for k,v in datedict.months.items():
+            try:
+                if int(month):
+                    month = datedict.months[int(month)][1]
+                    print(month)
+            except:
+                pass
+    except:
+        pass
+    day = '8'#input("slot day: ")
+
+    # subject = 'General'
+    # year = 2020
+    # time = '12:00'
+    # month = 'december'
+    # day = '6'
+
+    data = service.events().list(calendarId=calid,timeMin=now).execute()
+    test1 = data.get('items', [])
+    length = len(test1)
+    # print(test1)
+    for i in range(length):
+        test1 = data.get('items', [])
+        if test1[i]['summary'].split()[0] in subject:
+            
+            date = test1[i]['start']['dateTime']
+            start_date_time = date.split("T")
+            start_year = start_date_time[0].split('-')[0]
+            start_month = int(start_date_time[0].split('-')[1])
+            start_month = datedict.months[start_month][1]
+
+            start_day = start_date_time[0].split('-')[2]
+            if len(day) == 1:
+                day = f'0{day}'
+
+            start_hour = ''.join(start_date_time[1].split('-')).split(':')[0]
+            start_minute = ''.join(start_date_time[1].split('-')).split(':')[1]
+            start_time = start_hour + ':' + start_minute
+
+            # print("WELCOME")
+            # print(start_time, time)
+            if int(start_year) == int(year) and start_month == month and start_day == day and start_time == time:
+                eventid = test1[i]['id']
+                return eventid
