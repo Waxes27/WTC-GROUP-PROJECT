@@ -98,19 +98,19 @@ def interface(calid, service, username):
         
         if 'make' in user_in.lower():
             clear()
-            try:
-                preset.load_preset()['operation']
-            except:
-                KeyError
-                TypeError
-                preset.load_preset()['operation']
-                preset_ver = input("Would you like to have a preset (y/n): ").lower()
+#             try:
+#                 preset.load_preset()['operation']
+#             except:
+#                 KeyError
+#                 TypeError
+#                 preset.load_preset()['operation']
+#                 preset_ver = input("Would you like to have a preset (y/n): ").lower()
 
-                if preset_ver == 'y':
-                    preset.set_preset()
-                    if preset.load_preset()['operation'] == True:
-                        clear()
-                        print("Preset set successfully\n\n")
+#                 if preset_ver == 'y':
+#                     preset.set_preset()
+#                     if preset.load_preset()['operation'] == True:
+#                         clear()
+#                         print("Preset set successfully\n\n")
 
             vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
             if 'd' in vol:
@@ -269,17 +269,17 @@ def main():
 
 
     elif 'make' in sys.argv[-1].lower():
-        try:
-            preset.load_preset()['operation']
-        except KeyError or TypeError:
-            preset.load_preset()['operation']
-            preset_ver = input("Would you like to have a preset (y/n): ").lower()
+#         try:
+#             preset.load_preset()['operation']
+#         except KeyError or TypeError:
+#             preset.load_preset()['operation']
+#             preset_ver = input("Would you like to have a preset (y/n): ").lower()
 
-            if preset_ver == 'y':
-                preset.set_preset()
-                if preset.load_preset()['operation'] == True:
-                    clear()
-                    print("Preset set successfully\n\n")
+#             if preset_ver == 'y':
+#                 preset.set_preset()
+#                 if preset.load_preset()['operation'] == True:
+#                     clear()
+#                     print("Preset set successfully\n\n")
 
         vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
         if 'd' in vol:
