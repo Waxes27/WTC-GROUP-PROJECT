@@ -174,7 +174,7 @@ def create_doctor_event(service,calid):
         volunteer(service,calid,slot_time,topic,room)   
     else:
         double_book_text = red('Double boooking is not allowed')
-        print(double_book_text))
+        print(double_book_text)
 
 
 
