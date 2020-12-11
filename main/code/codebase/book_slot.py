@@ -30,7 +30,9 @@ def volunteer(service, calid, start, topic, room):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
+    
     string_date_list = list(datefinder.find_dates(start))
+    print(string_date_list)
     if len(string_date_list):
         start = string_date_list[0]
         end_time = start + datetime.timedelta(minutes=30)
@@ -49,6 +51,7 @@ def volunteer(service, calid, start, topic, room):
     }
     result = service.events().insert(calendarId=calid, body=event).execute()
     print(result.get("summary"))
+  
 
 
 def book_vol_slot(service, calid):
@@ -66,7 +69,7 @@ def book_vol_slot(service, calid):
     # return
     year = 2020
     month = 12
-    day = '08'
+    day = '11'
     # date = '2020-12-05 09:00'
     date = f'{year}-{month}-{day} 09:00'
     start_time = list(datefinder.find_dates(date))[0]
@@ -103,8 +106,18 @@ def book_vol_slot(service, calid):
         print('Cannot create booking')
 
 
-def is_slot_avalaible(service, year, month, day, time):
+def is_slot_avalaible(calid, service, slot_time):
     
+    # year = 2020
+    # time = input("slot time e.g [17:00]: ")
+    # month = input("slot month e.g [11] for November: ")
+    # day = input("slot day e.g [14]: ")
+    # slot_time = f'{year} {month} {day} {time}'
+    year = '2020'
+    month = str(slot_time.split()[1])
+    day = str(slot_time.split()[2])
+    time = str(slot_time.split()[3])
+     
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -140,6 +153,9 @@ def is_slot_avalaible(service, year, month, day, time):
         loop_end = int(''.join(end_time.split(':')))
         user_time = int(''.join(time.split(':')))
 
+        # print(start_year, start_month, start_day, start_time)
+        # print(year, month, day, time, 5000)
+
         for i in range(loop_start, loop_end + 1):
             if start_year == year and start_month == month and start_day == day and \
                 i == user_time:
@@ -147,11 +163,16 @@ def is_slot_avalaible(service, year, month, day, time):
     return True      
 
 
-def create_doctor_event(service, calid):
+def create_doctor_event(service,calid):
     topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot_input()
     room = location()
-    volunteer(service,calid,slot_time,topic,room)
+    # print(is_slot_avalaible(calid, service, slot_time), 'answer')
+    if is_slot_avalaible(calid,service, slot_time):
+        volunteer(service,calid,slot_time,topic,room)   
+    else: 
+        print('double book')
+
 
 
 def validate_token():
@@ -261,8 +282,8 @@ def main(service):
     topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot_input()
     room = location()
-    #pat_email = input_API.book_patient(list_)
-    #create_doctor_event(slot_time, topic, pat_email,service)
+    pat_email = input_API.book_patient(list_)
+    create_doctor_event(slot_time, topic, pat_email,service,calid)
 
 
 
