@@ -18,16 +18,16 @@ import sys
 #from codebase import book_slot
 
 s = ' '
-calid = 'c_4pa2luaf52rfdc8f0tn05bf1qo@group.calendar.google.com'
+# calid = 'c_4pa2luaf52rfdc8f0tn05bf1qo@group.calendar.google.com'
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
 event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "patient":[]}
 event_list = []
 
-def main(service):
+def main(service, calid):
     # service = get_service()
-    display_events(service)
+    display_events(service, calid)
 
 
 def get_service():   
@@ -59,7 +59,7 @@ def get_service():
     
     return service
 
-def get_events(service, now):
+def get_events(service, calid, now):
 
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -68,7 +68,7 @@ def get_events(service, now):
 
     return events
 
-def display_events(service):
+def display_events(service,calid):
     """ 
         Displays the Google calendar events within a given time period 
     """
@@ -85,8 +85,8 @@ def display_events(service):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     print('Getting available slots...\n')
 
-    events = get_events(service, now)
-    #pprint(events)
+    events = get_events(service ,calid ,now)
+    pprint(events)
 
 
     if not events:
@@ -107,24 +107,24 @@ def display_events(service):
             date_e = e[0].split("T")
 
             try:
-                if google_cal['summary'] == "General" or google_cal['summary'] == "Recursion"\
-                   or google_cal['summary'] == "Unittesting" or \
-                    google_cal['summary'] == "List Comprehensions" or google_cal['summary'] == "Lambdas":
-                
-                    doctor_email = google_cal['creator']['email']
-                    doctor_user = doctor_email.split('@')
-                     
-                    if google_cal.get("attendees") == None:
-                        guest_user = "Available"
-                    else:
-                        guest_email = google_cal['attendees'][0]['email']
-                        user_email = guest_email.split('@')
-                        guest_user = user_email[0]
-                
-                    slots.append("id: " +google_cal['id'] + "\n" + "date: " + date_s[0] + "\n" + 'start_time: '+ date_s[1][:5] + "\n" + 'end_time: '+ date_e[1][:5] + "\n" + 'topic: ' +google_cal['summary'] + "\n" + 'doctor: ' + doctor_user[0]  + "\n" + 'patient: ' + guest_user.ljust(10))
+                # if google_cal['summary'] == "General" or google_cal['summary'] == "Recursion"\
+                #    or google_cal['summary'] == "Unittesting" or \
+                #     google_cal['summary'] == "List Comprehensions" or google_cal['summary'] == "Lambdas":
+
+                doctor_email = google_cal['creator']['email']
+                doctor_user = doctor_email.split('@')
                     
-                    event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],google_cal['summary'], doctor_user[0], guest_user)
-                    write_calendar_file_json(event_dict)
+                if google_cal.get("attendees") == None:
+                    guest_user = "Available"
+                else:
+                    guest_email = google_cal['attendees'][0]['email']
+                    user_email = guest_email.split('@')
+                    guest_user = user_email[0]
+            
+                slots.append("id: " +google_cal['id'] + "\n" + "date: " + date_s[0] + "\n" + 'start_time: '+ date_s[1][:5] + "\n" + 'end_time: '+ date_e[1][:5] + "\n" + 'topic: ' +google_cal['summary'] + "\n" + 'doctor: ' + doctor_user[0]  + "\n" + 'patient: ' + guest_user.ljust(10))
+                
+                event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],google_cal['summary'], doctor_user[0], guest_user)
+                write_calendar_file_json(event_dict)
 
             except KeyError as e:
                 print(e)
