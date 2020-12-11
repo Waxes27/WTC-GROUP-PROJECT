@@ -113,10 +113,15 @@ def interface(calid, service, username):
 #                         print("Preset set successfully\n\n")
 
             vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
-            if 'd' in vol:
-                book_slot.create_doctor_event(service, calid)
-            else:
-                book_slot.book_vol_slot(service,calid)
+            while 'd' not in vol or 'p' not in vol:
+                print(1)
+                vol = input('Pretty please pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
+                if 'd' in vol:
+                    book_slot.create_doctor_event(service, calid)
+                    break
+                elif 'p' in vol:
+                    book_slot.book_vol_slot(service,calid)
+                    break
 
             # try:
             #     book_slot.main(calid, service)
