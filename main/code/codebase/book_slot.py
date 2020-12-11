@@ -329,11 +329,7 @@ def main(service):
 
     creds =None
     creds = validate_token()
-<<<<<<< HEAD
     service = create_service(creds)
-=======
-    #service = create_service(creds)
->>>>>>> Playground
     topic = input_API.book_topic(topic_list)
     #<<<<<<< HEAD
     slot_time = user_time_slot()
@@ -350,14 +346,9 @@ def main(service):
 #=======
     slot_time = user_time_slot_input()
     room = location()
-<<<<<<< HEAD
     #pat_email = input_API.book_patient(list_)
     #create_doctor_event(slot_time, topic, pat_email,service)
 #>>>>>>> Playground
-=======
-    pat_email = input_API.book_patient(list_)
-    create_doctor_event(slot_time, topic, pat_email,service,calid)
->>>>>>> Playground
 
     
 
