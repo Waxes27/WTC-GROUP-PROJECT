@@ -229,7 +229,7 @@ def main():
 
         vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
         if 'd' in vol:
-            book_slot.volunteer(service,calid)
+            book_slot.create_doctor_event(service, calid)
         else:
             book_slot.book_vol_slot(service,calid)
         return

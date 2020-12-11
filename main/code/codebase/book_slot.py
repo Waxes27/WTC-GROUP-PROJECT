@@ -23,44 +23,32 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
-def volunteer(service, calid):
-    rooms = {
-        '4th floor' : ['open area'],
-        '5th floor' : ['kitchen']
-    }
+
+def volunteer(service, calid, start, topic, room):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    date = '2020-12-08 09:00'
-    start_time = list(datefinder.find_dates(date))[0]
-    slot_opening = 'Recursion'
-    # print(string_date_list)
-    # avail_time = '12:00'
-    end_time = start_time + datetime.timedelta(hours=1)
-    print(end_time)
+    string_date_list = list(datefinder.find_dates(start))
+    if len(string_date_list):
+        start = string_date_list[0]
+        end_time = start + datetime.timedelta(minutes=30)
     event = {
         'summary': 'Available for booking',
         'start': {
-            'dateTime': start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',
         },
         'end': {
             'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',
         },
-        'attendees': [
-            # {'email' : 'mbjali@student.wethinkcode.co.za'},
-            # {'email' : 'cdu-pee@student.wethinkcode.co.za'},
-            
-        ],
-        'location' :  '5th floor',
-        'description' : f'Topic : {slot_opening}'
+        'location' :  room,
+        'description' : f'Topic: {topic}',
     }
     result = service.events().insert(calendarId=calid, body=event).execute()
-    # print(events[0]['start'])
-    print("Event created:", result.get("summary"))
+    print(result.get("summary"))
 
 
 def book_vol_slot(service, calid):
@@ -159,27 +147,11 @@ def is_slot_avalaible(service, year, month, day, time):
     return True      
 
 
-def create_doctor_event(start, summary, pat_email,service):
-    string_date_list = list(datefinder.find_dates(start))
-    if len(string_date_list):
-        start = string_date_list[0]
-        end_time = start + datetime.timedelta(minutes=30)
-    event = {
-        'summary': summary,
-        'start': {
-            'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
-            'timeZone': 'Africa/Johannesburg',
-        },
-        'end': {
-            'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            'timeZone': 'Africa/Johannesburg',
-        },
-        'attendees': [
-            {'email': pat_email},
-        ]
-    }
-    result = service.events().insert(calendarId=calid, body=event).execute()
-    print("Event created:", result.get("summary"))
+def create_doctor_event(service, calid):
+    topic = input_API.book_topic(topic_list)
+    slot_time = user_time_slot_input()
+    room = location()
+    volunteer(service,calid,slot_time,topic,room)
 
 
 def is_slot_avalaible(events, year, month, day, time):
@@ -251,8 +223,6 @@ def create_service(creds):
     return service
 
 
-
-
 def user_time_slot_input():
     """
         Prompts the user for a desired booking time slot
@@ -267,6 +237,25 @@ def user_time_slot_input():
     day = input("slot day e.g [14]: ")
     slot_time = f'{year} {month} {day} {time}'
     return slot_time
+
+
+def location():
+    """
+    Asks the doctor for the location of the coding clinic session
+    return: room
+    """
+    rooms = {
+        '4th floor' : ['4th floor open area'],
+        '5th floor' : ['5th floor kitchen area']
+    }
+    area = input("which floor will you be using(4/5): ")
+
+    if area == "4":
+        room = rooms['4th floor']
+        return room
+    elif area == '5':
+        room = rooms['5th floor']
+        return room
 
 
 def is_time_format_acceptable(time, month, day):
@@ -301,6 +290,7 @@ def main(service):
     creds = validate_token()
     # service = create_service(creds)
     topic = input_API.book_topic(topic_list)
+<<<<<<< HEAD
     slot_time = user_time_slot()
     pat_email = input_API.book_patient(list_)
 <<<<<<< HEAD
@@ -312,6 +302,12 @@ def main(service):
 =======
 >>>>>>> Playground
     create_doctor_event(slot_time, topic, pat_email,service)
+=======
+    slot_time = user_time_slot_input()
+    room = location()
+    #pat_email = input_API.book_patient(list_)
+    #create_doctor_event(slot_time, topic, pat_email,service)
+>>>>>>> Playground
 
     
 
