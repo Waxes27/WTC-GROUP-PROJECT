@@ -86,8 +86,8 @@ def user_input():
     return user_in
 
 
-def interface():
-    service = api_handler.main()
+def interface(calid, service, username):
+    # service = api_handler.main()
     clear()
     print("Welcome to the Interface...")
     time.sleep(3)
@@ -98,25 +98,60 @@ def interface():
         
         if 'make' in user_in.lower():
             clear()
-            
             try:
-                book_slot.main(service)
-            except AttributeError:
-                book_slot.main(service)
+                preset.load_preset()['operation']
+            except:
+                KeyError
+                TypeError
+                preset.load_preset()['operation']
+                preset_ver = input("Would you like to have a preset (y/n): ").lower()
+
+                if preset_ver == 'y':
+                    preset.set_preset()
+                    if preset.load_preset()['operation'] == True:
+                        clear()
+                        print("Preset set successfully\n\n")
+
+            vol = input('Pick a role below...\n\nd - Doctor\np - Patient\n\n > ').lower()
+            if 'd' in vol:
+                book_slot.create_doctor_event(service, calid)
+            else:
+                book_slot.book_vol_slot(service,calid)
+
+            # try:
+            #     book_slot.main(calid, service)
+            # except AttributeError:
+            #     book_slot.main(calid, service)
+
             user_in = user_input()
 
 
         elif 'user' in user_in.lower():
             clear()
-            try:
-                username = input('What is your username?: ')
-            except KeyboardInterrupt:
+            
+            print(f"The current user is... {username}")
+            verify = input("Is this you..?\n\n If it is press ENTER else enter a new username: ")
+            if len(verify) == 0: #User pressed enter
                 clear()
-                username = input('What is your username?: ')
-            try:
-                token = open(f'{username}@student.wethinkcode.co.za.pickle')
-            except FileNotFoundError:
-                print("User token not found")
+                if b'Login successful' in check_output_login(username):
+                    print(f"Welcome {username}\n\n\n")
+            else:
+                username = verify
+                username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
+                username_file.write(username)
+                clear()
+                print("Changing config file...")
+                time.sleep(3)
+
+            # try:
+            #     username = input('What is your username?: ')
+            # except KeyboardInterrupt:
+            #     clear()
+            #     username = input('What is your username?: ')
+            # try:
+            #     token = open(f'{username}@student.wethinkcode.co.za.pickle')
+            # except FileNotFoundError:
+            #     print("User token not found")
             user_in = user_input()
 
         elif user_in.lower() == 'clear':
@@ -138,18 +173,38 @@ def interface():
         
         elif 'view' in user_in.lower():
             clear()
-            if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
-                username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
-                username = username_file.readline()
-            else:
-                print("User not found...\n")
-                username = input("Username: ")
+            x = view_calendar.main(service,calid)
+            user_in = user_input()
+
+        elif 'cancel' in user_in.lower():
+            clear()
+            try:
+                eventid, doc_or_pat = cancel_booking.get_eventid(service,username)
+                if 'd' in doc_or_pat:
+                    cancel_booking.doctor_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
+                else:
+                    cancel_booking.patient_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
+            except TypeError:
+                print('No bookings to cancel\nIf certain check for spelling mistakes and formatting')
+    
+            except UnboundLocalError:
+                print("Username is undefined")
+                verify = input("please enter your username: ")
+                # if len(verify) == 0: #User pressed enter
+                #     clear()
+                #     if b'Login successful' in check_output_login(username):
+                #         print(f"Welcome {username}\n\n\n")
+                # else:
+                username = verify
                 username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
                 username_file.write(username)
                 clear()
-            x = view_calendar.main1(username)
+                print("Changing config file...")
+                
+            time.sleep(3)
+            clear()
             user_in = user_input()
-
+        
         else:
             clear()
             print(f"Invalid command '{user_in}'\n\n")
@@ -161,9 +216,9 @@ def interface():
     time.sleep(3)
 
 
-def eventid_find(service):
+def eventid_find(service,calid):
     clear()
-    slots = view_calendar.display_events(service)
+    slots = view_calendar.display_events(service,calid)
     clear()
     doctor_verify = input("Are you a: \nD - Doctor\nP - Patient\n").lower()
     while doctor_verify != 'd' and doctor_verify != 'p':
@@ -180,6 +235,7 @@ def delete_config():
 
 def main():
     calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
+    # calid = 'primary'
     service = api_handler.main()
     # book_slot.volunteer(service)
     # return
@@ -215,9 +271,7 @@ def main():
     elif 'make' in sys.argv[-1].lower():
         try:
             preset.load_preset()['operation']
-        except:
-            KeyError
-            TypeError
+        except KeyError or TypeError:
             preset.load_preset()['operation']
             preset_ver = input("Would you like to have a preset (y/n): ").lower()
 
@@ -232,12 +286,14 @@ def main():
             book_slot.create_doctor_event(service, calid)
         else:
             book_slot.book_vol_slot(service,calid)
-        return
-        book_slot.main(service)
+
+        # return book_slot.main(service)
+        return True
+        
 
 
     elif 'view' in sys.argv[-1].lower():
-        x = view_calendar.main(service)
+        x = view_calendar.main(service, calid)
 
 
     elif 'cancel' in sys.argv[-1].lower():
@@ -274,7 +330,17 @@ def main():
 
 
     elif sys.argv[-1].lower() == 'interface':
-        interface()
+        if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
+            username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
+            username = username_file.readline()
+        else:
+            print("User not found...\n")
+            username = input("Username: ")
+            username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
+            username_file.write(username)
+            time.sleep(3)
+        clear()
+        interface(calid, service, username)
 
 
     elif 'logout' in sys.argv:
