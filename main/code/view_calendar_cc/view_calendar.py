@@ -86,7 +86,7 @@ def display_events(service,calid):
     print('Getting available slots...\n')
 
     events = get_events(service ,calid ,now)
-    pprint(events)
+#     pprint(events)
 
 
     if not events:
