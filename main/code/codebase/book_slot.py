@@ -220,6 +220,7 @@ def validate_token():
 
 def create_service(creds):
     service = build('calendar', 'v3', credentials=creds)
+    print(service)
     return service
 
 
@@ -288,26 +289,26 @@ def main(service):
 
     creds =None
     creds = validate_token()
-    # service = create_service(creds)
+    service = create_service(creds)
     topic = input_API.book_topic(topic_list)
-<<<<<<< HEAD
+    #<<<<<<< HEAD
     slot_time = user_time_slot()
     pat_email = input_API.book_patient(list_)
-<<<<<<< HEAD
+    #<<<<<<< HEAD
     if is_slot_avalaible(service, year, month, day, time) == False:
             print('Double booking')
     else: 
         create_doctor_event(slot_time, topic, pat_email)
 
-=======
->>>>>>> Playground
+#=======
+#>>>>>>> Playground
     create_doctor_event(slot_time, topic, pat_email,service)
-=======
+#=======
     slot_time = user_time_slot_input()
     room = location()
     #pat_email = input_API.book_patient(list_)
     #create_doctor_event(slot_time, topic, pat_email,service)
->>>>>>> Playground
+#>>>>>>> Playground
 
     
 
