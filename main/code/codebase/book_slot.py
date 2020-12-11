@@ -23,8 +23,9 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
+green = lambda text: '\033[92m' + text + '\033[0m'
 red = lambda text: '\033[91m' + text + '\033[0m'
-
+yellow = lambda text: '\33[33m' + text + '\033[0m'
 
 def volunteer(service, calid, start, topic, room):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -216,22 +217,6 @@ def create_service(creds):
     return service
 
 
-def user_time_slot_input():
-    """
-        Prompts the user for a desired booking time slot
-        Returns:
-
-            slot_time (str): The desired year, month, day and time booking
-    """
-
-    year = 2020
-    time = input("slot time e.g [17:00]: ")
-    month = input("slot month e.g [11] for November: ")
-    day = input("slot day e.g [14]: ")
-    slot_time = f'{year} {month} {day} {time}'
-    return slot_time
-
-
 def location():
     """
     Asks the doctor for the location of the coding clinic session
@@ -250,6 +235,32 @@ def location():
         room = rooms['5th floor']
         return room
 
+def user_time_slot_input():
+    """
+        Prompts the user for a desired booking time slot
+        Returns:
+
+            slot_time (str): The desired year, month, day and time booking
+    """
+
+    while True:
+        year = 2020
+        time = input("slot time e.g [17:00]: ")
+        month = input("slot month e.g [11] for November: ")
+        day = input("slot day e.g [14]: ")
+        if is_time_format_acceptable(time, month, day):
+            slot_time = f'{year} {month} {day} {time}'
+            sucessful_message = green('Time slot successfully entered.\n')
+            print(sucessful_message)
+            break
+    
+        warning_message = yellow('Please type in the specified format.')
+        print(warning_message)
+    return slot_time
+
+
+
+
 
 def is_time_format_acceptable(time, month, day):
     """
@@ -260,16 +271,16 @@ def is_time_format_acceptable(time, month, day):
             month (str): desired user month booking
             day (str): desired user day booking
     """
-    if int(month.split()) >= 1 or int(month.split()) <= 12:
-        return False
-    
-    if int(day.split()) >= 1 or int(day.split()) <= 31:
-        return False
-        
-    if int(month.split()) == 2 and int(day.split()) > 28:
-        return False
 
-    
+    hour_time = int(time.split(':')[0])
+    minute_time = int(time.split(':')[-1])
+    month = int(month)
+    if month not in range(1,13):
+        return False
+    if hour_time not in range(0,24):
+        return False
+    if minute_time not in range(0,59):
+        return False
     return True
 
 
