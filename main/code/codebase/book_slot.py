@@ -23,6 +23,8 @@ topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
 service = ''
 
+red = lambda text: '\033[91m' + text + '\033[0m'
+
 
 def volunteer(service, calid, start, topic, room):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
@@ -170,8 +172,9 @@ def create_doctor_event(service,calid):
     # print(is_slot_avalaible(calid, service, slot_time), 'answer')
     if is_slot_avalaible(calid,service, slot_time):
         volunteer(service,calid,slot_time,topic,room)   
-    else: 
-        print('double book')
+    else:
+        double_book_text = red('Double boooking is not allowed')
+        print(double_book_text))
 
 
 
