@@ -116,7 +116,7 @@ def book_vol_slot(service, calid):
 
 
 def is_slot_avalaible(service, year, month, day, time):
-    
+    print(service)
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -268,7 +268,7 @@ def main(service):
 
     creds =None
     creds = validate_token()
-    # service = create_service(creds)
+    #service = create_service(creds)
     topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot()
     pat_email = input_API.book_patient(list_)
@@ -276,5 +276,5 @@ def main(service):
 
 
 
-# if __name__ == '__main__':
-#     main()
+if __name__ == '__main__':
+    main()
