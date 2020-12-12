@@ -7,6 +7,7 @@ import code.view_calendar_cc.view_calendar as view_calendar
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.api_handler.api_handler as api_handler
 import code.codebase.preset as preset
+import code.codebase.event as event
 import datetime
 import json
 import os
@@ -119,7 +120,8 @@ def interface(calid, service, username):
                     book_slot.create_doctor_event(service, calid)
                     break
                 elif 'p' in vol:
-                    book_slot.book_vol_slot(service,calid)
+                    doctor = event.find_event(service, calid)
+                    book_slot.book_vol_slot(service,calid, doctor)
                     break
 
             # try:
@@ -188,7 +190,7 @@ def interface(calid, service, username):
                     cancel_booking.doctor_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
                 else:
                     cancel_booking.patient_cancellation(service,eventid,f'{username}@student.wethinkcode.co.za')
-            except TypeError:
+            except TypeError as e:
                 print('No bookings to cancel\nIf certain check for spelling mistakes and formatting')
     
             except UnboundLocalError:
@@ -291,9 +293,9 @@ def main():
                     book_slot.create_doctor_event(service, calid)
                     break
                 elif 'p' in vol:
-                    book_slot.book_vol_slot(service,calid)
+                    doctor = event.find_event(service, calid)
+                    book_slot.book_vol_slot(service,calid, doctor)
                     break
-
         # return book_slot.main(service)
         return True
         
