@@ -24,18 +24,18 @@ Available for booking""",output)
             creds = book_slot.validate_token()
             service = book_slot.create_service(creds)
             calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
-            slot_time = '2020-12-15 13:30'
+            slot_time = '2020 12 15 13:30'
 
-            book_slot.is_slot_avalaible(calid,service,slot_time)
-            output = out.getvalue()
-            self.assertEqual("""Double boooking is not allowed""",output)
+            results = book_slot.is_slot_avalaible(calid,service,slot_time)
+
+            self.assertEqual(False, results)
        
     
     def test_is_slot_available(self):
         creds = book_slot.validate_token()
         service = book_slot.create_service(creds)
         calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
-        slot_time = '2020-12-15 13:30'
+        slot_time = '2020 12 15 13:30'
          
         results = book_slot.is_slot_avalaible(calid,service,slot_time)
 
