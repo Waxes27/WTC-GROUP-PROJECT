@@ -3,59 +3,45 @@ import sys
 from unittest.mock import patch
 from io import StringIO
 import book_slot
-
+import os
 
 class testing_inputs(unittest.TestCase):
-
-    def test_slot_not_available(self):
-
-        service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-            \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-        results = book_slot.is_slot_avalaible(service, "2020", "12", "11","11:30")
-        self.assertEqual(False,results)
-        
     
-    def test_slot_not_available_(self):
+    def  test_doctor_event(self):
+        with patch('sys.stdout', new=StringIO("d\n' '\n15:00\n11\n6\n")) as out:
+            creds = book_slot.validate_token()
+            service = book_slot.create_service(creds)
+            calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
 
-        with patch('sys.stdout', new = StringIO()) as fakeout:
-
-            service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-                \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-            book_slot.is_slot_avalaible(service, "2020", "12", "11", "11:30")
-        self.assertEqual(fakeout.getvalue(),'Double booking')
-
-
-    def test_is_slot_available_year(self):
-
-        service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-                \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-        results = book_slot.is_slot_avalaible(service, "2021", "10", "11", "11:30")
-        self.assertEqual(True,results)
+            book_slot.create_doctor_event(service,calid)
+            output = out.getvalue()
+            self.assertEqual("""[datetime.datetime(2020, 11, 6, 15, 0)]
+Available for booking""",output)
 
 
-    def test_is_slot_available_month(self):
+    def test_double_booking(self):
+        with patch('sys.stdout', new=StringIO()) as out:
+            creds = book_slot.validate_token()
+            service = book_slot.create_service(creds)
+            calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
+            slot_time = '2020-12-15 13:30'
 
-        service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-                \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-        results = book_slot.is_slot_avalaible(service, "2020", "12", "11", "11:30")
-        self.assertEqual(True,results)
-
+            book_slot.is_slot_avalaible(calid,service,slot_time)
+            output = out.getvalue()
+            self.assertEqual("""Double boooking is not allowed""",output)
+       
     
-    def test_is_slot_available_day(self):
+    def test_is_slot_available(self):
+        creds = book_slot.validate_token()
+        service = book_slot.create_service(creds)
+        calid = 'g67ktgipc1jjcg9tkqdtol6r54@group.calendar.google.com'
+        slot_time = '2020-12-15 13:30'
+         
+        results = book_slot.is_slot_avalaible(calid,service,slot_time)
 
-        service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-                \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-        results = book_slot.is_slot_avalaible(service, "2020", "12", "19", "11:30")
-        self.assertEqual(True,results)
-
-
-    def test_is_slot_available_time(self):
-
-        service = ["id: 7lh0290kn852tu3u90q48dmr1s\ndate: 2020-12-11\nstart_time: 11:30\
-                \nend_time: 12:30\ntopic: Docstrings\ndoctor: fmokoena\npatient: Available"]
-        results = book_slot.is_slot_avalaible(service, "2020", "12", "11", "14:00")
-        self.assertEqual(True,results)
+        self.assertEqual(True, results)
 
 
 if __name__ == "__main__":
     unittest.main()
+
