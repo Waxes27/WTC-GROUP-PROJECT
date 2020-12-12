@@ -72,7 +72,7 @@ def book_vol_slot(service, calid, doctor):
         print("\nDoctor is unavailable/fully booked.")
         return True
 
-    string_date_list = list(datefinder.find_dates(user_time_slot_input()))
+    string_date_list = list(datefinder.find_dates(time_slot_input()))
     if len(string_date_list):
         start_time = string_date_list[0]
         end_time = start_time + datetime.timedelta(minutes=30)
@@ -232,6 +232,32 @@ def user_time_slot_input():
         time = input("slot time e.g [17:00]: ")
         month = input("slot month e.g [11] for November: ")
         day = input("slot day e.g [14]: ")
+        if is_time_format_acceptable(time, month, day):
+            slot_time = f'{year} {month} {day} {time}'
+            sucessful_message = green('Time slot successfully entered.\n')
+            print(sucessful_message)
+            break
+        else:
+            warning_message = yellow('Please type in the specified format.')
+            print(warning_message)
+            continue
+    return slot_time
+
+
+def time_slot_input():
+    """
+        Prompts the user for event start time, day, month
+        Returns:
+
+            slot_time (str): The desired year, month, day and time booking
+    """
+
+    while True:
+        print("Please enter the event's:")
+        year = 2020
+        time = input("Start time e.g [17:00]: ")
+        month = input("Month e.g [11] for November: ")
+        day = input("Day e.g [14]: ")
         if is_time_format_acceptable(time, month, day):
             slot_time = f'{year} {month} {day} {time}'
             sucessful_message = green('Time slot successfully entered.\n')
