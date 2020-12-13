@@ -4,22 +4,26 @@ import datefinder
 import pickle
 import os.path
 import os
+import sys
+PYTHONPATH = sys.path.append('/goinfre/cdu-pree/problems/WTC-GROUP-PROJECT/WTC-GROUP-PROJECT/main/input_cc_/input_API.py')
+PYTHONPATH = sys.path.append('/goinfre/cdu-pree/problems/WTC-GROUP-PROJECT/WTC-GROUP-PROJECT/main/cancel_booking_/cancel_booking.py')
+
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-from input_cc_ import input_API as input_API
-from cancel_booking_ import cancel_booking as cancel_booking
-import codebase.event as update_event
+#from .input_cc_ import input_API as input_API
+#from cancel_booking_ import cancel_booking as cancel_booking
+import event as update_event
 #from . import create_service
+
 
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
-list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
-topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
-
+helper = PYTHONPATH.input_cc_.input_API.API_input()
+cancel_booking = PYTHONPATH.cancel_booking_.cancel_booking
 
 green = lambda text: '\033[92m' + text + '\033[0m'
 red = lambda text: '\033[91m' + text + '\033[0m'
@@ -145,7 +149,7 @@ def create_doctor_event(service,calid):
     """
     Used to create a slot for the doctor
     """
-    topic = input_API.book_topic()
+    topic = helper.book_topic()
     slot_time = user_time_slot_input()
     room = location()
     if is_slot_avalaible(calid,service, slot_time):
@@ -302,14 +306,14 @@ def main(service):
     creds = validate_token()
     # service = create_service(creds)
 
-    topic = input_API.apiinput.book_topic()
+    topic = helper.book_topic()
     
     year = 2020
     time = input("slot time: ")
     month = input("slot month: ")
     day = input("slot day: ")
     slot_time = f'{year} {month} {day} {time}'
-    pat_email = input_API.apiinput.book_patient()
+    pat_email = helper.book_patient()
 
     #create_doctor_event(slot_time, topic, pat_email, service, calid)
 

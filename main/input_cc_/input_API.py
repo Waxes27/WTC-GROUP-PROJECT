@@ -190,7 +190,3 @@ class API_input():
         self.book_doctor()
         self.book_patient()
         
-        
-if __name__ == "__main__":    
-    apiinput = API_input()
-    apiinput.main()
