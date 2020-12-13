@@ -15,6 +15,9 @@ import pprint as pprint
 SCOPES_Doc = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
 SCOPES_Pat = ['https://www.googleapis.com/auth/calendar','https://www.googleapis.com/auth/calendar.events']
 
+green = lambda text: '\033[92m' + text + '\033[0m'
+red = lambda text: '\033[91m' + text + '\033[0m'
+yellow = lambda text: '\33[33m' + text + '\033[0m'
 
 def get_eventid(service,username):
     email = username + "@student.wethinkcode.co.za"
@@ -147,9 +150,10 @@ def doctor_cancellation(service,eventid,doctor):
             try:
                 del_event = service.events().delete(calendarId='primary',eventId= eventid).execute()
             except googleapiclient.errors.HttpError:
-                print("No event to delete")
+                print(yellow("No event to delete"))
                 return
-            print("Booking Removed")
+            
+            print(green("Booking Removed"))
     return
     # else:
         # if len(data['attendees']) == 3:
@@ -212,6 +216,23 @@ def patient_cancellation(service,eventid,patient):
 #     update_metadata_calendar(service)
 
 # main()
+
+
+def get_eventID(service,calid, doctor):
+    now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    events_result = service.events().list(calendarId=calid, timeMin=now,
+                                        maxResults=100, singleEvents=True,
+                                        orderBy='startTime').execute()
+    events = events_result.get('items', [])
+    for i in range(len(events)):
+        if events[i]['creator']['email'] == doctor:
+            if "Available" in events[i]['summary']:
+                id = events[i]['id']
+                return id
+            elif "Fully" in events[i]['summary']:
+                # return None
+                continue
+
 
 def get_eventid_vol(service,username,calid):
     email = username + "@student.wethinkcode.co.za"

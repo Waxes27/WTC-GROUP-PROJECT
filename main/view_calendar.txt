@@ -1,3 +1,46 @@
+<<<<<<< HEAD
+ID: 5jq1215gb1kkuhrftkttl0dmsm_20201124T090000Z
+Date: 2020-11-24
+Start Time: 11:00
+End Time: 12:15
+Topic: Available Review Slots
+Doctor: mmokoena
+Patient: wmakoae   
+ID: 7le6u2ar2q2joso9pt1s4ijuum
+Date: 2020-11-24
+Start Time: 14:00
+End Time: 16:00
+Topic: Cohort 2020 Town Hall - Group 2
+Doctor: c_cpq2fq1tb809thq9dvlp2e3ekg
+Patient: lemohlala 
+ID: 5jq1215gb1kkuhrftkttl0dmsm_20201125T090000Z
+Date: 2020-11-25
+Start Time: 11:00
+End Time: 12:15
+Topic: Available Review Slots
+Doctor: mmokoena
+Patient: wmakoae   
+ID: 5jq1215gb1kkuhrftkttl0dmsm_20201126T090000Z
+Date: 2020-11-26
+Start Time: 11:00
+End Time: 12:15
+Topic: Available Review Slots
+Doctor: mmokoena
+Patient: wmakoae   
+ID: 5jq1215gb1kkuhrftkttl0dmsm_20201127T090000Z
+Date: 2020-11-27
+Start Time: 11:00
+End Time: 12:15
+Topic: Available Review Slots
+Doctor: mmokoena
+Patient: wmakoae   
+ID: 4352o2h1bsr3vdn6qqefdvu79h_20201127T123000Z
+Date: 2020-11-27
+Start Time: 14:30
+End Time: 14:45
+Topic: JHB Team 25 && Team 26
+Doctor: c_8o0g2bsqbqpmp47ik4slofs3s8
+=======
 ID: 2umhuvtjhnjiio5e9jnomohrb6
 Date: 2020-11-28
 Start Time: 14:30
@@ -12,5 +55,6 @@ Start Time: 12:00
 End Time: 13:00
 Topic: General
 Doctor: mbjali
+>>>>>>> Playground
 Patient: mbjali    
 

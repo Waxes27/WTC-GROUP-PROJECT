@@ -8,115 +8,103 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
+<<<<<<< HEAD:main/codebase/book_slot.py
 from input_cc_ import input_API as input_API
 from cancel_booking_ import cancel_booking as cancel_booking
 import codebase.event as update_event
 #from . import create_service
+=======
+import code.input_cc_.input_API as input_API
+import code.cancel_booking_.cancel_booking as cancel_booking
+import code.codebase.event as update_event
+>>>>>>> 7e85d4d32b105e2ad4da5b41cbdf51c434814ae8:main/code/codebase/book_slot.py
 
 
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']
-# SCOPES = ''
 
 list_ = ["apillay", "bidaniel", "cdu-pree", "fmokoena", "mbjali", "ndumasi", "sigamede","nwalter", "Sigamede", "tmoshole", "vpekane", "Vsithole", "sbaloyi"]
 topic_list = ["Recursion", "Unit Testing", "List Comprehensions", "Lambdas", ""]
 
-service = ''
 
-def volunteer(service, calid):
-    rooms = {
-        '4th floor' : ['open area'],
-        '5th floor' : ['kitchen']
-    }
+green = lambda text: '\033[92m' + text + '\033[0m'
+red = lambda text: '\033[91m' + text + '\033[0m'
+yellow = lambda text: '\33[33m' + text + '\033[0m'
+
+
+def volunteer(service, calid, start, topic, room):
+    """
+    opens a 30min slot for a doctor in the code clinics calendar
+    """
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    date = '2020-12-08 09:00'
-    start_time = list(datefinder.find_dates(date))[0]
-    slot_opening = 'Recursion'
-    # print(string_date_list)
-    # avail_time = '12:00'
-    end_time = start_time + datetime.timedelta(hours=1)
-    print(end_time)
+    
+    string_date_list = list(datefinder.find_dates(start))
+    if len(string_date_list):
+        start = string_date_list[0]
+        end_time = start + datetime.timedelta(minutes=30)
     event = {
         'summary': 'Available for booking',
         'start': {
-            'dateTime': start_time.strftime("%Y-%m-%dT%H:%M:%S"),
+            'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',
         },
         'end': {
             'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
             'timeZone': 'Africa/Johannesburg',
         },
-        'attendees': [
-            # {'email' : 'mbjali@student.wethinkcode.co.za'},
-            # {'email' : 'cdu-pee@student.wethinkcode.co.za'},
-            
-        ],
-        'location' :  '5th floor',
-        'description' : f'Topic : {slot_opening}'
+        'location' :  room,
+        'description' : f'Topic: {topic}',
     }
     result = service.events().insert(calendarId=calid, body=event).execute()
-    # print(events[0]['start'])
-    print("Event created:", result.get("summary"))
+    print(result.get("summary"))
 
 
-def book_vol_slot(service, calid):
+def book_vol_slot(service, calid, doctor):
+    """
+    allows a patient to attend an available event on the code clinics calendar
+    """
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    # for i in range(len(events)):
-    #     if 'Available' in events[i]['summary']:
-    #         try:
-    #             print(events[i]['attendees'][0]['email'])
-    #         except KeyError:
-    #             pass
-    # return
+    value = cancel_booking.get_eventID(service, calid, doctor)
+    if value != None:
+        event = service.events().get(calendarId=calid, eventId=value).execute()
+    else:
+        print("\nDoctor is unavailable/fully booked.")
+        return True
+
+    string_date_list = list(datefinder.find_dates(time_slot_input()))
+    if len(string_date_list):
+        start_time = string_date_list[0]
+        end_time = start_time + datetime.timedelta(minutes=30)
     year = 2020
-    month = 12
-    day = '08'
-    # date = '2020-12-05 09:00'
-    date = f'{year}-{month}-{day} 09:00'
-    start_time = list(datefinder.find_dates(date))[0]
-    end_time = start_time + datetime.timedelta(hours=1)
-    slot_topic = 'recursion'.capitalize()
-    doctor = 'ndumasi'
-    # print(events[0])
-    print()
-    value = cancel_booking.get_eventid_vol(service, 'ndumasi',calid)
-    print(value)
-    # for v in events[0]:
-    #     print(v)
-    # for v in events[0]:
-    #     # print(v)
-    #     if date.split()[0] in events[0]['start']['dateTime']:
-    #         if slot_topic in events[0]['description']:
-    #             if doctor in events[0]['creator']['email']:
-    #                 print("Clinic found\n\nBooking...")
-    #                 return True
-    #             else:
-    #                 print('No Doctor under the provided username')
-    #                 return False
-    #         else:
-    #             print('Topic unavailable for today')
-    #             return False
-    #     else:
-    #         print('No clinic due today')
-    #         return False
-    
-    event = update_event.event(service, calid,'mbjali',slot_topic,start_time, end_time)
+    slot_topic = 'general'.capitalize()
+    username = input('username: ')
+
+    event = update_event.event(service, calid, username,slot_topic, start_time, end_time, doctor)
     try:
         result = service.events().update(calendarId=calid, eventId=value, body=event).execute()
-    except TypeError:
+        print("Event updated")
+    except TypeError as e:
+        print(e)
         print('Cannot create booking')
 
 
-def is_slot_avalaible(service, year, month, day, time):
-    
+def is_slot_avalaible(calid, service, slot_time):
+    """
+    checks if the slot the patient is booking is available/not fully booked
+    """
+    year = '2020'
+    month = str(slot_time.split()[1])
+    day = str(slot_time.split()[2])
+    time = str(slot_time.split()[3])
+     
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -159,30 +147,26 @@ def is_slot_avalaible(service, year, month, day, time):
     return True      
 
 
-def create_doctor_event(start, summary, pat_email,service):
-    string_date_list = list(datefinder.find_dates(start))
-    if len(string_date_list):
-        start = string_date_list[0]
-        end_time = start + datetime.timedelta(minutes=30)
-    event = {
-        'summary': summary,
-        'start': {
-            'dateTime': start.strftime("%Y-%m-%dT%H:%M:%S"),
-            'timeZone': 'Africa/Johannesburg',
-        },
-        'end': {
-            'dateTime': end_time.strftime("%Y-%m-%dT%H:%M:%S"),
-            'timeZone': 'Africa/Johannesburg',
-        },
-        'attendees': [
-            {'email': pat_email},
-        ]
-    }
-    result = service.events().insert(calendarId=calid, body=event).execute()
-    print("Event created:", result.get("summary"))
+def create_doctor_event(service,calid):
+    """
+    Used to create a slot for the doctor
+    """
+    topic = input_API.book_topic(topic_list)
+    slot_time = user_time_slot_input()
+    room = location()
+    if is_slot_avalaible(calid,service, slot_time):
+        volunteer(service,calid,slot_time,topic,room)   
+    else:
+        double_book_text = red('Double boooking is not allowed')
+        print(double_book_text)
+
 
 
 def validate_token():
+    """
+    validates the user's token
+    either refreshes it if it's expired or creates one if it's not available
+    """
     # username = input_API.book_doctor(list_)
     if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
         username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
@@ -215,8 +199,103 @@ def validate_token():
 
 
 def create_service(creds):
+    """
+    creates/run a service
+    """
     service = build('calendar', 'v3', credentials=creds)
     return service
+
+
+def location():
+    """
+    Asks the doctor for the location of the coding clinic session
+    return: room
+    """
+    rooms = {
+        '4th floor' : ['4th floor open area'],
+        '5th floor' : ['5th floor kitchen area']
+    }
+    area = input("which floor will you be using(4/5): ")
+
+    if area == "4":
+        room = rooms['4th floor']
+        return room
+    elif area == '5':
+        room = rooms['5th floor']
+        return room
+
+
+def user_time_slot_input():
+    """
+        Prompts the user for a desired booking time slot
+        Returns:
+
+            slot_time (str): The desired year, month, day and time booking
+    """
+
+    while True:
+        year = 2020
+        time = input("slot time e.g [17:00]: ")
+        month = input("slot month e.g [11] for November: ")
+        day = input("slot day e.g [14]: ")
+        if is_time_format_acceptable(time, month, day):
+            slot_time = f'{year} {month} {day} {time}'
+            sucessful_message = green('Time slot successfully entered.\n')
+            print(sucessful_message)
+            break
+        else:
+            warning_message = yellow('Please type in the specified format.')
+            print(warning_message)
+            continue
+    return slot_time
+
+
+def time_slot_input():
+    """
+        Prompts the user for event start time, day, month
+        Returns:
+
+            slot_time (str): The desired year, month, day and time booking
+    """
+
+    while True:
+        print("Please enter the event's:")
+        year = 2020
+        time = input("Start time e.g [17:00]: ")
+        month = input("Month e.g [11] for November: ")
+        day = input("Day e.g [14]: ")
+        if is_time_format_acceptable(time, month, day):
+            slot_time = f'{year} {month} {day} {time}'
+            sucessful_message = green('Time slot successfully entered.\n')
+            print(sucessful_message)
+            break
+        else:
+            warning_message = yellow('Please type in the specified format.')
+            print(warning_message)
+            continue
+    return slot_time
+
+
+def is_time_format_acceptable(time, month, day):
+    """
+        Verifies whether time format provided is desired
+
+        Paramaters 
+            time (str): desired user time slot
+            month (str): desired user month booking
+            day (str): desired user day booking
+    """
+
+    hour_time = int(time.split(':')[0])
+    minute_time = int(time.split(':')[-1])
+    month = int(month)
+    if month not in range(1,13):
+        return False
+    if hour_time not in range(0,24):
+        return False
+    if minute_time not in range(0,59):
+        return False
+    return True
 
 
 def main(service):
@@ -228,6 +307,7 @@ def main(service):
     creds =None
     creds = validate_token()
     # service = create_service(creds)
+<<<<<<< HEAD:main/codebase/book_slot.py
 
     topic = input_API.apiinput.book_topic()
     
@@ -239,6 +319,13 @@ def main(service):
     pat_email = input_API.apiinput.book_patient()
 
     create_doctor_event(slot_time, topic, pat_email,service)
+=======
+    topic = input_API.book_topic(topic_list)
+    slot_time = user_time_slot_input()
+    room = location()
+    pat_email = input_API.book_patient(list_)
+    create_doctor_event(slot_time, topic, pat_email,service,calid)
+>>>>>>> 7e85d4d32b105e2ad4da5b41cbdf51c434814ae8:main/code/codebase/book_slot.py
 
 
 

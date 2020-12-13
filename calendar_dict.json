@@ -1,1 +1,5 @@
+<<<<<<< HEAD
+{"id": ["0blm1lsh6skaeo8jfa694o9e3j", "7vdec29oljnlcfoesvg58ml06q", "igp0rpcg4sd1rvnl4i39v3ck64"], "date": ["2020-12-04", "2020-12-04", "2020-12-12"], "start_time": ["11:00", "15:00", "12:00"], "end_time": ["12:00", "16:00", "12:30"], "topic": ["General", "Unittesting", "General"], "doctor": ["mbjali", "mbjali", "ndumasi"], "patient": ["ndumasi", "ndumasi", "mbjali"]}
+=======
 {"id": ["c4m3ses6g061k5hu3igrggvesc", "cu4m12c28u29alfqngiuggjob8", "oisofrb8rjdq9tt7a3fj0r4924", "3sq0bnc8mdgqohoddjv5v5qo0c", "igp0rpcg4sd1rvnl4i39v3ck64", "659lldcc0lt9jb8tfkhjrluhhs"], "date": ["2020-12-09", "2020-12-09", "2020-12-10", "2020-12-12", "2020-12-12", "2020-12-25"], "start_time": ["12:00", "12:00", "12:00", "12:00", "12:00", "12:00"], "end_time": ["12:30", "12:30", "12:30", "12:30", "12:30", "13:00"], "topic": ["General", "General", "General", "General", "General", "General"], "doctor": ["ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi"], "patient": ["mbjali", "mbjali", "mbjali", "vpekane", "mbjali", "cdu-pree"]}
+>>>>>>> Playground
