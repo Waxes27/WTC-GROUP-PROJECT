@@ -1,13 +1,12 @@
 #THIS MODULE IMPORTS AND ACTS AS THE MAIN CODEBASE
 import subprocess
 import code
-import code.help_cc_.help_cc as help_cc
-import code.codebase.book_slot as book_slot
-import code.view_calendar_cc.view_calendar as view_calendar
-import code.cancel_booking_.cancel_booking as cancel_booking
-import code.api_handler.api_handler as api_handler
-import code.codebase.preset as preset
-import code.codebase.event as event
+import input_cc_.input_API as input_API
+import codebase.book_slot as book_slot
+import view_calendar_cc.view_calendar as view_calendar
+import cancel_booking_.cancel_booking as cancel_booking
+import api_handler.api_handler as api_handler
+import codebase.preset as preset
 import datetime
 import json
 import os
@@ -15,7 +14,7 @@ import time
 import sys
 
 
-
+helper = input_API.API_input()
 
 def config(username):
     os.system(f"""echo "---
@@ -165,7 +164,7 @@ def interface(calid, service, username):
             user_in = user_input()
             
         elif user_in == 'help':
-            help_cc.run_main()
+            helper.do_help()
             user_in = user_input()
 
         elif 'logout' in user_in:
@@ -214,7 +213,7 @@ def interface(calid, service, username):
         else:
             clear()
             print(f"Invalid command '{user_in}'\n\n")
-            help_cc.run_main()
+            helper.do_help()
             user_in = input("What would you like to do now...:  ").lower()
 
     clear()
@@ -271,7 +270,7 @@ def main():
             failed_authentication(username)
 
     if sys.argv[-1].lower() == 'help' or len(sys.argv) < 2:
-        help_cc.run_main()
+        helper.do_help()
 
 
     elif 'make' in sys.argv[-1].lower():
