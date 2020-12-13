@@ -14,7 +14,7 @@ def find_event(service, calid):
     finds the event a patient is searching for by the doctor's username
     returns: returns details of the event if it is available
     """
-    doctor = f'{input("Enter your doctors username: ")}@student.wethinkcode.co.za'
+    doctor = input("Enter your doctor's username: ") + "@student.wethinkcode.co.za"
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -33,10 +33,11 @@ def find_event(service, calid):
             if "Fully" in events[i]['summary']:
                 print("Doctor is fully booked")
                 continue
-    return doctor
+        return doctor
+    return None
 
 
-def event(service, calid,username, slot_topic, start_time, end_time, doctor):
+def event(service, calid,username, slot_topic, start_time, end_time, doctor, room):
     """
     updates the event that the user wants to attend
     """
@@ -50,7 +51,6 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
             if events[i]['creator']['email'] == doctor:
                 try:
                     if len((events[i]['attendees'])) == 2:
-                        # print(events[i]['attendees'])
                         event = {
                             'summary': f'Fully Booked ({slot_topic})',
                             'start': {
@@ -65,7 +65,7 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
                                 {'email' : f"{events[i]['attendees'][0]['email']}"},
                                 {'email' : f"{events[i]['attendees'][1]['email']}"},
                             ],
-                            'location' :  '5th floor',
+                            'location' :  room,
                             'description' : f'Topic: {slot_topic}',
                         }
                         return event
@@ -85,7 +85,7 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
                                 {'email' : f"{events[i]['attendees'][0]['email']}"},
                                 {'email' : f"{username}@student.wethinkcode.co.za"},
                             ],
-                            'location' :  '5th floor',
+                            'location' :  room,
                             'description' : f'Topic: {slot_topic}',
                         }
                         return event
@@ -106,7 +106,7 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
                             'attendees': [
                                 {'email' : f'{username}@student.wethinkcode.co.za'},
                             ],
-                            'location' :  '5th floor',
+                            'location' :  room,
                             'description' : f'Topic: {slot_topic}',
                     }
                     return event

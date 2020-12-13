@@ -294,7 +294,10 @@ def main():
                     break
                 elif 'p' in vol:
                     doctor = event.find_event(service, calid)
-                    book_slot.book_vol_slot(service,calid, doctor)
+                    if doctor == None:
+                        print("No such doctor")
+                    else:
+                        book_slot.book_vol_slot(service,calid, doctor)
                     break
         # return book_slot.main(service)
         return True

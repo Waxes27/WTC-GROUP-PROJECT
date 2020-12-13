@@ -77,10 +77,13 @@ def book_vol_slot(service, calid, doctor):
         start_time = string_date_list[0]
         end_time = start_time + datetime.timedelta(minutes=30)
     year = 2020
-    slot_topic = 'general'.capitalize()
+    # slot_topic = 'general'.capitalize()
+    # slot_topic = input_API.book_topic(topic_list)
+    slot_topic = event['description'][7:]
+    room = location()
     username = input('username: ')
 
-    event = update_event.event(service, calid, username,slot_topic, start_time, end_time, doctor)
+    event = update_event.event(service, calid, username,slot_topic, start_time, end_time, doctor, room)
     try:
         result = service.events().update(calendarId=calid, eventId=value, body=event).execute()
         # print(value)
