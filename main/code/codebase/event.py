@@ -91,8 +91,6 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor, roo
                         return event
 
                 except KeyError as e:
-                    print(e)
-                    print("WENT IN HERE")
                     event = {
                             'summary': f'Available for booking(1/2) ({slot_topic})',
                             'start': {
