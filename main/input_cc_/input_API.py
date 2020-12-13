@@ -35,7 +35,6 @@ class API_input():
         Getter method that returns the lists as they are needed.
         '''
 
-        print("Does this work?")
         return self.__hislist, self.__cmdlist    
         
         
@@ -53,7 +52,6 @@ class API_input():
             self.__hislist.append(commands_bt)
             self.__history_command += 1
         if commands_bd != "":
-            print("testing2")
             self.__hislist.append(commands_bd)
             self.__history_command += 1
         if commands_bp != "":
@@ -134,14 +132,14 @@ class API_input():
             self.__execute()
             self.undo()
             self.username()
+        while len(booking_topic) <= 0:
+            print("You have chosen a General topic\n")
+            booking_topic = "General"
+            return booking_topic
         while (booking_topic not in self.topic_list and booking_topic != "help".capitalize() 
         and booking_topic != "undo".capitalize()):
             print(booking_topic)
             booking_topic = input("Please choose a valid topic from the list above:\n").capitalize()
-        if len(booking_topic) <= 0:
-            print("You have chosen a General topic\n")
-            booking_topic = "General"
-            return booking_topic
         return booking_topic    
         
 
@@ -157,15 +155,15 @@ class API_input():
             self.book_topic()
         while len(booking_doc) <= 0:
             print("Please provide your username.\n")
-            booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
+            booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
         while booking_doc not in self.list_ and booking_doc != "help" and booking_doc != "undo":
             print("Username Invalid, please select a valid username.\n")
-            booking_doc = input("Please provide the name of the Coding Clinician\n").lower()
+            booking_doc = input("Please provide the name of the Coding Clinician.\n").lower()
         return booking_doc + '@student.wethinkcode.co.za'    
         
         
     def book_patient(self):
-        booking_pat = input("Please provide the name of the Coding Patient.\n")
+        booking_pat = input("Please provide the name of the Coding Patient.\n").lower()
         if booking_pat == "HELP".lower():
             self.do_help()
             self.book_patient()
@@ -174,11 +172,11 @@ class API_input():
             self.__execute()
             self.book_doctor()
         while booking_pat not in self.list_ and booking_pat != "help" and booking_pat != "undo":
-            print("Username Invalid, please select a valid username.")
-            booking_pat = input("Please provide the name of the Coding Patient\n")
+            print("Username Invalid, please select a valid username.\n")
+            booking_pat = input("Please provide the name of the Coding Patient.\n")
         while len(booking_pat) <= 0:
             print("Please provide a valid username\n")
-            booking_pat = input("Please provide the name of the Coding Patient\n")
+            booking_pat = input("Please provide the name of the Coding Patient.\n")
         return booking_pat + '@student.wethinkcode.co.za', self.__history_command + 1    
         
         

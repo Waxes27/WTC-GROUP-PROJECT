@@ -12,29 +12,6 @@ class Test_Project(unittest.TestCase):
 
     maxDiff = None
 
-    def test_main_file(self):
-        import main
-        output = main.main()
-        self.assertEqual('''List of available commands\n
---------------------------
-USERNAME    : Enter your username
-HELP        : Shows information about the available commands
-MAKEBOOK    : Makes a booking for a code clinic session
-VIEWCAL     : Views calendar and events
-LOGOUT      : Logs the user out
-INTERFACE   : Access the Interface
-CLEAR       : Clears the terminal screen
-CANCELBOOK  : Cancels the booking
-
-Topics list commands available:
-------------------------------
-
-Recursion               : The repeated application of a recursive procedure or definition.
-Unittesting             : Automated code to test software written by other developers
-List Comprehensions     : Creating new lists from other iterables
-Lambdas                 : an anonymous function is a function that is defined without a name.''', output)
-
-    
     def test_unittest_calendar_exist(self):
         import test_calendar
         self.assertTrue('test_calendar' in sys.modules, "test_calendar file should exist")
