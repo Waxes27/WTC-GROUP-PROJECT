@@ -1,0 +1,13 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+{"id": ["3sq0bnc8mdgqohoddjv5v5qo0c"], "date": ["2020-12-12"], "start_time": ["12:00"], "end_time": ["12:30"], "topic": ["General"], "doctor": ["ndumasi"], "patient": ["vpekane"]}
+=======
+{"id": ["650ph837vcau5ukuvrfoe5u3cc", "dls2e0dl9190tpcndl8a3eklek", "fuodap3sb63prtl7ljqbb7orfs", "gqloef33lb68lvt60d1ke60150", "3sq0bnc8mdgqohoddjv5v5qo0c", "igp0rpcg4sd1rvnl4i39v3ck64", "659lldcc0lt9jb8tfkhjrluhhs"], "date": ["2020-12-04", "2020-12-06", "2020-12-06", "2020-12-06", "2020-12-12", "2020-12-12", "2020-12-25"], "start_time": ["10:30", "12:00", "12:00", "12:00", "12:00", "12:00", "12:00"], "end_time": ["11:00", "12:30", "12:30", "12:30", "12:30", "12:30", "13:00"], "topic": ["General", "General", "General", "General", "General", "General", "General"], "doctor": ["ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi"], "patient": ["vpekane", "ndumasi", "ndumasi", "ndumasi", "vpekane", "mbjali", "cdu-pree"]}
+>>>>>>> 899510a35892dedf19c5b974c0dedb09a6fc7e86
+=======
+{"id": ["c4m3ses6g061k5hu3igrggvesc", "cu4m12c28u29alfqngiuggjob8", "oisofrb8rjdq9tt7a3fj0r4924", "3sq0bnc8mdgqohoddjv5v5qo0c", "igp0rpcg4sd1rvnl4i39v3ck64", "659lldcc0lt9jb8tfkhjrluhhs"], "date": ["2020-12-09", "2020-12-09", "2020-12-10", "2020-12-12", "2020-12-12", "2020-12-25"], "start_time": ["12:00", "12:00", "12:00", "12:00", "12:00", "12:00"], "end_time": ["12:30", "12:30", "12:30", "12:30", "12:30", "13:00"], "topic": ["General", "General", "General", "General", "General", "General"], "doctor": ["ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi", "ndumasi"], "patient": ["mbjali", "mbjali", "mbjali", "vpekane", "mbjali", "cdu-pree"]}
+>>>>>>> Playground
+=======
+{"id": ["jt4onlk4799v1c2fk74epd0j9c", "92lkl3jba4de21uss0t29u1mn4", "s836umh4gl9jg3c4ip1sb51ek0"], "date": ["2020-12-12", "2020-12-16", "2020-12-20"], "start_time": ["17:00", "14:00", "15:00"], "end_time": ["17:30", "14:30", "15:30"], "topic": ["Available for booking", "Available for booking", "Available for booking"], "doctor": ["sbaloyi", "vsithole", "sbaloyi"], "patient": ["Available", "Available", "Available"]}
+>>>>>>> Playground

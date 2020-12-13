@@ -6,7 +6,7 @@ import pickle
 #from googleapiclient.discovery import build
 #from google_auth_oauthlib.flow import InstalledAppFlow
 #from google.auth.transport.requests import Request
-
+z
 
 def book_topic():
     booking_topic = input("Please provide a topic you would like to clinic?\n")
@@ -16,7 +16,7 @@ def book_topic():
     if booking_topic == "Cancel":
         print("Cancelling clinic\n")
         return 0
-    return booking_topic
+    return booking_topic.lower().capitalize()
 
 
 def book_doctor():
@@ -24,7 +24,7 @@ def book_doctor():
     while len(booking_doc) <= 0:
         print("Field cannot be blank, please provide your valid username.\n")
         booking_doc = input("Please provide the name of the Coding Clinician\n")
-    return booking_doc + '@student.wethinkcode.co.za'
+    return booking_doc.lower() + '@student.wethinkcode.co.za'
 
 
 def book_patient():
@@ -32,7 +32,7 @@ def book_patient():
     while len(booking_pat) <= 0:
         print("Please provide a valid username\n")
         booking_pat = input("Please provide the name of the Coding Patient\n")
-    return booking_pat + '@student.wethinkcode.co.za'
+    return booking_pat.lower() + '@student.wethinkcode.co.za'
 
 
 def main():
