@@ -68,17 +68,17 @@ def pick(service,calid,variable,user,sidebar,frame,main_frame):
         # print(user.get())
         slots = get_slots(service,calid)
         username = user.get()
-        if username == "fmokoena":
-        # if b'Login successful' in check_output_login(username):
+        
+        if b'Login successful' in check_output_login(username):
             if variable.get() == 1:
                 doctor(slots,service,sidebar,frame,main_frame,username,True,calid)
             else:
                 patient(slots,service,sidebar,frame,main_frame,username,False,calid)
 
         else:
-            # username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
-            # username_file.write(username)
-            # check_output_login(username)
+            username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'w+')
+            username_file.write(username)
+            check_output_login(username)
 
             invalid =  tk.Label(master=frame, relief=tk.FLAT,justify='center', text="Please enter a valid UserName")
             invalid.pack()
