@@ -28,7 +28,7 @@ def find_event(service, calid):
                 print("\nDoctor is available for booking:\n")
                 print("Time: "+events[i]['start']['dateTime'][:10] + " " + events[i]['start']['dateTime'][11:16] +'\n')
                 print(f"{events[i]['description']}\n")
-                break
+                continue
         elif events[i]['creator']['email'] == doctor:
             if "Fully" in events[i]['summary']:
                 print("Doctor is fully booked")
@@ -50,7 +50,7 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
             if events[i]['creator']['email'] == doctor:
                 try:
                     if len((events[i]['attendees'])) == 2:
-                        print(events[i]['attendees'])
+                        # print(events[i]['attendees'])
                         event = {
                             'summary': f'Fully Booked ({slot_topic})',
                             'start': {
@@ -91,6 +91,8 @@ def event(service, calid,username, slot_topic, start_time, end_time, doctor):
                         return event
 
                 except KeyError as e:
+                    print(e)
+                    print("WENT IN HERE")
                     event = {
                             'summary': f'Available for booking(1/2) ({slot_topic})',
                             'start': {
