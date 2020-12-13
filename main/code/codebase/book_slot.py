@@ -8,16 +8,9 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
-<<<<<<< HEAD:main/codebase/book_slot.py
-from input_cc_ import input_API as input_API
-from cancel_booking_ import cancel_booking as cancel_booking
-import codebase.event as update_event
-#from . import create_service
-=======
 import code.input_cc_.input_API as input_API
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.codebase.event as update_event
->>>>>>> parent of 3280f6e... Cleaned up Directory structure:main/code/codebase/book_slot.py
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -152,7 +145,7 @@ def create_doctor_event(service,calid):
     """
     Used to create a slot for the doctor
     """
-    topic = input_API.book_topic()
+    topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot_input()
     room = location()
     if is_slot_avalaible(calid,service, slot_time):
@@ -312,25 +305,11 @@ def main(service):
     creds =None
     creds = validate_token()
     # service = create_service(creds)
-<<<<<<< HEAD:main/codebase/book_slot.py
-
-    topic = input_API.apiinput.book_topic()
-    
-    year = 2020
-    time = input("slot time: ")
-    month = input("slot month: ")
-    day = input("slot day: ")
-    slot_time = f'{year} {month} {day} {time}'
-    pat_email = input_API.apiinput.book_patient()
-
-    #create_doctor_event(slot_time, topic, pat_email, service, calid)
-=======
     topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot_input()
     room = location()
     pat_email = input_API.book_patient(list_)
     create_doctor_event(slot_time, topic, pat_email,service,calid)
->>>>>>> parent of 3280f6e... Cleaned up Directory structure:main/code/codebase/book_slot.py
 
 
 
