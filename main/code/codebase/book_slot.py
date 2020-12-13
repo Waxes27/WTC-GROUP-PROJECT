@@ -65,14 +65,14 @@ def book_vol_slot(service, calid, doctor):
                                         maxResults=100, singleEvents=True,
                                         orderBy='startTime').execute()
     events = events_result.get('items', [])
-    value = cancel_booking.get_eventID(service, calid, doctor)
+    string_date_list = list(datefinder.find_dates(time_slot_input()))
+    value = cancel_booking.get_eventID(service, calid, doctor, Time[0])
     if value != None:
         event = service.events().get(calendarId=calid, eventId=value).execute()
     else:
         print("\nDoctor is unavailable/fully booked.")
         return True
 
-    string_date_list = list(datefinder.find_dates(time_slot_input()))
     if len(string_date_list):
         start_time = string_date_list[0]
         end_time = start_time + datetime.timedelta(minutes=30)
@@ -83,6 +83,7 @@ def book_vol_slot(service, calid, doctor):
     event = update_event.event(service, calid, username,slot_topic, start_time, end_time, doctor)
     try:
         result = service.events().update(calendarId=calid, eventId=value, body=event).execute()
+        # print(value)
         print("Event updated")
     except TypeError as e:
         print(e)
@@ -243,10 +244,12 @@ def user_time_slot_input():
             continue
     return slot_time
 
+Time = []
+
 
 def time_slot_input():
     """
-        Prompts the user for event start time, day, month
+        Prompts the patient for event start time, day, month
         Returns:
 
             slot_time (str): The desired year, month, day and time booking
@@ -256,6 +259,7 @@ def time_slot_input():
         print("Please enter the event's:")
         year = 2020
         time = input("Start time e.g [17:00]: ")
+        Time.append(time)
         month = input("Month e.g [11] for November: ")
         day = input("Day e.g [14]: ")
         if is_time_format_acceptable(time, month, day):
@@ -281,7 +285,7 @@ def is_time_format_acceptable(time, month, day):
     """
 
     hour_time = int(time.split(':')[0])
-    minute_time = int(time.split(':')[-1])
+    minute_time = int(time.split(':')[0])
     month = int(month)
     if month not in range(1,13):
         return False

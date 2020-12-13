@@ -218,7 +218,7 @@ def patient_cancellation(service,eventid,patient):
 # main()
 
 
-def get_eventID(service,calid, doctor):
+def get_eventID(service,calid, doctor, time):
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
     events_result = service.events().list(calendarId=calid, timeMin=now,
                                         maxResults=100, singleEvents=True,
@@ -227,8 +227,9 @@ def get_eventID(service,calid, doctor):
     for i in range(len(events)):
         if events[i]['creator']['email'] == doctor:
             if "Available" in events[i]['summary']:
-                id = events[i]['id']
-                return id
+                if time == events[i]['start']['dateTime'][11:16]:
+                    id = events[i]['id']
+                    return id
             elif "Fully" in events[i]['summary']:
                 # return None
                 continue
