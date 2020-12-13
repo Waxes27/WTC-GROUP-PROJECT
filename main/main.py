@@ -1,14 +1,6 @@
 #THIS MODULE IMPORTS AND ACTS AS THE MAIN CODEBASE
 import subprocess
 import code
-<<<<<<< HEAD
-import input_cc_.input_API as input_API
-import codebase.book_slot as book_slot
-import view_calendar_cc.view_calendar as view_calendar
-import cancel_booking_.cancel_booking as cancel_booking
-import api_handler.api_handler as api_handler
-import codebase.preset as preset
-=======
 import code.help_cc_.help_cc as help_cc
 import code.codebase.book_slot as book_slot
 import code.view_calendar_cc.view_calendar as view_calendar
@@ -16,7 +8,6 @@ import code.cancel_booking_.cancel_booking as cancel_booking
 import code.api_handler.api_handler as api_handler
 import code.codebase.preset as preset
 import code.codebase.event as event
->>>>>>> parent of 3280f6e... Cleaned up Directory structure
 import datetime
 import json
 import os

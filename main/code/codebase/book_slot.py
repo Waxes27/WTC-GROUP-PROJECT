@@ -12,6 +12,7 @@ from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from pprint import pprint
+<<<<<<< HEAD
 <<<<<<< HEAD:main/codebase/book_slot.py
 <<<<<<< HEAD
 #from .input_cc_ import input_API as input_API
@@ -26,10 +27,11 @@ import codebase.event as update_event
 #from . import create_service
 >>>>>>> abfa45d10ae923ebbf8486a62f50fef1f31651da
 =======
+=======
+>>>>>>> 48d371378c2bb4610e7f49ac59f1496c316eb139
 import code.input_cc_.input_API as input_API
 import code.cancel_booking_.cancel_booking as cancel_booking
 import code.codebase.event as update_event
->>>>>>> parent of 3280f6e... Cleaned up Directory structure:main/code/codebase/book_slot.py
 
 
 # If modifying these scopes, delete the file token.pickle.
@@ -164,10 +166,14 @@ def create_doctor_event(service,calid):
     Used to create a slot for the doctor
     """
 <<<<<<< HEAD
+<<<<<<< HEAD
     topic = helper.book_topic()
 =======
     topic = input_API.book_topic()
 >>>>>>> abfa45d10ae923ebbf8486a62f50fef1f31651da
+=======
+    topic = input_API.book_topic(topic_list)
+>>>>>>> 48d371378c2bb4610e7f49ac59f1496c316eb139
     slot_time = user_time_slot_input()
     room = location()
     if is_slot_avalaible(calid,service, slot_time):
@@ -327,6 +333,7 @@ def main(service):
     creds =None
     creds = validate_token()
     # service = create_service(creds)
+<<<<<<< HEAD
 <<<<<<< HEAD:main/codebase/book_slot.py
 
 <<<<<<< HEAD
@@ -348,12 +355,13 @@ def main(service):
 
     #create_doctor_event(slot_time, topic, pat_email, service, calid)
 =======
+=======
+>>>>>>> 48d371378c2bb4610e7f49ac59f1496c316eb139
     topic = input_API.book_topic(topic_list)
     slot_time = user_time_slot_input()
     room = location()
     pat_email = input_API.book_patient(list_)
     create_doctor_event(slot_time, topic, pat_email,service,calid)
->>>>>>> parent of 3280f6e... Cleaned up Directory structure:main/code/codebase/book_slot.py
 
 
 
