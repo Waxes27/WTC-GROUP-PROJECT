@@ -22,7 +22,7 @@ s = ' '
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ['https://www.googleapis.com/auth/calendar']#removed '.readonly'
 
-event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "patient":[]}
+event_dict = {"id":[], "date":[], "start_time":[], "end_time":[], "topic":[], "doctor":[], "guest_user_1":[], "guest_user_2":[], "booked":[]}
 event_list = []
 
 def main(service, calid):
@@ -75,19 +75,28 @@ def display_events(service,calid):
 
     global s
     slots = []
-    guest_user = ""
+    ids = []
     dates_week = []
     x = 0
+    save = False
+    count = 0
+    guest_user = []
+    topic = ''
+    description = ''
+    topic_desc = ''
+    email_count = 0
+    booked = ''
+    opened = ''
+    idss = []
+    temp_id = []
 
     x = get_days()
-       
-
     now = datetime.datetime.utcnow().isoformat() + 'Z' # 'Z' indicates UTC time
+    
     print('Getting available slots...\n')
 
-    events = get_events(service ,calid ,now)
-#     pprint(events)
-
+    events = get_events(service, calid ,now)
+    pprint(events)
 
     if not events:
         print('No available slots found.')
@@ -97,8 +106,7 @@ def display_events(service,calid):
         print("------------------------------------")
         print("Available slots :")
         print("------------------------------------")
-       
-        #get_calendar(events)    
+         
         for google_cal in events:  
 
             s = google_cal['start'].get('dateTime').split("+")
@@ -107,27 +115,51 @@ def display_events(service,calid):
             date_e = e[0].split("T")
 
             try:
-                # if google_cal['summary'] == "General" or google_cal['summary'] == "Recursion"\
-                #    or google_cal['summary'] == "Unittesting" or \
-                #     google_cal['summary'] == "List Comprehensions" or google_cal['summary'] == "Lambdas":
-
+                
                 doctor_email = google_cal['creator']['email']
                 doctor_user = doctor_email.split('@')
                     
-                if google_cal.get("attendees") == None:
-                    guest_user = "Available"
-                else:
-                    guest_email = google_cal['attendees'][0]['email']
-                    user_email = guest_email.split('@')
-                    guest_user = user_email[0]
-            
-                slots.append("id: " +google_cal['id'] + "\n" + "date: " + date_s[0] + "\n" + 'start_time: '+ date_s[1][:5] + "\n" + 'end_time: '+ date_e[1][:5] + "\n" + 'topic: ' +google_cal['summary'] + "\n" + 'doctor: ' + doctor_user[0]  + "\n" + 'patient: ' + guest_user.ljust(10))
-                
-                event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],google_cal['summary'], doctor_user[0], guest_user)
-                write_calendar_file_json(event_dict)
+                try:
+                    while count <= 1:
+                        if google_cal.get("attendees") == None or google_cal['attendees'][count]['email'] == None:
+                            guest_user.append("Available")
+                            guest_user.append("Available")
+                        else:
+                            guest_email = google_cal['attendees'][count]['email']
+                            user_email = guest_email.split('@')
+                            guest_user.append(user_email[0])
+                            email_count += 1
+                        count += 1
 
+                    count=0
+                except:
+                    guest_user.append("Available")  
+
+
+                if email_count == 2:
+                    booked = "Fully booked"
+                else:
+                    booked = "Available"
+                
+                email_count = 0
+
+                topic = google_cal['description'] 
+                description = topic.split(': ')
+                topic_desc = description[1]
+                
+                slots.append("id: "+google_cal['id']+ "\n"+ "date: "+date_s[0]+"\n"+'start_time: '+ date_s[1][:5]+ "\n"+ 'end_time: '+ date_e[1][:5]+ "\n"+ 'topic: '+ topic_desc+ "\n"+ 'doctor: ' + doctor_user[0]+ "\n" + 'patient 1: ' + guest_user[0].ljust(10) + '\n'+'patient 2: ' + guest_user[1].ljust(10)+  "\n" + 'Available:' + booked)
+                ids.append(google_cal['id'])
+                #opened = read_calendar_id(ids)
+                #write_calendar_id(ids, opened)  
+                #write_calendar_id(google_cal['id'], opened)  
+                event_dict_loader(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],topic_desc, doctor_user[0],guest_user[0], guest_user[1], booked)
+                write_calendar_file_json(event_dict)
+                save = write_display_calendar(google_cal['id'] ,date_s[0],date_s[1][:5],date_e[1][:5],topic_desc, doctor_user[0],guest_user[0], guest_user[1], booked, save)
+                guest_user.clear()
             except KeyError as e:
                 print(e)
+
+        write_calendar_id(ids, opened)  
 
         day_to = datetime.datetime.now()
         last_day = day_to + timedelta(days = int(x))
@@ -139,32 +171,31 @@ def display_events(service,calid):
         for t in dates_week:
             print('\n')
             print("Date: " + t)
-            print ('{:.>80}'.format('.'))
-            print('|', 'Start Time'.ljust(9) , '|',' End Time'.ljust(10), '|',' Topic'.ljust(12) ,'|',' Doctor'.ljust(10) , '|',' Patient'.ljust(12),'|')
-            print ('{:.>80}'.format('.'))
+            print ('{:.>112}'.format('.'))
+            print('|', 'Start Time'.ljust(9) , '|',' End Time'.ljust(10), '|',' Topic'.ljust(13) ,'|',' Doctor'.ljust(10) , '|',' Patient 1'.ljust(12),'|', ' Patient 2'.ljust(13),'|','Available:'.ljust(22) , '|')
+            print ('{:.>112}'.format('.'))
             used = False
 
             for p in range(len(slots)):
                 act = slots[p]
                 act = act.split('\n')
                 act.remove(act[0])
-                # print(slots[p])
-                # time.sleep(4)
-                # os.system('clear')
 
                 if t == act[0].split(': ',1)[1]:
-                    print("|",act[1].split(':',1)[1]," "*(10-len(act[1].split(':',1)[1])) \
+                    print("|",act[1].split(':',1)[1]," "*(10-len(act[1].split(':',1)[1]))\
                     + "|",act[2].split(':',1)[1]," "*(10-len(act[2].split(':',1)[1])) \
-                    + "|",act[3].split(':')[1]," "*(12-len(act[3].split(':',1)[1])) \
+                    + "|",act[3].split(':')[1]," "*(13-len(act[3].split(':',1)[1])) \
                     + "|",act[4].split(':')[1]," "*(10-len(act[4].split(':',1)[1])) \
-                    + "|",act[5].split(':')[1],""*(10-len(act[5].split(':')[1])),'|')
+                    + "|",act[5].split(':')[1]," "*(12-len(act[5].split(':')[1]))\
+                    + "|",act[6].split(':')[1]," "*(13-len(act[6].split(':')[1]))\
+                    + "|",act[7].split(':')[1]," "*(21-len(act[7].split(':')[1])),'|')
                     used = True
-                    print("....................................................................")
+                    print ('{:.>112}'.format('.'))
                 elif used == False and p == len(slots) - 1:
-                    print("| No bookings made today                                           |")
-                    print("....................................................................")
+                    print("| No bookings made today                                                                                       |")
+                    print ('{:.>112}'.format('.'))
                     used = True
-    # print(slots)
+  
     return slots, x
 
 
@@ -179,16 +210,91 @@ def write_calendar_file_text(slots):
 
     opened_file.close()  
 
-def write_display_calendar(slots):
-        
-    with open(f'{os.environ["HOME"]}/Documents/display_calendar.txt', "a") as opened_file:
-        
-        opened_file.write("Your calendar for the next 7 days:\n")
-        opened_file.write("Available slots :\n")
-        for calendar_list in slots:
-            opened_file.write(calendar_list + "\n")
-            
+def write_calendar_id(id, opened):
+    
+    file_open = "id_found.txt"
+    #if opened == False or os.stat(file_open).st_size == 0:
+    with open("id_found.txt", "a") as opened_file:
+        for ids in id:
+            opened_file.write(ids + '\n')
     opened_file.close()
+    #else:
+    #compare_id(id)
+   
+    pass
+
+def compare_id(id):
+
+    # file_open = "id_found.txt"
+
+    # with open(file_open, "r") as opened_file:
+    #         for ids_find in file_open:
+    #             contents  = ids_find.readlines(1)
+    #             if contents != id:
+    #                 print("Go")
+    #             else:
+    #                 print("Back")
+    # opened_file.close()
+    pass
+
+
+def read_calendar_id(id):
+    opened = False
+    file_name = "id_found.txt"
+    
+    if path.exists(file_name) == False or os.stat(file_name).st_size == 0:
+        return False
+    else:
+        with open(file_name) as opened_file:
+            bio = opened_file.read()
+
+        #print(bio)
+
+            
+            
+            # if opened_file.mode = "r":
+
+            # for ids_find in opened_file:
+            #     if ids_find.readlines == id:
+            #         return True
+        #files = file_open.read()
+        # for x in files:
+        #     if ids_find == id:
+        #         print("Testing")
+        #         return True  
+        # with open(file_open, "r") as opened_file:
+        #     for ids_find in file_open:
+        #         if ids_find == id:
+        #             return True         
+        #opened_file.close()
+   
+
+
+def write_display_calendar(id ,date,start_time,end_time,topic, doctor, guest_user_1, guest_user_2,booked, save):
+        
+    with open(f'{os.environ["HOME"]}/Documents/display_calendar.doc', "a") as opened_file:
+        if save == False:
+            opened_file.write("Your calendar for the next 7 days:\n")
+            opened_file.write("Available slots :\n")
+            opened_file.write('==========================================================================\n')
+
+        opened_file.write("Date: " + date + '\n')
+        opened_file.write("Time: " + start_time + "-" + end_time + '\n')
+        opened_file.write("Topic: " + topic + " "[:15] + '\n')
+        opened_file.write("People attending\n")
+        opened_file.write("Doctor: " + doctor + " "[:15] + '\n')
+        opened_file.write("Patient: " + guest_user_1 + " "[:15])
+        opened_file.write("Patient: " + guest_user_2 + " "[:15])
+        opened_file.write("\nAvailable: " +booked)
+        opened_file.write('\n')
+        opened_file.write('==========================================================================')
+        opened_file.write('\n')
+    opened_file.close()
+
+    save = True
+
+    return save
+
 
 def get_days():
 
@@ -202,7 +308,7 @@ def get_days():
     return x
 
 
-def event_dict_loader(id, date, start_time, end_time, topic,doctor,patient):
+def event_dict_loader(id, date, start_time, end_time, topic,doctor,guest_user_1, guest_user_2, booked):
     
     event_dict["id"].append(id)
     event_dict["date"].append(date)
@@ -210,7 +316,9 @@ def event_dict_loader(id, date, start_time, end_time, topic,doctor,patient):
     event_dict["end_time"].append(end_time)
     event_dict["topic"].append(topic)
     event_dict["doctor"].append(doctor)
-    event_dict["patient"].append(patient)
+    event_dict["guest_user_1"].append(guest_user_1)
+    event_dict["guest_user_2"].append(guest_user_2)
+    event_dict["booked"].append(booked)
 
     return True
 
