@@ -8,6 +8,7 @@ import code.cancel_booking_.cancel_booking as cancel_booking
 import code.api_handler.api_handler as api_handler
 import code.codebase.preset as preset
 import code.codebase.event as event
+import gui as GUI
 import datetime
 import json
 import os
@@ -170,7 +171,16 @@ def interface(calid, service, username):
 
         elif 'logout' in user_in:
             break
-        
+                                     
+        elif 'gui' in user_in.lower():
+            clear()
+            # service = api_handler.main()
+            print("Opening Code Clinic GUI...")
+            time.sleep(3)
+            clear()
+            GUI.main_gui(service)
+            user_in = user_input()
+                                     
         elif user_in == 'interface':
             clear()
             print("You are already in the interface.... Press 'Logout to log out of the system'")
@@ -340,7 +350,13 @@ def main():
             print("Changing config file...")
             time.sleep(3)
 
-
+    elif 'gui' in sys.argv[-1].lower() :
+        # service = api_handler.main()
+        print("Opening Code Clinic GUI...")
+        time.sleep(3)
+        clear()
+        GUI.main_gui(service,username)
+                                 
     elif sys.argv[-1].lower() == 'interface':
         if os.path.exists(f"{os.environ['HOME']}/.config/.clinic/username.txt"):
             username_file = open(f"{os.environ['HOME']}/.config/.clinic/username.txt", 'r')
