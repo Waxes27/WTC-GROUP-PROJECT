@@ -71,7 +71,7 @@ def pick(service,calid,variable,user,sidebar,frame,main_frame):
         if username == "fmokoena":
         # if b'Login successful' in check_output_login(username):
             if variable.get() == 1:
-                doctor(slots,service,sidebar,frame,main_frame,username,True)
+                doctor(slots,service,sidebar,frame,main_frame,username,True,calid)
             else:
                 patient(slots,service,sidebar,frame,main_frame,username,False,calid)
 
@@ -136,7 +136,7 @@ def main_gui(service,username,calid):
     wind.mainloop()
 
 
-def doctor(slots,service,sidebar,frame,main_frame,username,doc):
+def doctor(slots,service,sidebar,frame,main_frame,username,doc,calid):
     for bu in main_frame.winfo_children():
         if str(bu)[:16] == ".!frame2.!button" :
             bu.destroy()
