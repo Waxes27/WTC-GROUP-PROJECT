@@ -1,22 +1,12 @@
 #THIS MODULE IMPORTS AND ACTS AS THE MAIN CODEBASE
 import subprocess
 import code
-<<<<<<< HEAD
 import input_cc_.input_API as input_API
 import codebase.book_slot as book_slot
 import view_calendar_cc.view_calendar as view_calendar
 import cancel_booking_.cancel_booking as cancel_booking
 import api_handler.api_handler as api_handler
 import codebase.preset as preset
-=======
-import code.help_cc_.help_cc as help_cc
-import code.codebase.book_slot as book_slot
-import code.view_calendar_cc.view_calendar as view_calendar
-import code.cancel_booking_.cancel_booking as cancel_booking
-import code.api_handler.api_handler as api_handler
-import code.codebase.preset as preset
-import code.codebase.event as event
->>>>>>> 7e85d4d32b105e2ad4da5b41cbdf51c434814ae8
 import datetime
 import json
 import os
@@ -143,19 +133,6 @@ def interface(calid, service, username):
 
         elif 'user' in user_in.lower():
             clear()
-<<<<<<< HEAD
-            try:
-                #username = input('What is your username?: ')
-                helper.username()
-            except KeyboardInterrupt:
-                clear()
-                #username = input('What is your username?: ')
-                helper.username()
-            try:
-                token = open(f'{helper.username()}@student.wethinkcode.co.za.pickle')
-            except FileNotFoundError:
-                print("User token not found")
-=======
             
             print(f"The current user is... {username}")
             verify = input("Is this you..?\n\n If it is press ENTER else enter a new username: ")
@@ -180,7 +157,6 @@ def interface(calid, service, username):
             #     token = open(f'{username}@student.wethinkcode.co.za.pickle')
             # except FileNotFoundError:
             #     print("User token not found")
->>>>>>> 7e85d4d32b105e2ad4da5b41cbdf51c434814ae8
             user_in = user_input()
 
         elif user_in.lower() == 'clear':

@@ -26,6 +26,10 @@ class API_input():
         self.details_of_commands = ["Enter your username","Shows information about the available commands", "Makes a booking for a code clinic session","Views calendar and events","Logs the user out","Access the Interface","Clears the terminal screen", "Cancels the booking"]
         self.topic_list = ["Recursion", "Unittesting ", "List Comprehensions", "Lambdas"]
         self.details_of_topics = ["The repeated application of a recursive procedure or definition.","Automated code to test software written by other developers","Creating new lists from other iterables", "an anonymous function is a function that is defined without a name."]
+        self.green = lambda text: '\033[92m' + text + '\033[0m'
+        self.red = lambda text: '\033[91m' + text + '\033[0m'
+        self.yellow = lambda text: '\33[33m' + text + '\033[0m'
+
 
         
         
